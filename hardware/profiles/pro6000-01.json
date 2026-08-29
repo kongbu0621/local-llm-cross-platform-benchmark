@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "node_id": "pro6000-01",
+  "status": "owned",
+  "hardware": {
+    "accelerator": "NVIDIA RTX PRO 6000 Blackwell",
+    "device_memory_gb": 96
+  },
+  "software": {
+    "os": null,
+    "kernel": null,
+    "nvidia_driver": null,
+    "cuda_runtime": null,
+    "cuda_toolkit": null
+  },
+  "profile_state": "refresh-required-before-formal-qwen38-results",
+  "privacy": {
+    "hostname": "not_recorded",
+    "ip_addresses": "not_recorded"
+  },
+  "notes": "Do not populate software fields from stale historical notes; capture a fresh environment snapshot immediately before formal cross-platform runs."
+}
