@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "statuses": ["planned", "owned", "tested", "retired", "external"],
+  "nodes": [
+    {
+      "node_id": "gb10-01",
+      "hardware_family": "NVIDIA GB10",
+      "status": "owned",
+      "profile": "hardware/profiles/gb10-01.json",
+      "notes": "First-party physical node; formal benchmark results not yet published."
+    },
+    {
+      "node_id": "pro6000-01",
+      "hardware_family": "NVIDIA RTX PRO 6000 Blackwell 96GB",
+      "status": "owned",
+      "profile": "hardware/profiles/pro6000-01.json",
+      "notes": "First-party physical node; environment will be refreshed before this suite's formal results are published."
+    }
+  ],
+  "policy": "Planned hardware may be discussed in roadmap documents, but only physically owned hardware with reproducible evidence may produce first-party benchmark results."
+}
