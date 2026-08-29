@@ -1,0 +1,57 @@
+# Secrets / credentials
+.env
+.env.*
+*.token
+*.key
+*.pem
+secrets/
+credentials/
+
+# Model weights / large artifacts
+*.safetensors
+*.gguf
+*.bin
+*.pt
+*.pth
+*.onnx
+*.engine
+*.plan
+*.ckpt
+*.npy
+*.npz
+models/
+cache/
+.huggingface/
+
+# Restricted/private/raw datasets
+private-data/
+restricted-data/
+datasets/raw/
+datasets/downloaded/
+
+# Runtime output that has not been curated into evidence/results
+runs/
+tmp/
+*.tmp
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local machine-only overrides
+hardware/local/
+config/local/
+results/local/
+evidence/local/
