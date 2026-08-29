@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kongbu0621/local-llm-cross-platform-benchmark/schemas/environment.schema.json",
+  "title": "Benchmark Environment Snapshot",
+  "type": "object",
+  "required": ["schema_version", "captured_at", "node_id", "os", "hardware", "software"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "captured_at": {"type": "string", "format": "date-time"},
+    "node_id": {"type": "string", "minLength": 1},
+    "os": {
+      "type": "object",
+      "required": ["name", "architecture"],
+      "properties": {
+        "name": {"type": "string"},
+        "version": {"type": ["string", "null"]},
+        "kernel": {"type": ["string", "null"]},
+        "architecture": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "hardware": {
+      "type": "object",
+      "required": ["accelerator"],
+      "properties": {
+        "accelerator": {"type": "string"},
+        "accelerator_count": {"type": "integer", "minimum": 1},
+        "device_memory_bytes": {"type": ["integer", "null"], "minimum": 0},
+        "unified_memory_bytes": {"type": ["integer", "null"], "minimum": 0},
+        "host_memory_bytes": {"type": ["integer", "null"], "minimum": 0},
+        "cpu": {"type": ["string", "null"]},
+        "storage": {"type": "array"}
+      },
+      "additionalProperties": true
+    },
+    "software": {
+      "type": "object",
+      "properties": {
+        "driver": {"type": ["string", "null"]},
+        "cuda": {"type": ["string", "null"]},
+        "rocm": {"type": ["string", "null"]},
+        "metal": {"type": ["string", "null"]},
+        "xpu_oneapi": {"type": ["string", "null"]},
+        "docker": {"type": ["string", "null"]},
+        "python": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "network": {
+      "type": "object",
+      "properties": {
+        "interconnect": {"type": ["string", "null"]},
+        "link_speed": {"type": ["string", "null"]},
+        "rdma": {"type": ["boolean", "null"]},
+        "mtu": {"type": ["integer", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "privacy": {
+      "type": "object",
+      "properties": {
+        "hostname_redacted": {"type": "boolean"},
+        "ip_addresses_redacted": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}
