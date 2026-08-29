@@ -1,0 +1,85 @@
+suite_id: qwen38-27b-v1.0
+status: frozen-initial
+
+models:
+  - arm_id: bf16
+    repo: Qwen/Qwen3.8-27B
+    revision: 1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0
+    weight_precision: BF16
+    role: golden_reference
+
+  - arm_id: fp8
+    repo: Qwen/Qwen3.8-27B-FP8
+    revision: 017b9c7af6b5689d5dd426a76e0bc077eb5ca20a
+    weight_precision: FP8
+    role: official_quantized_reference
+
+  - arm_id: nvfp4
+    repo: unsloth/Qwen3.8-27B-NVFP4
+    revision: 9e3d73c76eddb75f795cc24ccfbc5affe41c66bd
+    weight_precision: NVFP4_mixed
+    role: blackwell_performance_candidate
+
+hardware_now:
+  - gb10-01
+  - pro6000-01
+
+context_tokens:
+  core:
+    - 32768
+    - 131072
+    - 262144
+  deep_dive:
+    - 393216
+    - 524288
+    - 786432
+    - 1048576
+
+quality_core:
+  - gpqa_diamond
+  - ifbench
+  - humaneval_plus
+  - livecodebench
+  - longbench_v2
+  - niah_v2
+  - nolima
+
+performance_isolation:
+  concurrency: 1
+  cache_state: cold
+  prefix_cache: false
+  speculative_decoding: false
+  mtp: false
+  exact_token_payload: true
+  report_actual_input_tokens: true
+  report_actual_output_tokens: true
+
+stability:
+  e2e_32k:
+    input_tokens: 32768
+    output_tokens: 32768
+    concurrency: 1
+    cache_state: cold
+    require_full_output_for_pass: true
+
+comparison_modes:
+  - strict_comparable
+  - platform_optimized
+
+required_metrics:
+  - pp_tps
+  - ttft_ms
+  - decode_tps
+  - e2e_wall_ms
+  - peak_device_memory_bytes
+  - peak_host_memory_bytes
+  - cache_state
+  - concurrency
+  - stability_status
+
+policy:
+  actual_context_only: true
+  preserve_failures: true
+  no_silent_dataset_changes: true
+  no_silent_model_revision_changes: true
+  restricted_dataset_content_in_public_repo: false
