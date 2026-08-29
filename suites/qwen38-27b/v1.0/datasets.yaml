@@ -13,10 +13,16 @@ selection:
   - id: ifbench
     purpose: strict_instruction_following
     source: https://github.com/allenai/IFBench
+    revision: db69a6f05689830b0068b8f1529ebcfd2f3b164c
+    data_path: data/IFBench_test.jsonl
+    data_license: ODC-BY-1.0
+    harness_source: https://github.com/allenai/IFBench
+    harness_revision: db69a6f05689830b0068b8f1529ebcfd2f3b164c
+    code_license: Apache-2.0
     access: public_subject_to_upstream_license
     public_raw_content: follow_upstream_license
-    revision: null
-    sha256_manifest: null
+    manifest_path: datasets/manifests/qwen38-27b-v1.0/ifbench.yaml
+    sha256_manifest: 072d2f0f4347c6f5dc99b594358aceeadc6ddb57597dde7e081f8467ba3bae4d
 
   - id: humaneval_plus
     purpose: fast_coding_regression

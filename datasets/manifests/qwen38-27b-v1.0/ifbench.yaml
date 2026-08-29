@@ -1,0 +1,57 @@
+dataset_id: ifbench
+suite_id: qwen38-27b-v1.0
+materialized_at: "2026-08-30T02:36:32+08:00"
+
+source:
+  url: https://github.com/allenai/IFBench/blob/db69a6f05689830b0068b8f1529ebcfd2f3b164c/data/IFBench_test.jsonl
+  upstream_project: allenai/IFBench
+  revision: db69a6f05689830b0068b8f1529ebcfd2f3b164c
+  release: null
+  file_path: data/IFBench_test.jsonl
+  git_blob_sha1: a03612eac041b5244572209b6f63e57f4e837ed0
+
+license:
+  identifier: ODC-BY-1.0
+  source_url: https://github.com/allenai/IFBench/blob/db69a6f05689830b0068b8f1529ebcfd2f3b164c/README.md
+
+access:
+  gated: false
+  redistribution_allowed: null
+
+local_layout:
+  root_relative_path: datasets/ifbench/db69a6f05689830b0068b8f1529ebcfd2f3b164c
+
+files:
+  - path: IFBench_test.jsonl
+    size_bytes: 421502
+    sha256: a2bf7b8e7ed11d39c65b4ec781da8b99663ed0121f97033d70fcecb61f8a9d85
+    git_blob_sha1: a03612eac041b5244572209b6f63e57f4e837ed0
+    role: upstream_test_dataset
+
+validation:
+  record_count: 300
+  unique_key_count: 300
+  duplicate_key_count: 0
+  schema_error_count: 0
+  numeric_key_min: 0
+  numeric_key_max: 299
+  numeric_key_gap_count: 0
+  content_validation: pass
+
+harness:
+  repo: https://github.com/allenai/IFBench
+  revision: db69a6f05689830b0068b8f1529ebcfd2f3b164c
+  code_license: Apache-2.0
+  command: null
+
+provenance:
+  benchmark_repo_revision: 46a514c65f5c4d6491894210fdd20bafac9989d0
+  dataset_contract_sha256: e2f435554ee0405e0286bb06307801e971a0291f22faea098739ee29d42171f1
+
+notes: >
+  IFBench test data frozen from the exact upstream Git commit. The dataset is
+  licensed ODC-BY-1.0; the IFBench codebase is Apache-2.0. Upstream additionally
+  notes Ai2 Responsible Use Guidelines and that some dataset output data may be
+  subject to separate third-party model terms. Raw benchmark content remains
+  outside this benchmark repository; this manifest records reproducibility
+  metadata and cryptographic hashes.
