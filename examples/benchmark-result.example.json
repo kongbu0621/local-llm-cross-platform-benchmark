@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "experiment_id": "qwen38-27b__bf16__gb10x1__vllm__ctx32k__out32k__c1__cold__example",
+  "suite_id": "qwen38-27b-v1.0",
+  "tested_at": "2026-08-29T00:00:00Z",
+  "evidence_level": "A",
+  "result_status": "valid",
+  "comparison_mode": "strict_comparable",
+  "hardware": {
+    "node_ids": ["gb10-01"],
+    "node_count": 1,
+    "topology": "single-node",
+    "interconnect": null,
+    "tp_size": 1,
+    "dp_size": 1,
+    "ep_size": null
+  },
+  "model": {
+    "repo": "Qwen/Qwen3.8-27B",
+    "revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "weight_precision": "BF16",
+    "kv_precision": "BF16",
+    "tokenizer_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "chat_template_sha256": null
+  },
+  "runtime": {
+    "name": "vllm",
+    "version": "REPLACE_WITH_REAL_VERSION",
+    "commit": null,
+    "command": null,
+    "optimization_stack": []
+  },
+  "workload": {
+    "kind": "e2e_32k",
+    "dataset_id": "stability_output_32k_v1",
+    "dataset_revision": "qwen38-27b-v1.0",
+    "prompt_sha256": null,
+    "configured_context_tokens": 65536,
+    "actual_input_tokens": 32768,
+    "actual_output_tokens": 32768,
+    "concurrency": 1,
+    "cache_state": "cold",
+    "reasoning_mode": null,
+    "sampling": {}
+  },
+  "measurements": {
+    "pp_tps": null,
+    "ttft_ms": null,
+    "decode_tps": null,
+    "e2e_wall_ms": null,
+    "inter_token_p50_ms": null,
+    "inter_token_p95_ms": null,
+    "inter_token_p99_ms": null,
+    "peak_device_memory_bytes": null,
+    "peak_host_memory_bytes": null,
+    "kv_cache_bytes": null,
+    "avg_power_w": null,
+    "peak_power_w": null,
+    "peak_temperature_c": null,
+    "quality": {},
+    "measurement_method": null
+  },
+  "stability": {
+    "completed": false,
+    "error_class": "EXAMPLE_ONLY_NOT_A_RESULT",
+    "early_eos": false,
+    "repetitive_output": false,
+    "gibberish": false,
+    "oom": false,
+    "server_crash": false,
+    "timeout": false,
+    "context_truncated": false
+  },
+  "evidence": {
+    "environment_snapshot": null,
+    "raw_log": null,
+    "result_sha256": null,
+    "source_url": null
+  }
+}
