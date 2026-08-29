@@ -1,0 +1,103 @@
+dataset_id: livecodebench
+suite_id: qwen38-27b-v1.0
+release: release_v6
+materialized_at: "2026-08-30T03:39:17+08:00"
+
+source:
+  upstream_project: livecodebench/code_generation_lite
+  url: https://huggingface.co/datasets/livecodebench/code_generation_lite
+  revision: 0fe84c3912ea0c4d4a78037083943e8f0c4dd505
+  representation: upstream_jsonl
+  release_contract:
+    - test.jsonl
+    - test2.jsonl
+    - test3.jsonl
+    - test4.jsonl
+    - test5.jsonl
+    - test6.jsonl
+
+license:
+  identifier: null
+  status: unresolved_upstream_metadata
+  note: >
+    No specific SPDX dataset-license identifier is being asserted by this
+    benchmark manifest until upstream licensing metadata is sufficiently
+    unambiguous.
+
+access:
+  gated: false
+  redistribution_allowed: null
+
+local_layout:
+  root_relative_path: coding/livecodebench/release_v6
+
+files:
+  - path: test.jsonl
+    size_bytes: 1252609773
+    sha256: 2bd02b38beb48e8c46b5b9987095d999ff38cd8efc255ea5d58974317c48f63f
+    lfs_oid_sha256: 2bd02b38beb48e8c46b5b9987095d999ff38cd8efc255ea5d58974317c48f63f
+    record_count: 400
+    role: upstream_release_v6_source
+  - path: test2.jsonl
+    size_bytes: 713377060
+    sha256: 095df7c5daf15f882c51a9deb84085cff1e073495a5dbcf95015a564d485f3a3
+    lfs_oid_sha256: 095df7c5daf15f882c51a9deb84085cff1e073495a5dbcf95015a564d485f3a3
+    record_count: 111
+    role: upstream_release_v6_source
+  - path: test3.jsonl
+    size_bytes: 623360766
+    sha256: 28ed26cc83363ce3f1fe2d5fad9f8393077beb1907b167a31bd3b32f80801b79
+    lfs_oid_sha256: 28ed26cc83363ce3f1fe2d5fad9f8393077beb1907b167a31bd3b32f80801b79
+    record_count: 101
+    role: upstream_release_v6_source
+  - path: test4.jsonl
+    size_bytes: 1204644685
+    sha256: d711138ddaebfcf5f8ec6a4283ee677298c0f5c5d374a235af92aaf0584510da
+    lfs_oid_sha256: d711138ddaebfcf5f8ec6a4283ee677298c0f5c5d374a235af92aaf0584510da
+    record_count: 101
+    role: upstream_release_v6_source
+  - path: test5.jsonl
+    size_bytes: 557699297
+    sha256: 7f77571c2a6df0c2a72a3277650309f67e01e0008e18117e624633df53f81214
+    lfs_oid_sha256: 7f77571c2a6df0c2a72a3277650309f67e01e0008e18117e624633df53f81214
+    record_count: 167
+    role: upstream_release_v6_source
+  - path: test6.jsonl
+    size_bytes: 134303240
+    sha256: bb4c364f71921c4495a6ad15abe1a927350b720009f4933e2e71f8af0f6fd1f5
+    lfs_oid_sha256: bb4c364f71921c4495a6ad15abe1a927350b720009f4933e2e71f8af0f6fd1f5
+    record_count: 175
+    role: upstream_release_v6_source
+
+validation:
+  total_record_count: 1055
+  unique_question_id_count: 1055
+  duplicate_question_id_count: 0
+  schema_json_error_count: 0
+  per_file_record_count:
+    test.jsonl: 400
+    test2.jsonl: 111
+    test3.jsonl: 101
+    test4.jsonl: 101
+    test5.jsonl: 167
+    test6.jsonl: 175
+  content_validation: pass
+  byte_validation: pass
+
+harness:
+  repo: https://github.com/LiveCodeBench/LiveCodeBench
+  revision: 28fef95ea8c9f7a547c8329f2cd3d32b92c1fa24
+  release_version: release_v6
+  scenario: codegeneration
+  command: null
+
+provenance:
+  benchmark_repo_revision: 4f1bcc4c69aaf0a2779d164c0aa5a021f0148e5f
+  dataset_contract_sha256: 64e53180c21a7c161e2f9065d59be77f3655a92784fc246ea452b78e54abf4c2
+
+notes: >
+  LiveCodeBench release_v6 is frozen from the exact Hugging Face dataset
+  revision above using the six upstream JSONL source files declared by the
+  pinned loader. All six files are independently size- and SHA256-verified.
+  Streaming JSONL validation produced 1055 records and 1055 unique question_id
+  values with zero duplicates and zero schema/JSON errors.

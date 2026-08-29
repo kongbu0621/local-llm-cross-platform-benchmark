@@ -38,12 +38,25 @@ selection:
 
   - id: livecodebench
     purpose: primary_coding_quality
-    source: https://github.com/LiveCodeBench/LiveCodeBench
-    requested_release: release_v6
+    source: https://huggingface.co/datasets/livecodebench/code_generation_lite
+    release: release_v6
+    revision: 0fe84c3912ea0c4d4a78037083943e8f0c4dd505
+    representation: upstream_jsonl
+    data_paths:
+      - test.jsonl
+      - test2.jsonl
+      - test3.jsonl
+      - test4.jsonl
+      - test5.jsonl
+      - test6.jsonl
+    data_license: null
+    data_license_status: unresolved_upstream_metadata
+    harness_source: https://github.com/LiveCodeBench/LiveCodeBench
+    harness_revision: 28fef95ea8c9f7a547c8329f2cd3d32b92c1fa24
     access: public_subject_to_upstream_license
     public_raw_content: follow_upstream_license
-    revision: null
-    sha256_manifest: null
+    manifest_path: datasets/manifests/qwen38-27b-v1.0/livecodebench_release_v6.yaml
+    sha256_manifest: f0718bf72f0311a277ed445d82a42ccf21cc4359249c81eb5a220110c3966f25
 
   - id: longbench_v2
     purpose: real_long_context_reasoning
