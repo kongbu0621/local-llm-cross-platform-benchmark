@@ -1,0 +1,91 @@
+suite_id: qwen38-27b-v1.0
+materialization_status: pending
+
+selection:
+  - id: gpqa_diamond
+    purpose: high_difficulty_reasoning
+    source: https://huggingface.co/datasets/Idavidrein/gpqa
+    access: gated_or_terms_apply
+    public_raw_content: false
+    revision: null
+    sha256_manifest: null
+
+  - id: ifbench
+    purpose: strict_instruction_following
+    source: https://github.com/allenai/IFBench
+    access: public_subject_to_upstream_license
+    public_raw_content: follow_upstream_license
+    revision: null
+    sha256_manifest: null
+
+  - id: humaneval_plus
+    purpose: fast_coding_regression
+    source: https://github.com/evalplus/evalplus
+    access: public_subject_to_upstream_license
+    public_raw_content: follow_upstream_license
+    revision: null
+    sha256_manifest: null
+
+  - id: livecodebench
+    purpose: primary_coding_quality
+    source: https://github.com/LiveCodeBench/LiveCodeBench
+    requested_release: release_v6
+    access: public_subject_to_upstream_license
+    public_raw_content: follow_upstream_license
+    revision: null
+    sha256_manifest: null
+
+  - id: longbench_v2
+    purpose: real_long_context_reasoning
+    source: https://github.com/THUDM/LongBench
+    access: public_subject_to_upstream_license
+    public_raw_content: follow_upstream_license
+    revision: null
+    sha256_manifest: null
+
+  - id: niah_v2
+    purpose: long_context_retrieval_grid
+    source: https://github.com/gkamradt/needle-in-a-haystack
+    access: public_subject_to_upstream_license
+    public_raw_content: follow_upstream_license
+    revision: null
+    sha256_manifest: null
+    context_tokens: [32768, 131072, 262144, 393216, 524288, 786432, 1048576]
+    needle_depth_percent: [5, 25, 50, 75, 95]
+    task_families: [single_fact, multi_fact, uuid_retrieval, multi_hop]
+
+  - id: nolima
+    purpose: semantic_long_context_retrieval
+    source: https://github.com/adobe-research/NoLiMa
+    access: public_subject_to_upstream_license
+    public_raw_content: follow_upstream_license
+    revision: null
+    sha256_manifest: null
+
+  - id: perf_exact_token_v1
+    purpose: controlled_hardware_performance
+    source: generated_by_this_repository
+    access: public
+    public_raw_content: true
+    revision: qwen38-27b-v1.0
+    tokenizer_revision: 1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0
+    seed: null
+    sha256_manifest: null
+    target_tokens: [32768, 131072, 262144, 393216, 524288, 786432, 1048576]
+
+  - id: stability_output_32k_v1
+    purpose: long_output_stability_and_e2e32k
+    source: generated_by_this_repository
+    access: public
+    public_raw_content: true
+    revision: qwen38-27b-v1.0
+    input_tokens: 32768
+    required_output_tokens: 32768
+    seed: null
+    sha256_manifest: null
+
+freeze_policy:
+  dataset_selection_frozen: true
+  exact_revisions_pending_materialization: true
+  hashes_required_before_first_formal_result: true
+  silent_changes_forbidden: true
