@@ -1,0 +1,26 @@
+dataset_id: example
+suite_id: example-suite-v1.0
+materialized_at: null
+source:
+  url: null
+  upstream_project: null
+  revision: null
+  release: null
+license:
+  identifier: null
+  source_url: null
+access:
+  gated: false
+  redistribution_allowed: null
+local_layout:
+  root_relative_path: null
+files: []
+# files example:
+# - path: relative/file.jsonl
+#   size_bytes: 0
+#   sha256: null
+harness:
+  repo: null
+  revision: null
+  command: null
+notes: null
