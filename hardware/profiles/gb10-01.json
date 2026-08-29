@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "node_id": "gb10-01",
+  "captured_at": "2026-08-29T17:33:33+08:00",
+  "status": "owned",
+  "hardware": {
+    "vendor": "ASUSTeK COMPUTER INC.",
+    "model": "GX10",
+    "accelerator": "NVIDIA GB10",
+    "architecture": "arm64",
+    "unified_memory_reported_gib": 121,
+    "storage": [
+      {
+        "device": "/dev/nvme0n1",
+        "model": "SAMSUNG MZALC4T0HBL1-",
+        "nominal_size": "4TB",
+        "filesystem_size": "3.6T",
+        "filesystem": "ext4"
+      }
+    ]
+  },
+  "software": {
+    "os": "Ubuntu 24.04.4 LTS",
+    "kernel": "6.17.0-1031-nvidia",
+    "nvidia_driver": "580.173.02",
+    "cuda_runtime_reported_by_nvidia_smi": "13.0",
+    "cuda_toolkit": "13.0.88",
+    "docker": "29.2.1"
+  },
+  "privacy": {
+    "hostname": "redacted",
+    "ip_addresses": "not_recorded"
+  },
+  "benchmark_state": "environment-prepared; formal model benchmark pending"
+}
