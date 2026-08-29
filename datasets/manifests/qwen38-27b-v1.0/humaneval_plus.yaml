@@ -1,0 +1,59 @@
+dataset_id: humaneval_plus
+suite_id: qwen38-27b-v1.0
+materialized_at: "2026-08-30T01:49:30+08:00"
+
+source:
+  url: https://github.com/evalplus/humanevalplus_release/releases/tag/v0.1.10
+  upstream_project: evalplus/humanevalplus_release
+  revision: 68cd26d53a0dec69f85ea1e1f82a2a74155a2bd6
+  release: v0.1.10
+  tag_object: ea5804b59b8a7837cb2faa1b10273fa804cdea5c
+
+license:
+  identifier: Apache-2.0
+  source_url: https://github.com/evalplus/humanevalplus_release/blob/main/LICENSE
+
+access:
+  gated: false
+  redistribution_allowed: true
+
+local_layout:
+  root_relative_path: coding/humaneval-plus/v0.1.10
+
+files:
+  - path: HumanEvalPlus.jsonl.gz
+    size_bytes: 925932
+    sha256: 272720b90ac375502c8ed23cd791c2a93dfb22a911641a494da74a426c09f101
+    role: upstream_release_asset
+
+  - path: HumanEvalPlus.jsonl
+    size_bytes: 7714666
+    sha256: 42526ec0e7d5f3ee0b06d6ced98f8c8bae3d76519151bfb3d36f79010645bd7f
+    role: lossless_decompressed_materialization
+
+validation:
+  record_count: 164
+  unique_task_id_count: 164
+  duplicate_task_id_count: 0
+  missing_expected_task_id_count: 0
+  extra_task_id_count: 0
+  schema_error_count: 0
+  expected_task_id_range: HumanEval/0..HumanEval/163
+  gzip_integrity: pass
+  content_validation: pass
+
+harness:
+  repo: https://github.com/evalplus/evalplus
+  revision: 26d6d00bb1fd0fa37f39c99d5290da67891d1c5e
+  dataset_version_constant: v0.1.10
+  command: null
+
+provenance:
+  benchmark_repo_revision: 48d3a6f5ccc91a9335ba6231dd1f9a410db0ba79
+  dataset_contract_sha256: f4e010202a5f2271257dacc46ecf8ff612ae0b3464dc839f4d0f98ade5d7b63c
+
+notes: >
+  HumanEval+ v0.1.10 full dataset. Original GitHub Release asset is retained
+  together with its losslessly decompressed JSONL. Both representations are
+  independently SHA256-locked. Validation confirmed 164 unique HumanEval tasks
+  covering HumanEval/0 through HumanEval/163 with all required EvalPlus fields.

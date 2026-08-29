@@ -20,11 +20,15 @@ selection:
 
   - id: humaneval_plus
     purpose: fast_coding_regression
-    source: https://github.com/evalplus/evalplus
+    source: https://github.com/evalplus/humanevalplus_release
+    release: v0.1.10
+    revision: 68cd26d53a0dec69f85ea1e1f82a2a74155a2bd6
+    harness_source: https://github.com/evalplus/evalplus
+    harness_revision: 26d6d00bb1fd0fa37f39c99d5290da67891d1c5e
     access: public_subject_to_upstream_license
     public_raw_content: follow_upstream_license
-    revision: null
-    sha256_manifest: null
+    manifest_path: datasets/manifests/qwen38-27b-v1.0/humaneval_plus.yaml
+    sha256_manifest: 21be75a81ef357b436a13b21ef62a51a39a0c1462d2e3ebd97474efc2ccf688f
 
   - id: livecodebench
     purpose: primary_coding_quality
