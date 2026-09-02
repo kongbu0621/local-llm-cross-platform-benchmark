@@ -8,26 +8,29 @@
 
 > 当前首页只展示已经完成并有证据链支持的结果。下面的 Formal100 是 **32768 input + 256 output**，不是仓库固定定义的 `E2E@32K`（32768 input + 32768 output）。
 
-| Hardware | Model | Precision | Workload | Effective PP* (tok/s) | Pure Prefill | TTFT (ms) | TPOT (ms/token) | Decode (tok/s) | E2E (ms) | Completion | 详情 |
+| Hardware | Model | Precision | Workload | Prefill* (tok/s) | Pure Prefill | TTFT (ms) | TPOT (ms/token) | Decode (tok/s) | E2E (ms) | Completion | 详情 |
 | --- | --- | --- | --- | ---: | --- | ---: | ---: | ---: | ---: | --- | --- |
 | 1× GX10 / GB10 | Qwen3.8-27B | BF16 | 32K + 256 | 936.453 | 未单独测 | 34991.596 | 252.447 | 3.961 | 99365.625 | 100/100 | [完整详情](docs/results/qwen38-27b-gx10-20260903.md#formal100-performance) |
 | 1× GX10 / GB10 | Qwen3.8-27B | FP8 | 32K + 256 | 1187.130 | 未单独测 | 27602.710 | 156.783 | 6.378 | 67582.360 | 100/100 | [完整详情](docs/results/qwen38-27b-gx10-20260903.md#formal100-performance) |
 | 1× GX10 / GB10 | Qwen3.8-27B | NVFP4 | 32K + 256 | 1300.614 | 未单独测 | 25194.249 | 110.122 | 9.081 | 53275.252 | 100/100 | [完整详情](docs/results/qwen38-27b-gx10-20260903.md#formal100-performance) |
 
-\* `Effective PP = 32768 / TTFT(s)`，是带 API/调度/首 token 开销的衍生有效输入速度，**不是纯 Prefill throughput**。纯 `pp_tps` 本轮没有单独测，明确标为“未单独测”，不补洞。
+\* 首页的 `Prefill*` 是 **Effective Prefill / Effective PP**：`32768 / TTFT(s)`，单位同样是 `tok/s`，便于快速看“实际读输入”的有效速度；它包含 API/调度/首 token 等额外开销，**不是严格 Pure Prefill `pp_tps`**。本轮 pure prefill 没有单独测量，所以明确写“未单独测”，不补洞。
+
+**看不懂 TTFT / TPOT / Prefill / Decode / E2E / Std / P99 / CV？** 统一看：[Benchmark 指标统一解释](docs/metrics/benchmark-metrics-glossary.md)。
 
 ### 这一轮的数据不只是一张最终速度表
 
-- **指标逐项解释与公式**：[TTFT / TPOT / Decode / E2E / Effective PP / Pure Prefill / ITL / aggregate throughput](docs/results/qwen38-27b-gx10-20260903.md#metric-guide)
+- **指标统一解释**：[Prefill / TTFT / TPOT / Decode / E2E / ITL / Std / CV / P50-P99 / Completion / throughput / drift](docs/metrics/benchmark-metrics-glossary.md)
+- **衍生数据与决策结论**：[相对 BF16/FP8 的提升比例、E2E speedup、100 请求节省时间、tail amplification、稳定性和可重复性](docs/results/qwen38-27b-gx10-derived-analysis-20260903.md)
 - **Formal5（5 次）阶段数据**：[BF16 / FP8 / NVFP4 5-request 横向表 + BF16 多轮 Formal5](docs/results/qwen38-27b-gx10-20260903.md#formal5-performance)
-- **Formal100（100 次）正式性能**：[均值、duration、Completion、衍生 Decode / Effective PP](docs/results/qwen38-27b-gx10-20260903.md#formal100-performance)
+- **Formal100（100 次）正式性能**：[均值、duration、Completion、Prefill* / Decode / E2E](docs/results/qwen38-27b-gx10-20260903.md#formal100-performance)
 - **Formal100 稳定性**：[Std / CV / P50 / P90 / P95 / P99 / ITL / Formal5→100 漂移](docs/results/qwen38-27b-gx10-20260903.md#formal100-stability)
 - **FP8 / NVFP4 Runtime + Hardware Gate**：[checkpoint → runtime → real inference → Nsys → NCU → Tensor Pipe 完整链](docs/results/qwen38-27b-gx10-20260903.md#runtime-gates)
 - **失败与诊断过程**：[NVFP4 gpu_memory_utilization=0.85 aborted、BF16 cold-fault/diagnostics、kernel trace](docs/results/qwen38-27b-gx10-20260903.md#failure-evidence)
 - **本轮最终结论与不能成立的结论**：[性能、稳定性、硬件路径、边界](docs/results/qwen38-27b-gx10-20260903.md#conclusions)
 - **全部原始证据入口**：[Formal/B0/Diagnostics/Gates/Manifest/History](docs/results/qwen38-27b-gx10-20260903.md#raw-evidence-index)
 
-后续 128K / 256K / 384K / 512K / 768K / 1M、32K-output E2E、纯 Prefill、质量测试、PRO 6000、2×/4× GB10、Apple / AMD 等完成后，继续追加到首页总表和对应分表；没有可靠实测的数据保持“未测 / 不可计算”。
+后续 128K / 256K / 384K / 512K / 768K / 1M、32K-output E2E、Pure Prefill、质量测试、PRO 6000、2×/4× GB10、Apple / AMD 等完成后，继续追加到首页总表和对应分表；没有可靠实测的数据保持“未测 / 不可计算”。
 
 ## 核心原则
 
