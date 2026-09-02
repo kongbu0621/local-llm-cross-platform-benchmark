@@ -6,17 +6,17 @@
 
 ## 1. Formal100 原始基线
 
-| Precision | Effective Prefill / PP* (tok/s) | Pure Prefill | TTFT (ms) | TPOT (ms/token) | Decode (tok/s) | E2E (ms) | Completion |
+| Precision | Prefill* (tok/s) | Pure Prefill | TTFT (ms) | TPOT (ms/token) | Decode (tok/s) | E2E (ms) | Completion |
 | --- | ---: | --- | ---: | ---: | ---: | ---: | --- |
 | BF16 | 936.453 | 未单独测 | 34991.596 | 252.447 | 3.961 | 99365.625 | 100/100 |
 | FP8 | 1187.130 | 未单独测 | 27602.710 | 156.783 | 6.378 | 67582.360 | 100/100 |
 | NVFP4 | 1300.614 | 未单独测 | 25194.249 | 110.122 | 9.081 | 53275.252 | 100/100 |
 
-\* `Effective Prefill = 32768 / TTFT(s)`；它是实际首 token 链路下的有效输入速度，不是严格 pure prefill `pp_tps`。
+\* `Prefill* = Effective Prefill = 32768 / TTFT(s)`；它是实际首 token 链路下的有效输入速度，不是严格 Pure Prefill `pp_tps`。
 
 ## 2. 相对 BF16 的性能收益
 
-| Precision | Effective Prefill gain | TTFT reduction | TPOT reduction | Decode gain | E2E reduction | E2E speedup |
+| Precision | Prefill* gain | TTFT reduction | TPOT reduction | Decode gain | E2E reduction | E2E speedup |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | FP8 vs BF16 | +26.77% | -21.12% | -37.89% | +61.02% | -31.99% | 1.470× |
 | NVFP4 vs BF16 | +38.89% | -28.00% | -56.38% | +129.24% | -46.38% | 1.865× |
@@ -27,14 +27,14 @@
 
 | 指标 | NVFP4 相对 FP8 |
 | --- | ---: |
-| Effective Prefill | +9.56% |
+| Prefill* | +9.56% |
 | TTFT | -8.73% |
 | TPOT | -29.76% |
 | Decode | +42.37% |
 | E2E | -21.17% |
 | E2E speedup | 1.269× |
 
-这说明在本轮短输出 workload 中，NVFP4 对持续生成阶段的优势大于对首 token 阶段的优势：Decode 提升约 42%，而 Effective Prefill 约提升 9.6%。
+这说明在本轮短输出 workload 中，NVFP4 对持续生成阶段的优势大于对首 token 阶段的优势：Decode 提升约 42%，Prefill* 约提升 9.6%。
 
 ## 4. 100 请求整批时间成本
 
@@ -74,7 +74,7 @@ P99 没有出现数量级放大；这说明当前 100-request 短输出批次的
 
 ## 6. Formal5 → Formal100 可重复性
 
-| Precision | TTFT drift | TPOT drift | Decode drift | E2E drift | Effective Prefill drift |
+| Precision | TTFT drift | TPOT drift | Decode drift | E2E drift | Prefill* drift |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | BF16 | -6.65% | -4.67% | +4.89% | -5.38% | +7.13% |
 | FP8 | -0.16% | +0.50% | -0.50% | +0.23% | +0.16% |
@@ -94,8 +94,8 @@ FP8 / NVFP4 的 5-request 阶段结果与 100-request 正式结果高度接近�
 
 ## 8. 当前最有价值的决策结论
 
-1. **速度排序在当前 workload 下非常稳定：NVFP4 > FP8 > BF16。** 这同时体现在 Effective Prefill、TTFT、Decode 和 E2E，不是只体现在某一个指标。
-2. **NVFP4 的主要增益来自 Decode，但首 token 也有收益。** 相对 FP8，Decode +42.37%，Effective Prefill +9.56%，E2E -21.17%。
+1. **速度排序在当前 workload 下非常稳定：NVFP4 > FP8 > BF16。** 这同时体现在 Prefill*、TTFT、Decode 和 E2E，不是只体现在某一个指标。
+2. **NVFP4 的主要增益来自 Decode，但首 token 也有收益。** 相对 FP8，Decode +42.37%，Prefill* +9.56%，E2E -21.17%。
 3. **FP8 / NVFP4 的 Formal5→Formal100 漂移很小。** 对当前 32K+256 workload，它们的小样本阶段结果具有较好的正式批次预测性。
 4. **BF16 的阶段状态更敏感。** 多轮 Formal5 差异说明运行阶段、热状态等因素不能忽略；Formal100 更可信。
 5. **100/100 完成 + 低 CV/P99 tail 说明本轮短输出批次稳定。** 但这不是长上下文/长输出/24h 系统稳定性的替代证据。
