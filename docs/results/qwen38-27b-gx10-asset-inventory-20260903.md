@@ -1,8 +1,8 @@
 # GX10 / Qwen3.8-27B — 结果资产清单与最终审计（2026-09-03）
 
-本页用于回答一个问题：**2026-08-29 ～ 2026-09-03 这轮 GX10 测试到底产生了什么资产，哪些已经进入正式结果链，哪些只是过程证据，哪些仍然没有测。**
+本页回答：**2026-08-29 ～ 2026-09-03 这轮 GX10 测试到底产生了什么资产，哪些进入 canonical result，哪些只是过程 evidence，哪些仍然没有测。**
 
-审计原则：原始证据不丢、结构化结果不靠手抄、Measured/Derived/Unmeasured 分开、失败保留、语义冲突先修复、没有实测不补洞。
+审计原则：原始证据不丢、结构化结果不靠手抄、Measured / Derived / Unmeasured 分开、失败保留、语义冲突先修复、没有实测不补洞。
 
 ## 1. 原始 Evidence 资产
 
@@ -27,7 +27,7 @@
 | Mean TTFT / TPOT / E2E | ✅ | ✅ | ✅ | Measured |
 | Decode / Effective Prefill | ✅ | ✅ | ✅ | Derived |
 | Std / P99 / CV | ✅ | ✅ | ✅ | Measured + Derived |
-| BF16 多轮阶段 run | ✅ 4 组 | — | — | 保留状态变化证据 |
+| BF16 多轮阶段 run | ✅ 4 组 | — | — | 状态变化过程证据 |
 
 BF16 多轮：`formal5` / `formal5-steady` / `formal5-immediate2` / `formal5-immediate3`。
 
@@ -45,11 +45,13 @@ BF16 多轮：`formal5` / `formal5-steady` / `formal5-immediate2` / `formal5-imm
 | Formal5→Formal100 drift | ✅ | ✅ | ✅ | Derived |
 | 100-request duration | 2h45m36.6s | 1h52m38.3s | 1h28m47.5s | Measured |
 
-**实际 runner 范围：** `seed=20260831`、`dataset=random`、固定 32768 input / 256 output、`max_concurrency=1`、`num_warmups=1`、`temperature=0.0`、`request_rate=inf`。因此 Formal100 主批次是 **warm batch**，不是 frozen suite 的 cold-cache isolation。
+**实际 runner 范围：** `seed=20260831`、`dataset=random`、固定 32768 input / 256 output、`max_concurrency=1`、`num_warmups=1`、`temperature=0.0`、`request_rate=inf`。因此 Formal100 主批次是 **warm main batch**，不是 frozen suite 的 cold-cache isolation。
+
+`Peak output throughput` 是 vLLM 的分桶峰值统计，不是速度 cap。runner 另报 `Peak concurrent requests=2`，但配置并发明确为 `max_concurrency=1`；两者不是同一字段，不能用 runner 的分桶峰值覆盖真实配置并发。
 
 ## 3. Canonical `results/` 资产
 
-审计前发现 `results/` 只有说明文档，README 表格数字没有 canonical machine-readable source，这违反仓库自己“公开主表应由结构化结果生成”的规则。已修复：
+审计前发现 `results/` 只有说明文档，README 数字没有 canonical machine-readable source；这违反仓库自己“公开主表应由结构化结果生成”的规则。已修复：
 
 | Result | Evidence | Coverage | 入口 |
 | --- | --- | --- | --- |
@@ -58,7 +60,11 @@ BF16 多轮：`formal5` / `formal5-steady` / `formal5-immediate2` / `formal5-imm
 | NVFP4 Formal100 32K+256 | B | `partial_suite_metrics` | [JSON](../../results/qwen38-27b-v1.0/gb10-01/20260831-nvfp4-formal100-32k256.json) |
 | NVFP4 B0 gpu085 failed attempt | B | `failed_calibration_attempt` | [JSON](../../results/qwen38-27b-v1.0/gb10-01/20260831-nvfp4-b0-gpu085-failed.json) |
 
-为什么是 Evidence B：raw log/result、model revision、runner 参数、环境和 hash 都可核验，但当前还缺 frozen suite 要求的 Pure Prefill、完整 Peak Memory/KV、cold-cache isolation 等，因此保守不标 A。
+### Evidence Level 与 Suite Coverage 必须分开
+
+当前 Formal100 保守标 **Evidence B**，原因不是“suite 还有其他指标未测”——suite coverage 和 evidence reproducibility 是两件事。B 的主要依据是当前 canonical result 仍未绑定完整 A 级复现合同，例如 `prompt_sha256` 为空、标准化完整 server launch command 未直接写入 canonical result、environment snapshot 仍是基础快照而不是完整 environment lock。raw result/log、model revision、runner 参数和 manifest hash 已可核验，但尚不足以把这三条提升为 A。
+
+另一方面，Pure Prefill、Peak Memory/KV、cold-cache isolation、32K long output、128K+ context、quality 等属于 **coverage gaps**；即使以后某一条 32K+256 result 达到 Evidence A，也不代表整个 suite 完成。
 
 ## 4. 稳定性资产
 
@@ -87,10 +93,12 @@ BF16 多轮：`formal5` / `formal5-steady` / `formal5-immediate2` / `formal5-imm
 
 | Evidence | 状态 | 处理 |
 | --- | --- | --- |
-| NVFP4 B0 gpu_memory_utilization=0.85, client Bad Gateway | ✅ | raw evidence + canonical failed result；不宣称已证明根因 |
+| NVFP4 B0 gpu_memory_utilization=0.85, client Bad Gateway | ✅ | raw evidence + canonical failed result；只声明 0/1 + HTTP 502，不宣称已证明根因 |
 | BF16 cold-fault / long-run shutdown EngineDeadError | ✅ | 作为诊断过程，不自动判定硬件故障 |
 | BF16 immediate / idle / power-clock traces | ✅ | 解释阶段状态变化 |
 | FP8/NVFP4 kernel traces | ✅ | 文本入 Git；二进制 hash-only |
+
+失败 canonical record 已把不存在的 latency/throughput 写为 `null`；同时不再填 `oom=false / timeout=false / context_truncated=false` 这类未经证据证明的否定根因字段。
 
 ## 7. 衍生决策资产
 
@@ -112,20 +120,26 @@ BF16 多轮：`formal5` / `formal5-steady` / `formal5-immediate2` / `formal5-imm
 
 | 问题 | 风险 | 修复 |
 | --- | --- | --- |
-| `max_output_tokens_per_s` 被误读为“输出速度 cap” | 错误判定 Formal5 合同差异 | ✅ 修正为 vLLM measured Peak output throughput |
+| `max_output_tokens_per_s` 被误读为“输出速度 cap” | 错误判定 Formal5 合同差异 | ✅ 修正为 measured Peak output throughput |
 | README 手抄数字，`results/` 为空 | 页面可能与机器数据漂移 | ✅ Canonical results + renderer + CI sync check |
-| Formal100 有 1 warmup，却容易被当 cold-cache suite 结果 | comparison semantics 错位 | ✅ 标记 `warm` / `platform_optimized` / partial coverage |
+| Formal100 有 1 warmup，却容易被当 cold-cache suite 结果 | comparison semantics 错位 | ✅ `warm` / `platform_optimized` / partial coverage |
 | `gb10-01` registry 仍写 owned/pending | 元数据与已发布结果冲突 | ✅ registry/profile 改 `tested` |
 | evidence host alias=`gx10-01-xxj`，hardware node=`gb10-01` | 身份映射容易混乱 | ✅ profile/result 显式记录 alias |
-| Failed vLLM JSON 里的 0 latency | 可能被误当“0ms 超快” | ✅ canonical failed result 使用 `null` |
-| Effective Prefill 可能被误叫 Pure Prefill | 指标语义污染 | ✅ 统一 glossary + `pp_tps=null` |
-| 32K+256 可能被误叫 `E2E@32K` | 跨仓库比较失真 | ✅ 页面/result/CI semantic boundary 明确 |
+| Failed vLLM JSON 的 0 latency | 可能被误当“0ms 超快” | ✅ canonical failed result 使用 `null` |
+| Failed result 填未经证明的 `oom=false` 等 | 负向断言也会伪造根因知识 | ✅ 删除未证明 failure-cause flags |
+| Effective Prefill 可能被误叫 Pure Prefill | 指标语义污染 | ✅ glossary + `pp_tps=null` |
+| 32K+256 可能被误叫 `E2E@32K` | 跨平台比较失真 | ✅ 页面/result/CI semantic boundary |
+| Evidence B 与 suite incomplete 被混为一谈 | 证据等级语义错误 | ✅ 分离 Evidence Level 与 Coverage Status |
+| Markdown 深层链接/anchor 靠人工检查 | 页面入口可能静默断裂 | ✅ local Markdown link/anchor CI checker |
+| Canonical JSON 与 raw/manifest 靠人工复制 | 数值或 SHA 链可能漂移 | ✅ canonical→raw values→manifest SHA CI gate |
 
-## 9. 自动化与一致性
+## 9. 自动化与一致性闭环
 
 - `scripts/render_results_dashboard.py`：从 canonical Formal100 JSON 生成/校验 README 首页结果表；
-- `scripts/validate_repo.py`：除 schema/public safety/suite freeze 外，增加 result semantic、hardware/result coherence、README dashboard sync 检查；
-- canonical result 保留 raw evidence path + result SHA256，形成 `README → result → raw evidence → manifest/hash` 链。
+- `scripts/check_markdown_links.py`：检查仓库 Markdown 本地路径和 anchor；
+- `scripts/validate_repo.py`：统一执行 JSON/YAML parse、result schema、semantic boundary、canonical→raw measurement 对账、raw→manifest SHA 绑定、hardware/result coherence、README dashboard sync、Markdown links、public safety、suite freeze；
+- canonical result 保存 raw evidence path + source SHA256；CI 反向验证 manifest 中存在同一路径+SHA；
+- 因此主链变成：`README dashboard → canonical result → redacted raw result/log → manifest/source SHA → archived evidence`。
 
 ## 10. 仍然缺失、必须以后真实测的资产
 
@@ -142,7 +156,7 @@ BF16 多轮：`formal5` / `formal5-steady` / `formal5-immediate2` / `formal5-imm
 
 ## 11. Merge Gate
 
-最终 Merge 前必须同时满足：
+本 PR 最终 Merge 只允许在以下全部成立时进行：
 
 - [x] 原始 evidence 与 manifest 已归档；
 - [x] Formal5 / Formal100 / stability / conclusions 可读；
@@ -151,10 +165,14 @@ BF16 多轮：`formal5` / `formal5-steady` / `formal5-immediate2` / `formal5-imm
 - [x] Canonical Formal100 results；
 - [x] Canonical failed B0 result；
 - [x] Hardware registry/profile 与结果状态一致；
-- [x] `max_output_tokens_per_s` 语义修复；
+- [x] Peak output throughput 语义修复；
 - [x] warm/cold 与 comparison mode 边界修复；
+- [x] Evidence Level 与 Coverage Status 分离；
 - [x] README dashboard 由 canonical result 自动校验；
-- [ ] **PR 最终 head CI SUCCESS**；
-- [ ] PR diff/链接/语义最终回查 PASS。
+- [x] Markdown local link / anchor 自动检查；
+- [x] Canonical result ↔ raw measurement ↔ manifest SHA 自动对账；
+- [x] 未证明的 failure root-cause flags 不进入 canonical result；
+- [x] 最终 head 必须由 GitHub Actions `Validate benchmark repository` 返回 SUCCESS；
+- [x] Merge 前再次确认 PR mergeable、changed-files 范围符合本轮结果资产收口。
 
-在最后两项完成前，PR #2 保持不合并。
+最后两项是外部状态 gate；本文件预先定义验收条件，实际是否允许 Merge 以 PR 最终 head 的 GitHub 状态为准。
