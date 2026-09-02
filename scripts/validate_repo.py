@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Lightweight repository contract validation for CI."""
+"""Repository contract, semantic, dashboard, and public-safety validation."""
 
 from __future__ import annotations
 
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -36,6 +37,13 @@ def load_json(path: Path):
         return json.load(f)
 
 
+def result_files() -> list[Path]:
+    results_dir = ROOT / "results"
+    if not results_dir.exists():
+        return []
+    return sorted(results_dir.rglob("*.json"))
+
+
 def validate_json_and_yaml() -> list[str]:
     errors: list[str] = []
     for path in ROOT.rglob("*"):
@@ -59,10 +67,7 @@ def validate_result_contracts() -> list[str]:
         return ["missing schemas/benchmark-result.schema.json"]
     schema = load_json(schema_path)
     validator = Draft202012Validator(schema, format_checker=FormatChecker())
-    results_dir = ROOT / "results"
-    if not results_dir.exists():
-        return errors
-    for path in results_dir.rglob("*.json"):
+    for path in result_files():
         try:
             obj = load_json(path)
         except Exception as exc:  # noqa: BLE001
@@ -72,6 +77,97 @@ def validate_result_contracts() -> list[str]:
             where = ".".join(str(p) for p in err.path) or "<root>"
             errors.append(f"schema error: {path.relative_to(ROOT)}:{where}: {err.message}")
     return errors
+
+
+def validate_result_semantics() -> list[str]:
+    """Catch semantic states that the permissive v1 JSON schema cannot express."""
+    errors: list[str] = []
+    seen_ids: set[str] = set()
+
+    for path in result_files():
+        obj = load_json(path)
+        rel = path.relative_to(ROOT)
+        exp_id = obj.get("experiment_id")
+        if exp_id in seen_ids:
+            errors.append(f"duplicate experiment_id: {exp_id} ({rel})")
+        seen_ids.add(exp_id)
+
+        workload = obj.get("workload", {})
+        measurements = obj.get("measurements", {})
+        stability = obj.get("stability", {})
+        mode = obj.get("comparison_mode")
+
+        # A warm main batch is valid evidence, but it must never masquerade as
+        # the frozen strict-comparable cold-cache isolation contract.
+        if workload.get("cache_state") != "cold" and mode == "strict_comparable":
+            errors.append(f"non-cold result cannot be strict_comparable: {rel}")
+
+        effective_pp = measurements.get("effective_prefill_tps_derived")
+        pure_pp = measurements.get("pp_tps")
+        if effective_pp is not None and pure_pp is not None:
+            method = str(measurements.get("measurement_method", "")).lower()
+            if "pure prefill" not in method:
+                errors.append(
+                    f"pp_tps present beside derived Effective Prefill without explicit pure-prefill method: {rel}"
+                )
+
+        # Failed requests may have zeros in raw vLLM output; canonical results
+        # must use null for nonexistent latency/throughput measurements.
+        if not stability.get("completed", False):
+            for key in ("pp_tps", "ttft_ms", "decode_tps", "e2e_wall_ms"):
+                if measurements.get(key) == 0:
+                    errors.append(f"failed result uses zero instead of null for {key}: {rel}")
+
+        # The repository's E2E@32K contract requires 32K output. A 32K+256
+        # performance record is valid, but it must stay explicitly partial.
+        if workload.get("actual_input_tokens") == 32768 and workload.get("actual_output_tokens") == 256:
+            if obj.get("coverage_status") != "partial_suite_metrics" and stability.get("completed", False):
+                errors.append(f"32K+256 completed result must remain partial_suite_metrics: {rel}")
+
+    return errors
+
+
+def validate_hardware_result_coherence() -> list[str]:
+    errors: list[str] = []
+    registry_path = ROOT / "hardware" / "registry.json"
+    if not registry_path.exists():
+        return ["missing hardware/registry.json"]
+    registry = load_json(registry_path)
+    nodes = {item["node_id"]: item for item in registry.get("nodes", [])}
+    result_nodes = {
+        node_id
+        for path in result_files()
+        for node_id in load_json(path).get("hardware", {}).get("node_ids", [])
+    }
+    for node_id in sorted(result_nodes):
+        if node_id not in nodes:
+            errors.append(f"result references unknown hardware node: {node_id}")
+            continue
+        if nodes[node_id].get("status") != "tested":
+            errors.append(f"result-bearing node must have status=tested: {node_id}")
+        profile = ROOT / nodes[node_id].get("profile", "")
+        if not profile.exists():
+            errors.append(f"missing hardware profile for result-bearing node: {node_id}")
+        elif load_json(profile).get("status") != "tested":
+            errors.append(f"result-bearing hardware profile must have status=tested: {node_id}")
+    return errors
+
+
+def validate_dashboard_sync() -> list[str]:
+    script = ROOT / "scripts" / "render_results_dashboard.py"
+    if not script.exists():
+        return ["missing scripts/render_results_dashboard.py"]
+    proc = subprocess.run(
+        [sys.executable, str(script), "--check"],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if proc.returncode == 0:
+        return []
+    detail = (proc.stdout + proc.stderr).strip()
+    return [f"README dashboard validation failed: {detail}"]
 
 
 def validate_public_safety() -> list[str]:
@@ -113,9 +209,12 @@ def validate_suite_freeze() -> list[str]:
 
 
 def main() -> int:
-    errors = []
+    errors: list[str] = []
     errors += validate_json_and_yaml()
     errors += validate_result_contracts()
+    errors += validate_result_semantics()
+    errors += validate_hardware_result_coherence()
+    errors += validate_dashboard_sync()
     errors += validate_public_safety()
     errors += validate_suite_freeze()
     if errors:
