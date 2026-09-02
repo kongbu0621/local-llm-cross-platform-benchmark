@@ -10,17 +10,17 @@
 
 | Hardware | Model | Precision | Actual workload | Effective PP (tok/s) | TTFT (ms) | Decode (tok/s) | E2E (ms) | Completion | 详情 |
 | --- | --- | --- | --- | ---: | ---: | ---: | ---: | --- | --- |
-| 1× GX10 / GB10 | Qwen3.8-27B | BF16 | 32K + 256 | ~936 | 34991.595742 | 3.961224787 | 99365.624916 | 100/100 | [BF16 / 总分表](docs/results/qwen38-27b-gx10-20260903.md#formal100-性能分表) |
-| 1× GX10 / GB10 | Qwen3.8-27B | FP8 | 32K + 256 | ~1187 | 27602.710144 | 6.378244907 | 67582.360302 | 100/100 | [FP8 / 总分表](docs/results/qwen38-27b-gx10-20260903.md#formal100-性能分表) |
-| 1× GX10 / GB10 | Qwen3.8-27B | NVFP4 | 32K + 256 | ~1301 | 25194.248710 | 9.080872275 | 53275.251533 | 100/100 | [NVFP4 / 总分表](docs/results/qwen38-27b-gx10-20260903.md#formal100-性能分表) |
+| 1× GX10 / GB10 | Qwen3.8-27B | BF16 | 32K + 256 | ~936 | 34991.595742 | 3.961224787 | 99365.624916 | 100/100 | [BF16 / 性能分表](docs/results/qwen38-27b-gx10-20260903.md#formal100-performance) |
+| 1× GX10 / GB10 | Qwen3.8-27B | FP8 | 32K + 256 | ~1187 | 27602.710144 | 6.378244907 | 67582.360302 | 100/100 | [FP8 / 性能分表](docs/results/qwen38-27b-gx10-20260903.md#formal100-performance) |
+| 1× GX10 / GB10 | Qwen3.8-27B | NVFP4 | 32K + 256 | ~1301 | 25194.248710 | 9.080872275 | 53275.251533 | 100/100 | [NVFP4 / 性能分表](docs/results/qwen38-27b-gx10-20260903.md#formal100-performance) |
 
 `Effective PP` 是由总输入 token / TTFT 推导出的有效值，不是纯 prefill kernel benchmark。
 
 ### 分表详情
 
-- **性能分表（Formal100）**：[BF16 / FP8 / NVFP4 横向对比](docs/results/qwen38-27b-gx10-20260903.md#formal100-性能分表)
-- **Runtime / Hardware Gate 分表**：[FP8 / NVFP4 kernel 与 profiler 证据](docs/results/qwen38-27b-gx10-20260903.md#runtime--hardware-gate-分表)
-- **过程与失败证据分表**：[B0、Diagnostics、Formal5/100、Model Freeze、Profiler inventory](docs/results/qwen38-27b-gx10-20260903.md#过程与失败证据分表)
+- **性能分表（Formal100）**：[BF16 / FP8 / NVFP4 横向对比](docs/results/qwen38-27b-gx10-20260903.md#formal100-performance)
+- **Runtime / Hardware Gate 分表**：[FP8 / NVFP4 kernel 与 profiler 证据](docs/results/qwen38-27b-gx10-20260903.md#runtime-gates)
+- **过程与失败证据分表**：[B0、Diagnostics、Formal5/100、Model Freeze、Profiler inventory](docs/results/qwen38-27b-gx10-20260903.md#process-evidence)
 - **历史过程**：[2026-08-29 ～ 2026-09-03 GX10 / Qwen3.8-27B 实测历史](docs/history/2026-08-29-to-2026-09-03-gx10-qwen38-27b.md)
 - **完整证据清单**：[GX10 evidence manifest](evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/manifest.json)
 - **结构化汇总**：[GX10 Qwen3.8 history summary](evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/summary.json)
