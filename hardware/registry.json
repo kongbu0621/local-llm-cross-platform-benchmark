@@ -5,9 +5,9 @@
     {
       "node_id": "gb10-01",
       "hardware_family": "NVIDIA GB10",
-      "status": "owned",
+      "status": "tested",
       "profile": "hardware/profiles/gb10-01.json",
-      "notes": "First-party physical node; formal benchmark results not yet published."
+      "notes": "First-party ASUS GX10 physical node. Initial Qwen3.8-27B 32K+256 Formal100 BF16/FP8/NVFP4 performance results and runtime/hardware evidence are published. Full suite coverage (pure prefill, peak memory/KV, cold-cache isolation, long output, long context, quality) remains incomplete."
     },
     {
       "node_id": "pro6000-01",
