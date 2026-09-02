@@ -1,0 +1,6 @@
+nohup: ignoring input
+==PROF== Finding attachable processes on host <IP_REDACTED>.
+==PROF== Attaching to process '/usr/bin/python3.12' (69806) on port 49160.
+==PROF== Connected to process 69806 (/usr/bin/python3.12)
+==WARNING== No kernels were profiled.
+==WARNING== Profiling kernels launched by child processes requires the --target-processes all option.

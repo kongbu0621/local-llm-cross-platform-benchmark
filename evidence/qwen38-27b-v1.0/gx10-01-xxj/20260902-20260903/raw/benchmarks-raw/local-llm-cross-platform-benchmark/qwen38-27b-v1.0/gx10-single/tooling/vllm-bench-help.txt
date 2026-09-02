@@ -1,0 +1,16 @@
+usage: vllm bench <bench_type> [options]
+
+vLLM bench subcommand.
+
+positional arguments:
+  {latency,mm-processor,serve,startup,sweep,throughput}
+    latency             Benchmark the latency of a single batch of requests.
+    mm-processor        Benchmark multimodal processor latency across
+                        different configurations.
+    serve               Benchmark the online serving throughput.
+    startup             Benchmark the startup time of vLLM models.
+    sweep               Benchmark for a parameter sweep.
+    throughput          Benchmark offline inference throughput.
+
+options:
+  -h, --help            show this help message and exit

@@ -1,0 +1,38 @@
+Gate=FP8_RUNTIME_HARDWARE
+Date=2026-09-02
+Result=PASS
+
+Device=NVIDIA GB10
+Architecture=GB20B
+Compute_Capability=12.1
+
+Model=Qwen3.8-27B
+Checkpoint_Quantization=FP8
+FP8_Format=E4M3
+Activation_Scheme=dynamic
+Weight_Block_Size=128x128
+
+Runtime=vLLM 0.28.0
+
+Runtime_FP8_Kernel=vllm<IPV6_REDACTED>utlass_3x_gemm_fp8_blockwise
+Kernel_Schedule=KernelTmaWarpSpecializedBlockwiseCooperativeSm120
+
+Nsight_Systems=2025.3.2
+Observed_FP8_GEMM_Calls=2048
+Observed_FP8_GEMM_GPU_Time_Percent=84.6
+
+Nsight_Compute=2025.3.1
+PM_Sampling_Metric=sm__pipe_tensor_cycles_active_realtime.avg
+PM_Sampling_Passes=1
+Tensor_Pipe_Active_Cycles=218453.33
+
+Acceptance:
+- FP8 checkpoint identity confirmed
+- vLLM runtime quantization=fp8 confirmed
+- successful real FP8 inference confirmed
+- BF16->Float8 E4M3 dynamic quantization kernel observed
+- real cutlass_3x_gemm_fp8_blockwise kernel observed
+- same FP8 GEMM kernel profiled by Nsight Compute
+- Tensor Pipe hardware counter is non-zero
+
+Final=PASS

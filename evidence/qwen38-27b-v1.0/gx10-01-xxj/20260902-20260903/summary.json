@@ -1,0 +1,70 @@
+{
+  "schema_version": "gx10-qwen38-history-summary/v1",
+  "node_id": "gx10-01-xxj",
+  "suite": "qwen38-27b/v1.0",
+  "period": {
+    "start": "2026-08-29",
+    "end": "2026-09-03"
+  },
+  "formal100_32k_input_256_output": {
+    "input_tokens": 32768,
+    "output_tokens": 256,
+    "prompt_count": 100,
+    "failures": 0,
+    "warning": "This is not repository E2E@32K, which requires 32768 input + 32768 output.",
+    "bf16": {
+      "ttft_ms": 34991.595742,
+      "tpot_ms_per_token": 252.447173,
+      "e2e_ms": 99365.624916,
+      "decode_tok_s": 3.961224787,
+      "effective_pp_tok_s_derived": 936
+    },
+    "fp8": {
+      "ttft_ms": 27602.710144,
+      "tpot_ms_per_token": 156.782942,
+      "e2e_ms": 67582.360302,
+      "decode_tok_s": 6.378244907,
+      "effective_pp_tok_s_derived": 1187
+    },
+    "nvfp4": {
+      "ttft_ms": 25194.24871,
+      "tpot_ms_per_token": 110.12158,
+      "e2e_ms": 53275.251533,
+      "decode_tok_s": 9.080872275,
+      "effective_pp_tok_s_derived": 1301
+    }
+  },
+  "fp8_runtime_hardware_gate": {
+    "status": "FROZEN",
+    "result": "PASS",
+    "integrity": "PASS",
+    "evidence": "COMPLETE",
+    "dominant_kernel": "vllm::cutlass_3x_gemm_fp8_blockwise...Sm120...",
+    "dominant_kernel_calls": 2048,
+    "dominant_kernel_time_share_percent": 84.6,
+    "ncu_pm_tensor_pipe_active_cycles": 218453.33,
+    "precision_boundary": "mixed conversion boundary; modules_to_not_convert exists"
+  },
+  "nvfp4_runtime_hardware_gate": {
+    "status": "FROZEN",
+    "result": "PASS",
+    "integrity": "PASS",
+    "evidence": "COMPLETE",
+    "linear_backend": "flashinfer_b12x",
+    "selected_kernel": "FlashInferB12xNvFp4LinearKernel",
+    "nsys_generic_sm120_cutlass_instances": 1160,
+    "nsys_generic_sm120_cutlass_ms": 431.396352,
+    "nsys_generic_sm120_cutlass_share_percent": 51.5,
+    "nsys_b12x_dense_blockscaled_gemm_instances": 896,
+    "nsys_b12x_dense_blockscaled_gemm_ms": 345.367104,
+    "nsys_b12x_dense_blockscaled_gemm_share_percent": 41.2,
+    "nsys_fp16_to_fp4_instances": 896,
+    "ncu_b12x_pm_tensor_pipe_active_cycles": 464213.33,
+    "precision_boundary": "mixed precision compressed-tensors; not whole-model NVFP4"
+  },
+  "interpretation_limits": [
+    "PM Sampling cycles are not FLOPs and must not be used as a cross-precision performance ratio.",
+    "Profiler gates prove runtime/kernel activation, not output quality.",
+    "Effective PP values are derived from total input tokens / TTFT and are not pure prefill-kernel measurements."
+  ]
+}

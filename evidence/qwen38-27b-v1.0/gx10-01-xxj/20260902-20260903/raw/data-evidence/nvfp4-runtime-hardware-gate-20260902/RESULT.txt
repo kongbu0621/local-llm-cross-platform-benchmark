@@ -1,0 +1,60 @@
+Gate=NVFP4_RUNTIME_HARDWARE
+Date=2026-09-02
+Status=FROZEN
+Result=PASS
+
+Device=NVIDIA GB10
+Architecture=GB20B
+Compute_Capability=12.1
+
+Model=Qwen3.8-27B
+Checkpoint_Format=mixed-precision
+Quant_Method=compressed-tensors
+
+NVFP4_Group_Format=nvfp4-pack-quantized
+NVFP4_Weight_Bits=4
+NVFP4_Activation_Bits=4
+NVFP4_Group_Size=16
+NVFP4_Scale_Dtype=torch.float8_e4m3fn
+NVFP4_Target=MLP gate/up/down projections
+
+Mixed_Precision_Note=Checkpoint also contains W8A8/FP8 and ignored/unquantized paths; this is not an all-NVFP4 model.
+
+Runtime=vLLM 0.28.0
+Linear_Backend=flashinfer_b12x
+Runtime_NVFP4_Route=FlashInferB12xNvFp4LinearKernel
+Runtime_FP4_Runner=B12xFp4GemmRunner
+Runtime_FP4_Operation=fp4_gemm
+
+Nsight_Systems=2025.3.2
+Inference_B12X_Calls=896
+Inference_B12X_Total_ms=345.367104
+Inference_FP4_Convert_Calls=896
+Inference_FP4_Convert_Total_ms=2.741792
+
+Startup_B12X_Calls=1136
+Startup_FP4_Convert_Calls=336
+
+Observed_GPU_Kernel=kernel_cutlass_kernel_flashinfergemmkernelsdense_blockscaled_gemm_sm120_b12xDenseGemmKernel
+Observed_FP4_Conversion=vllm<IPV6_REDACTED>vt_fp16_to_fp4
+
+Nsight_Compute=2025.3.1
+NCU_Kernel_Filter=.*b12xDenseGemmKernel.*
+NCU_Launch_Skip=10000
+NCU_Launch_Count=1
+PM_Sampling_Metric=sm__pipe_tensor_cycles_active_realtime.avg
+PM_Sampling_Passes=1
+Tensor_Pipe_Active_Cycles=464213.33
+
+Acceptance_Checkpoint_Contract=PASS
+Acceptance_Runtime_NVFP4_Route=PASS
+Acceptance_Real_Inference=PASS
+Acceptance_Kernel_Identity=PASS
+Acceptance_Startup_Isolation=PASS
+Acceptance_NCU_Exact_Kernel=PASS
+Acceptance_PM_Sampling_One_Pass=PASS
+Acceptance_Tensor_Pipe_Nonzero=PASS
+
+Important_Interpretation=Tensor_Pipe_Active_Cycles is not FLOPs, TFLOPs, or model throughput and must not be compared directly against FP8 cycle counts as a speed ratio.
+
+Final=PASS
