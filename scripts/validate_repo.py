@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Repository contract, semantic, dashboard, and public-safety validation."""
+"""Repository contract, semantic, dashboard, link, and public-safety validation."""
 
 from __future__ import annotations
 
@@ -153,12 +153,12 @@ def validate_hardware_result_coherence() -> list[str]:
     return errors
 
 
-def validate_dashboard_sync() -> list[str]:
-    script = ROOT / "scripts" / "render_results_dashboard.py"
+def run_repo_check(script_name: str, label: str) -> list[str]:
+    script = ROOT / "scripts" / script_name
     if not script.exists():
-        return ["missing scripts/render_results_dashboard.py"]
+        return [f"missing scripts/{script_name}"]
     proc = subprocess.run(
-        [sys.executable, str(script), "--check"],
+        [sys.executable, str(script), "--check"] if script_name == "render_results_dashboard.py" else [sys.executable, str(script)],
         cwd=ROOT,
         text=True,
         capture_output=True,
@@ -167,7 +167,15 @@ def validate_dashboard_sync() -> list[str]:
     if proc.returncode == 0:
         return []
     detail = (proc.stdout + proc.stderr).strip()
-    return [f"README dashboard validation failed: {detail}"]
+    return [f"{label} failed: {detail}"]
+
+
+def validate_dashboard_sync() -> list[str]:
+    return run_repo_check("render_results_dashboard.py", "README dashboard validation")
+
+
+def validate_markdown_links() -> list[str]:
+    return run_repo_check("check_markdown_links.py", "Markdown link validation")
 
 
 def validate_public_safety() -> list[str]:
@@ -215,6 +223,7 @@ def main() -> int:
     errors += validate_result_semantics()
     errors += validate_hardware_result_coherence()
     errors += validate_dashboard_sync()
+    errors += validate_markdown_links()
     errors += validate_public_safety()
     errors += validate_suite_freeze()
     if errors:
