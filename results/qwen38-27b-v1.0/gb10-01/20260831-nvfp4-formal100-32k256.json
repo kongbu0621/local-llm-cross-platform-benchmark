@@ -118,10 +118,16 @@
     "source_url": null,
     "manifest": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/manifest.json"
   },
+  "evidence_level_rationale": "Evidence B: raw result/log and manifest SHA are bound, but the canonical record does not yet bind the complete A-level reproducibility contract.",
   "evidence_gaps": [
+    "prompt_sha256 is unavailable",
+    "runtime.command is not normalized and bound in the canonical result",
+    "environment snapshot is a basic repository/system snapshot rather than a complete benchmark environment lock"
+  ],
+  "coverage_gaps": [
     "pure prefill pp_tps was not measured independently",
-    "formal100 did not record peak device/host/KV memory as a canonical metric",
-    "main benchmark ran after one warmup; this is not the suite cold-cache isolation result",
+    "peak device/host/KV memory was not captured as a canonical same-run metric",
+    "main benchmark ran after one warmup; frozen cold-cache isolation remains unmeasured",
     "quality metrics are not part of this performance run"
   ],
   "interpretation_limits": [
