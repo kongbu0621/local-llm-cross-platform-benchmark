@@ -1,0 +1,15 @@
+{
+  "phase": "B0_calibration",
+  "format": "nvfp4",
+  "model": "$HOME/xxj/models/original/qwen3.8-27b/nvfp4/9e3d73c76eddb75f795cc24ccfbc5affe41c66bd",
+  "served_model_name": "qwen38-27b-nvfp4-b0",
+  "host": "<IP_REDACTED>",
+  "port": 8000,
+  "tensor_parallel_size": 1,
+  "max_model_len": 65536,
+  "max_num_seqs": 1,
+  "gpu_memory_utilization": 0.85,
+  "enable_prefix_caching": false,
+  "enforce_eager": true,
+  "linear_backend": "flashinfer_b12x"
+}

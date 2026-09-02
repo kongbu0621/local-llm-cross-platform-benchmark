@@ -1,0 +1,797 @@
+{
+  "schema_version": "gx10-evidence-manifest/v1",
+  "generated_at": "2026-09-02T18:12:14.220194+00:00",
+  "node_id": "gx10-01-xxj",
+  "canonical_base_before_collection": "f678f2b3c083038156c71dcfeae921acce386f52",
+  "copied_redacted_text_files": 68,
+  "entries": [
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/fp8-runtime-hardware-gate-20260902/fp8-smoke-attempt1.py",
+      "source_group": "data-evidence",
+      "size": 1235,
+      "mtime_utc": "2026-09-02T10:23:40.521446+00:00",
+      "sha256": "b25d33124779e77e80de4f611b36183eb23d23c879cf4f65b1afff3b85ee6374",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/fp8-runtime-hardware-gate-20260902/fp8-smoke-attempt1.py"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/fp8-runtime-hardware-gate-20260902/fp8-smoke-attempt1.log",
+      "source_group": "data-evidence",
+      "size": 22066,
+      "mtime_utc": "2026-09-02T10:23:40.520043+00:00",
+      "sha256": "325dcf313d1e4eec55a8528ec0cca0e7fbda8d781f1169949497578e02090cc5",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/fp8-runtime-hardware-gate-20260902/fp8-smoke-attempt1.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/fp8-runtime-hardware-gate-20260902/RESULT.txt",
+      "source_group": "data-evidence",
+      "size": 961,
+      "mtime_utc": "2026-09-02T10:24:41.672101+00:00",
+      "sha256": "2a134b3327460c192f41a551068ae703f7ca7f5416038b485433b6331d07c7a1",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/fp8-runtime-hardware-gate-20260902/RESULT.txt"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/fp8-runtime-hardware-gate-20260902/report1.sqlite",
+      "source_group": "data-evidence",
+      "size": 4362240,
+      "mtime_utc": "2026-09-02T10:23:40.514037+00:00",
+      "sha256": "0d8909e96de9b15cc55f4679cf08da68ed2fe71166ed1b57f80e4011d56178d3",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/fp8-runtime-hardware-gate-20260902/fp8-gemm-tensor-one.log",
+      "source_group": "data-evidence",
+      "size": 27884,
+      "mtime_utc": "2026-09-02T10:23:40.508751+00:00",
+      "sha256": "e6c5aa7376688368302841097c17bb9cb0ce9d4e2c9ecbc20181ac2907cc76b7",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/fp8-runtime-hardware-gate-20260902/fp8-gemm-tensor-one.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/fp8-runtime-hardware-gate-20260902/SHA256SUMS.txt",
+      "source_group": "data-evidence",
+      "size": 861,
+      "mtime_utc": "2026-09-02T10:25:27.260125+00:00",
+      "sha256": "b1553ebcbc6fa6f4e2f95a39ee5b9eba752e942e767150a280b50191e3531b48",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/fp8-runtime-hardware-gate-20260902/SHA256SUMS.txt"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/fp8-runtime-hardware-gate-20260902/request2-window.txt",
+      "source_group": "data-evidence",
+      "size": 88,
+      "mtime_utc": "2026-09-02T10:23:40.515896+00:00",
+      "sha256": "f9ea0897c9a31ae90fe845986b222f8bca7f39643278afac29179605a913370a",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/fp8-runtime-hardware-gate-20260902/request2-window.txt"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/fp8-runtime-hardware-gate-20260902/fp8-gemm-tensor-one.ncu-rep",
+      "source_group": "data-evidence",
+      "size": 355031,
+      "mtime_utc": "2026-09-02T10:23:40.500284+00:00",
+      "sha256": "7a610ff5e709333653fe720a410ce1b3d72237c5b4754245c26d4ed4c290c834",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/fp8-runtime-hardware-gate-20260902/model-config.json",
+      "source_group": "data-evidence",
+      "size": 51350,
+      "mtime_utc": "2026-09-02T10:23:40.518641+00:00",
+      "sha256": "74227dd615bf1ea975aa676bdf355a0379858c12f394b5365cd9dfa5fc2c70bc",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/fp8-runtime-hardware-gate-20260902/model-config.json"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/fp8-runtime-hardware-gate-20260902/report1.nsys-rep",
+      "source_group": "data-evidence",
+      "size": 1798438,
+      "mtime_utc": "2026-09-02T10:23:40.511502+00:00",
+      "sha256": "ecd55d6b63c111398c7ac40215a316ab1067a1a20c997473c20605fba549f51e",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/fp8-runtime-hardware-gate-20260902/request2-response.json",
+      "source_group": "data-evidence",
+      "size": 566,
+      "mtime_utc": "2026-09-02T10:23:40.517294+00:00",
+      "sha256": "8ae7ee37026df372d0cda0747856f5670657011a63b0c1f55a11335306f98556",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/fp8-runtime-hardware-gate-20260902/request2-response.json"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/nvfp4-runtime-hardware-gate-20260902/nvfp4-b12x-tensor-one.log",
+      "source_group": "data-evidence",
+      "size": 41652,
+      "mtime_utc": "2026-09-02T11:55:26.990073+00:00",
+      "sha256": "0ce1ca8eba6d54db4d8dbbc9ecae0bd662978396c9ec4845d638b490349cca34",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/nvfp4-runtime-hardware-gate-20260902/nvfp4-b12x-tensor-one.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/nvfp4-runtime-hardware-gate-20260902/cuda-kernel-summary.txt",
+      "source_group": "data-evidence",
+      "size": 13381,
+      "mtime_utc": "2026-09-02T10:54:12.403880+00:00",
+      "sha256": "cc0bd6acb30e7fc695869914a38567b74903165bfcf3b022743772ccff8345cf",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/nvfp4-runtime-hardware-gate-20260902/cuda-kernel-summary.txt"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/nvfp4-runtime-hardware-gate-20260902/server.log",
+      "source_group": "data-evidence",
+      "size": 23734,
+      "mtime_utc": "2026-09-02T10:59:32.898653+00:00",
+      "sha256": "138f71dbeafdbebf0137a425b6610554e83deeb5c871d8008c9d4c2b146f1c98",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/nvfp4-runtime-hardware-gate-20260902/server.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/nvfp4-runtime-hardware-gate-20260902/request-window.txt",
+      "source_group": "data-evidence",
+      "size": 86,
+      "mtime_utc": "2026-09-02T10:53:28.353540+00:00",
+      "sha256": "a35825452b001884e0a8e6aa1fef59c741adea22d2df3108c732f981adfcef69",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/nvfp4-runtime-hardware-gate-20260902/request-window.txt"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/nvfp4-runtime-hardware-gate-20260902/RESULT.txt",
+      "source_group": "data-evidence",
+      "size": 1751,
+      "mtime_utc": "2026-09-02T11:58:24.986432+00:00",
+      "sha256": "6409e26691251b6b92e0484f46cab03a118da890535df7d7f279d905c3e42c74",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/nvfp4-runtime-hardware-gate-20260902/RESULT.txt"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/nvfp4-runtime-hardware-gate-20260902/nvfp4-startup.sqlite",
+      "source_group": "data-evidence",
+      "size": 4894720,
+      "mtime_utc": "2026-09-02T10:56:48.046726+00:00",
+      "sha256": "84eb2cc180e2315e626bacda50eb19f84a2c11c8974d3b46c41c7d0f72c079a1",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/nvfp4-runtime-hardware-gate-20260902/kernel-identity.txt",
+      "source_group": "data-evidence",
+      "size": 527,
+      "mtime_utc": "2026-09-02T11:57:41.488585+00:00",
+      "sha256": "b91e1995c33b9e396d67e1b63088d853bd594ae10c898947b95af92c2a933394",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/nvfp4-runtime-hardware-gate-20260902/kernel-identity.txt"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/nvfp4-runtime-hardware-gate-20260902/report1.sqlite",
+      "source_group": "data-evidence",
+      "size": 4505600,
+      "mtime_utc": "2026-09-02T10:54:12.361880+00:00",
+      "sha256": "bbc197544bc4f40574b4d5015ae87687273940e73a52136b5a92a8a06629dee1",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/nvfp4-runtime-hardware-gate-20260902/SHA256SUMS.txt",
+      "source_group": "data-evidence",
+      "size": 1196,
+      "mtime_utc": "2026-09-02T12:00:26.810014+00:00",
+      "sha256": "ac698f0225ee454009aec7b3cac902aec3b8fded3414014c15c79b238136be7d",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/nvfp4-runtime-hardware-gate-20260902/SHA256SUMS.txt"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/nvfp4-runtime-hardware-gate-20260902/ncu-raw-pm.txt",
+      "source_group": "data-evidence",
+      "size": 27111,
+      "mtime_utc": "2026-09-02T11:57:41.412585+00:00",
+      "sha256": "c2e9097678704e2589bc470877e22bb71da7cc25617744e7eaff8846326d0fad",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/nvfp4-runtime-hardware-gate-20260902/ncu-raw-pm.txt"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/nvfp4-runtime-hardware-gate-20260902/model-config.json",
+      "source_group": "data-evidence",
+      "size": 22564,
+      "mtime_utc": "2026-08-30T10:28:28.855188+00:00",
+      "sha256": "1b3c71868d1299e52df6fc907deb202d5132b1ef0f72aae0ef6d15185dd53a5c",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/nvfp4-runtime-hardware-gate-20260902/model-config.json"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/nvfp4-runtime-hardware-gate-20260902/request-response.json",
+      "source_group": "data-evidence",
+      "size": 569,
+      "mtime_utc": "2026-09-02T10:53:28.345541+00:00",
+      "sha256": "076c16bcac50943b57bc5ca0c912dde86b39ee938840ca5fb5e47f37cf519f10",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/nvfp4-runtime-hardware-gate-20260902/request-response.json"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/nvfp4-runtime-hardware-gate-20260902/nvfp4-startup.nsys-rep",
+      "source_group": "data-evidence",
+      "size": 2181569,
+      "mtime_utc": "2026-09-02T10:52:19.738623+00:00",
+      "sha256": "bae283b22f259dcc393f9e362112c45139d54e88660f069dfc8dd56fefe365b0",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/nvfp4-runtime-hardware-gate-20260902/nvfp4-b12x-tensor-one.ncu-rep",
+      "source_group": "data-evidence",
+      "size": 73161,
+      "mtime_utc": "2026-09-02T11:29:27.518770+00:00",
+      "sha256": "08deaed5d1df8a4c21a39d3e34e922328cc3d1c12298f0894038bfc4f667b58d",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/nvfp4-runtime-hardware-gate-20260902/report1.nsys-rep",
+      "source_group": "data-evidence",
+      "size": 1848541,
+      "mtime_utc": "2026-09-02T10:53:29.443524+00:00",
+      "sha256": "c0f8c85815b9cb2bbd261287c195b6cee11f512144a643cb7b41bd5293997dca",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/model-freeze/nvfp4/files.sha256.tsv.sha256",
+      "source_group": "data-evidence",
+      "size": 83,
+      "mtime_utc": "2026-08-30T11:14:03.343086+00:00",
+      "sha256": "31899a9931aef551b05039065c43df3362b27007a5084e8913691651f828f15a",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/model-freeze/nvfp4/files.sha256.tsv",
+      "source_group": "data-evidence",
+      "size": 1182,
+      "mtime_utc": "2026-08-30T10:55:34.285042+00:00",
+      "sha256": "61ca292358781946f07f0e463efb09ecc41e2438a6e48326d6be62dbcb92c726",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/model-freeze/nvfp4/files.sha256.tsv"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/model-freeze/fp8/files.sha256.tsv.sha256",
+      "source_group": "data-evidence",
+      "size": 83,
+      "mtime_utc": "2026-08-30T11:14:03.341086+00:00",
+      "sha256": "3e1da626b7080116f246f0aceaae973cb219eab6423b462a3922c4d892c06c54",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/data/evidence/qwen38-27b-v1.0/model-freeze/fp8/files.sha256.tsv",
+      "source_group": "data-evidence",
+      "size": 7710,
+      "mtime_utc": "2026-08-30T09:49:04.518099+00:00",
+      "sha256": "22d437b6b6987f4936b784d502f350168df1d2ed3d3fc71ca7f0d986135844f2",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/data-evidence/model-freeze/fp8/files.sha256.tsv"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-immediate-gpu-trace.csv",
+      "source_group": "benchmarks-raw",
+      "size": 8637,
+      "mtime_utc": "2026-09-01T17:00:23.188720+00:00",
+      "sha256": "c00d109ad7683ca4f04e9abffb7e93abecfa78c7e68b8d3322b86a3c1a3adb34",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-immediate-gpu-trace.csv"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-idle-gpu-trace.csv",
+      "source_group": "benchmarks-raw",
+      "size": 8628,
+      "mtime_utc": "2026-09-01T16:52:38.358054+00:00",
+      "sha256": "8ae2b32b12a8295ea63d12b2a3f43fc18a6610afd2e84a4a99bd43789de9ed34",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-idle-gpu-trace.csv"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-power-clock-trace.csv",
+      "source_group": "benchmarks-raw",
+      "size": 7162,
+      "mtime_utc": "2026-09-01T05:50:19.333168+00:00",
+      "sha256": "ca0b18eec5c70ed8e416ff9d5f85716258f0e53da4032d055c2da62f073c3509",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-power-clock-trace.csv"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/tooling/vllm-bench-help.txt",
+      "source_group": "benchmarks-raw",
+      "size": 660,
+      "mtime_utc": "2026-08-31T07:30:52.747117+00:00",
+      "sha256": "81e63f4df1b63f71a11b9d9f72aaa9110a58db69a22a584975d87b6f6d2fa98a",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/tooling/vllm-bench-help.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/tooling/vllm-bench-serve-help.txt",
+      "source_group": "benchmarks-raw",
+      "size": 2045,
+      "mtime_utc": "2026-08-31T07:30:57.847186+00:00",
+      "sha256": "7c58515d31a71bf3dd38d7e840d2a84ad1b0cfa11655a9560d71df22241c612d",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/tooling/vllm-bench-serve-help.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/tooling/vllm-bench-throughput-help.txt",
+      "source_group": "benchmarks-raw",
+      "size": 4078,
+      "mtime_utc": "2026-08-31T07:31:02.977255+00:00",
+      "sha256": "3c618525b1b6c6ab91a517d57eb3da3435edea5b736cc7d5d038dd03ac4e45a5",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/tooling/vllm-bench-throughput-help.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/bf16/formal5-immediate3/formal5-immediate3.json",
+      "source_group": "benchmarks-raw",
+      "size": 35601,
+      "mtime_utc": "2026-09-01T04:39:18.151412+00:00",
+      "sha256": "fcff6389a30d199bf47a77e4ea641b9ebd98c14fe00a1a0ddae857147923f61b",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/bf16/formal5-immediate3/formal5-immediate3.json"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/bf16/formal5-steady/formal5-steady.json",
+      "source_group": "benchmarks-raw",
+      "size": 35578,
+      "mtime_utc": "2026-09-01T02:08:09.999752+00:00",
+      "sha256": "b5470fd13e6d5286a24cdaba1516a34a708f7007bbdeb44e41acda61e729d638",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/bf16/formal5-steady/formal5-steady.json"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/bf16/formal100/formal100.log",
+      "source_group": "benchmarks-raw",
+      "size": 12025,
+      "mtime_utc": "2026-08-31T22:30:13.130397+00:00",
+      "sha256": "6e0b9e4ba5f6dc5ba749c9daa8b42af8f7206407fc64398483c806279bc659cd",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/bf16/formal100/formal100.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/bf16/formal100/formal100.json",
+      "source_group": "benchmarks-raw",
+      "size": 664308,
+      "mtime_utc": "2026-08-31T22:30:13.128397+00:00",
+      "sha256": "19a363a0c0db114361efa7fa45ea086f804d9dee69863ff5fa724764faf7f04a",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/bf16/formal100/formal100.json"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/bf16/formal5/server.log",
+      "source_group": "benchmarks-raw",
+      "size": 285336,
+      "mtime_utc": "2026-09-01T08:06:38.813769+00:00",
+      "sha256": "ac8e7d5118786a49ee0b716d0abdc94676963c4ff7cb3cad26d0741138535e97",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/bf16/formal5/server.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/bf16/formal5/formal5.json",
+      "source_group": "benchmarks-raw",
+      "size": 35584,
+      "mtime_utc": "2026-08-31T18:56:45.654851+00:00",
+      "sha256": "5ba736d89d71e6276f399611696ca1e5c81b93eb1e1718aa6019d9c334f68c4c",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/bf16/formal5/formal5.json"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/bf16/formal5-immediate2/formal5-immediate2.json",
+      "source_group": "benchmarks-raw",
+      "size": 35573,
+      "mtime_utc": "2026-09-01T02:41:09.346677+00:00",
+      "sha256": "a0ff861b10c57b53cd2983f2e09d9f07d0aa452cd36b7f9c3e092dd308436604",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/bf16/formal5-immediate2/formal5-immediate2.json"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/nvfp4/formal100/formal100.log",
+      "source_group": "benchmarks-raw",
+      "size": 11889,
+      "mtime_utc": "2026-08-31T13:47:03.301624+00:00",
+      "sha256": "815e624c3afa85237d73aa3faa2820816178969ce129dcecc7f02de0a74b5d36",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/nvfp4/formal100/formal100.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/nvfp4/formal100/formal100.json",
+      "source_group": "benchmarks-raw",
+      "size": 670639,
+      "mtime_utc": "2026-08-31T13:47:03.300624+00:00",
+      "sha256": "59efc3ddfcfbc3067d3d56257b2ed6f95bb2f9f712ca270f356125ac40b07380",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/nvfp4/formal100/formal100.json"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/nvfp4/formal5/server.log",
+      "source_group": "benchmarks-raw",
+      "size": 154376,
+      "mtime_utc": "2026-08-31T14:30:49.876095+00:00",
+      "sha256": "71bb8af7e8354baf87d6e49dfc78b96a489ae8b673151dbd768a85c32f47b754",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/nvfp4/formal5/server.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/nvfp4/formal5/formal5.json",
+      "source_group": "benchmarks-raw",
+      "size": 35069,
+      "mtime_utc": "2026-08-31T11:39:55.445336+00:00",
+      "sha256": "e12be1abcc45e3a8f648b66afaaff3bde1e319f763f220c7ae007c083d255b98",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/nvfp4/formal5/formal5.json"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/fp8/formal100/formal100.log",
+      "source_group": "benchmarks-raw",
+      "size": 11939,
+      "mtime_utc": "2026-08-31T17:33:58.596590+00:00",
+      "sha256": "34d5fcd75062f99dac0846758ee4c911b393e1e5e87af84efedc43532e15788b",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/fp8/formal100/formal100.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/fp8/formal100/formal100.json",
+      "source_group": "benchmarks-raw",
+      "size": 682069,
+      "mtime_utc": "2026-08-31T17:33:58.595590+00:00",
+      "sha256": "3536944d581edd156023ea946f1ea1090093724bc926dbf63e8c0df7b9fb622c",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/fp8/formal100/formal100.json"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/fp8/formal5/server.log",
+      "source_group": "benchmarks-raw",
+      "size": 190594,
+      "mtime_utc": "2026-08-31T17:46:25.505349+00:00",
+      "sha256": "549092ded8e13f64420b58d3adc61a47766dce8a40641cf4b053e1ee65fcc0fe",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/fp8/formal5/server.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/fp8/formal5/formal5.json",
+      "source_group": "benchmarks-raw",
+      "size": 47792,
+      "mtime_utc": "2026-08-31T15:25:49.246879+00:00",
+      "sha256": "311e509ecf516f6b3690cdc590667ccc3a27408ea714d407eb4c8e43fa13722c",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/formal-32k/fp8/formal5/formal5.json"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/B0_calibration/bf16/server.log",
+      "source_group": "benchmarks-raw",
+      "size": 31189,
+      "mtime_utc": "2026-08-31T10:31:00.827514+00:00",
+      "sha256": "8597ee2d82d910152792f2ace881b641bfbab2e9e59c56da5756bb37a1b70678",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/B0_calibration/bf16/server.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/B0_calibration/nvfp4/server.log",
+      "source_group": "benchmarks-raw",
+      "size": 28718,
+      "mtime_utc": "2026-08-31T09:08:05.113409+00:00",
+      "sha256": "88b79b984c3f4b0fa0b6dc9569b8e2baf43308aeca7a4e6a25bbe62b24c09b10",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/B0_calibration/nvfp4/server.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/B0_calibration/fp8/server.log",
+      "source_group": "benchmarks-raw",
+      "size": 33484,
+      "mtime_utc": "2026-08-31T09:43:59.196044+00:00",
+      "sha256": "e475955fcb5d003f74c1042ab95659c0abab0f7e9ba0c056533de378bc52b851",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/B0_calibration/fp8/server.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/B0_calibration/nvfp4/aborted-gpu-memory-utilization-085/warmup.json",
+      "source_group": "benchmarks-raw",
+      "size": 1109,
+      "mtime_utc": "2026-08-31T07:53:06.767670+00:00",
+      "sha256": "cf0d6e1db6ff6dbb9b1e3d7a0130b1c2921fe5bf6b24e0e7762d515deef55164",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/B0_calibration/nvfp4/aborted-gpu-memory-utilization-085/warmup.json"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/B0_calibration/nvfp4/aborted-gpu-memory-utilization-085/server.log",
+      "source_group": "benchmarks-raw",
+      "size": 21474,
+      "mtime_utc": "2026-08-31T08:10:27.638269+00:00",
+      "sha256": "e999bacd09944e81bf8af218ccbffda806c8fbc8bfee8869f7698342ea46c165",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/B0_calibration/nvfp4/aborted-gpu-memory-utilization-085/server.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/B0_calibration/nvfp4/aborted-gpu-memory-utilization-085/b0-nvfp4-server-gpu085.json",
+      "source_group": "benchmarks-raw",
+      "size": 457,
+      "mtime_utc": "2026-08-31T08:13:03.576060+00:00",
+      "sha256": "1b11bf00979362e6322dbf2c75520618375bece313ec534f51d89576df5a8989",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/B0_calibration/nvfp4/aborted-gpu-memory-utilization-085/b0-nvfp4-server-gpu085.json"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/B0_calibration/nvfp4/aborted-gpu-memory-utilization-085/warmup.log",
+      "source_group": "benchmarks-raw",
+      "size": 5678,
+      "mtime_utc": "2026-08-31T07:53:06.767670+00:00",
+      "sha256": "523f767fce870d2cbd4cce17971553453839965f086a78dbbb00b47d1a33ef0b",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/B0_calibration/nvfp4/aborted-gpu-memory-utilization-085/warmup.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-startup-count/startup.sqlite",
+      "source_group": "benchmarks-raw",
+      "size": 3067904,
+      "mtime_utc": "2026-09-02T07:42:37.388037+00:00",
+      "sha256": "ec3214fb3789480d1eb13a7ef4987af0bc54abf79ad0ab1d120db4a7fdd99821",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-startup-count/server.log",
+      "source_group": "benchmarks-raw",
+      "size": 21185,
+      "mtime_utc": "2026-09-02T07:44:26.490972+00:00",
+      "sha256": "cb2fccb3ce7458173161fd3e09e2549ca66df312fabbb093325789321ff6172d",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-startup-count/server.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-startup-count/startup.nsys-rep",
+      "source_group": "benchmarks-raw",
+      "size": 1440085,
+      "mtime_utc": "2026-09-02T07:41:57.008051+00:00",
+      "sha256": "ce253a816cd2d4d9c9be7da0b7b83397bf88ad065cbbc4f81f6a9e9619d226d9",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-ncu-laa/server.log",
+      "source_group": "benchmarks-raw",
+      "size": 22597,
+      "mtime_utc": "2026-09-02T06:47:34.468158+00:00",
+      "sha256": "71f48f35d5fae6107c50462e8ac1460c291e459db43b989d26e2e0612fac1bd6",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-ncu-laa/server.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/fp8-kernel-trace/server.log",
+      "source_group": "benchmarks-raw",
+      "size": 28890,
+      "mtime_utc": "2026-09-02T10:10:29.712614+00:00",
+      "sha256": "937fa83af58ded7ffeef06a22f47bcc3d891f477af445e4092c267437d55df8d",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/fp8-kernel-trace/server.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/fp8-kernel-trace/request-window.txt",
+      "source_group": "benchmarks-raw",
+      "size": 86,
+      "mtime_utc": "2026-09-02T09:58:17.592603+00:00",
+      "sha256": "7e221f1ef3c7647e85cfc268833253ee5734c4229d3a9cdeb27f10d5e2c642b3",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/fp8-kernel-trace/request-window.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/fp8-kernel-trace/fp8-kernel.nsys-rep",
+      "source_group": "benchmarks-raw",
+      "size": 582556,
+      "mtime_utc": "2026-09-02T10:00:07.845685+00:00",
+      "sha256": "d8e1970d4c344bf0deeb4247abafb751c8d868f5454028addff08e48c9f7de4d",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/fp8-kernel-trace/fp8-kernel.sqlite",
+      "source_group": "benchmarks-raw",
+      "size": 946176,
+      "mtime_utc": "2026-09-02T10:00:56.976278+00:00",
+      "sha256": "3fbf51049633e17788daffa489c4a2acb62341e181236adb400d36abf84443dd",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/fp8-kernel-trace/request2-window.txt",
+      "source_group": "benchmarks-raw",
+      "size": 88,
+      "mtime_utc": "2026-09-02T10:05:11.951187+00:00",
+      "sha256": "f9ea0897c9a31ae90fe845986b222f8bca7f39643278afac29179605a913370a",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/fp8-kernel-trace/request2-window.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/fp8-kernel-trace/request-response.json",
+      "source_group": "benchmarks-raw",
+      "size": 565,
+      "mtime_utc": "2026-09-02T09:58:17.587603+00:00",
+      "sha256": "c75b1821e11940c8668306dfe1c38976f267eceed3a4db773f65799a9340b4f7",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/fp8-kernel-trace/request-response.json"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/fp8-kernel-trace/request2-response.json",
+      "source_group": "benchmarks-raw",
+      "size": 566,
+      "mtime_utc": "2026-09-02T10:05:11.945187+00:00",
+      "sha256": "8ae7ee37026df372d0cda0747856f5670657011a63b0c1f55a11335306f98556",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/fp8-kernel-trace/request2-response.json"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-ncu/server.log",
+      "source_group": "benchmarks-raw",
+      "size": 2526,
+      "mtime_utc": "2026-09-02T06:33:56.620207+00:00",
+      "sha256": "fbf626358bd220788652d42a86476636d9e785a11394ab62e4fdaf294b24d0df",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-ncu/server.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-ncu/startup-probe.log",
+      "source_group": "benchmarks-raw",
+      "size": 352,
+      "mtime_utc": "2026-09-02T06:33:56.303207+00:00",
+      "sha256": "db79d3a5e864e31607f16c278052ae9c8b937adb324c544960cdae367ab7f560",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-ncu/startup-probe.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-paired-kernel/B-immediate.log",
+      "source_group": "benchmarks-raw",
+      "size": 4610,
+      "mtime_utc": "2026-09-01T18:52:32.514175+00:00",
+      "sha256": "a6618978383a1d8a2982b51b5e9a4e0c9b8243f908fde35d7580ee54e571d9b5",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-paired-kernel/B-immediate.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-paired-kernel/server.log",
+      "source_group": "benchmarks-raw",
+      "size": 34242,
+      "mtime_utc": "2026-09-02T06:10:58.429642+00:00",
+      "sha256": "74aee74c61e35f664c72749ec1324a0f3aa3f7edeecc92bed0f968eb9358581e",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-paired-kernel/server.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-paired-kernel/A-idle-return.log",
+      "source_group": "benchmarks-raw",
+      "size": 4610,
+      "mtime_utc": "2026-09-01T18:50:45.820591+00:00",
+      "sha256": "03336558ee5cca919f0bd19174c843edefa70b3a66588c6e9e53c3c0e7a0c973",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-paired-kernel/A-idle-return.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-paired-kernel/paired.nsys-rep",
+      "source_group": "benchmarks-raw",
+      "size": 98943285,
+      "mtime_utc": "2026-09-01T18:52:48.615972+00:00",
+      "sha256": "fd53255719854164524bc11901347eb14f7d481fb82d0c0a28e93786d38dc4e3",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-paired-kernel/paired.sqlite",
+      "source_group": "benchmarks-raw",
+      "size": 247922688,
+      "mtime_utc": "2026-09-01T19:00:17.781098+00:00",
+      "sha256": "f0f00b4145edf8ce774577baaf77f5dce1c12a27142554ecda321d8a8cdaf3d7",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-paired-kernel/paired-times.txt",
+      "source_group": "benchmarks-raw",
+      "size": 119,
+      "mtime_utc": "2026-09-01T18:52:32.727172+00:00",
+      "sha256": "da5a671756fce9285e9d801e8f05a76bbaa19a69ef462514d6ee1dca3cda337d",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-paired-kernel/paired-times.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/nvfp4-kernel-trace/cuda-kernel-summary.txt",
+      "source_group": "benchmarks-raw",
+      "size": 13381,
+      "mtime_utc": "2026-09-02T10:54:12.403880+00:00",
+      "sha256": "cc0bd6acb30e7fc695869914a38567b74903165bfcf3b022743772ccff8345cf",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/nvfp4-kernel-trace/cuda-kernel-summary.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/nvfp4-kernel-trace/server.log",
+      "source_group": "benchmarks-raw",
+      "size": 23734,
+      "mtime_utc": "2026-09-02T10:59:32.898653+00:00",
+      "sha256": "138f71dbeafdbebf0137a425b6610554e83deeb5c871d8008c9d4c2b146f1c98",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/nvfp4-kernel-trace/server.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/nvfp4-kernel-trace/request-window.txt",
+      "source_group": "benchmarks-raw",
+      "size": 86,
+      "mtime_utc": "2026-09-02T10:53:28.353540+00:00",
+      "sha256": "a35825452b001884e0a8e6aa1fef59c741adea22d2df3108c732f981adfcef69",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/nvfp4-kernel-trace/request-window.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/nvfp4-kernel-trace/nvfp4-startup.sqlite",
+      "source_group": "benchmarks-raw",
+      "size": 4894720,
+      "mtime_utc": "2026-09-02T10:56:48.046726+00:00",
+      "sha256": "84eb2cc180e2315e626bacda50eb19f84a2c11c8974d3b46c41c7d0f72c079a1",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/nvfp4-kernel-trace/report1.sqlite",
+      "source_group": "benchmarks-raw",
+      "size": 4505600,
+      "mtime_utc": "2026-09-02T10:54:12.361880+00:00",
+      "sha256": "bbc197544bc4f40574b4d5015ae87687273940e73a52136b5a92a8a06629dee1",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/nvfp4-kernel-trace/request-response.json",
+      "source_group": "benchmarks-raw",
+      "size": 569,
+      "mtime_utc": "2026-09-02T10:53:28.345541+00:00",
+      "sha256": "076c16bcac50943b57bc5ca0c912dde86b39ee938840ca5fb5e47f37cf519f10",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/nvfp4-kernel-trace/request-response.json"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/nvfp4-kernel-trace/nvfp4-startup.nsys-rep",
+      "source_group": "benchmarks-raw",
+      "size": 2181569,
+      "mtime_utc": "2026-09-02T10:52:19.738623+00:00",
+      "sha256": "bae283b22f259dcc393f9e362112c45139d54e88660f069dfc8dd56fefe365b0",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/nvfp4-kernel-trace/report1.nsys-rep",
+      "source_group": "benchmarks-raw",
+      "size": 1848541,
+      "mtime_utc": "2026-09-02T10:53:29.443524+00:00",
+      "sha256": "c0f8c85815b9cb2bbd261287c195b6cee11f512144a643cb7b41bd5293997dca",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-uvm-nsys/server.log",
+      "source_group": "benchmarks-raw",
+      "size": 31907,
+      "mtime_utc": "2026-09-01T17:14:32.690058+00:00",
+      "sha256": "77c3806d71208c0fa3525dcd16e164ead6c9c91dbd7793de41b892d98f25782f",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-uvm-nsys/server.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-uvm-nsys/cold1-bench.log",
+      "source_group": "benchmarks-raw",
+      "size": 4607,
+      "mtime_utc": "2026-09-01T16:20:22.321770+00:00",
+      "sha256": "cf9e1f0b58514b8f530e5175f7eb99a8bc53d1605b33cf2b331931f5a0b60e25",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-uvm-nsys/cold1-bench.log.txt"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-uvm-nsys/bf16-uvm-cold.sqlite",
+      "source_group": "benchmarks-raw",
+      "size": 122966016,
+      "mtime_utc": "2026-09-01T16:26:26.387968+00:00",
+      "sha256": "96a21052cef54164fbf7f50c2a664ddadc5b63719105586e3e79f65eac126ea8",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-uvm-nsys/bf16-uvm-cold.nsys-rep",
+      "source_group": "benchmarks-raw",
+      "size": 48471432,
+      "mtime_utc": "2026-09-01T16:20:34.606782+00:00",
+      "sha256": "d00936938dd8f308e06caabafc1784e27e707b715c42819a48db0aac15d6679f",
+      "archive": "manifest-only: binary-or-oversize"
+    },
+    {
+      "source": "$HOME/xxj/benchmarks/raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-cold-fault/server.log",
+      "source_group": "benchmarks-raw",
+      "size": 35379,
+      "mtime_utc": "2026-09-01T15:56:36.005032+00:00",
+      "sha256": "6e0d8a62d30292e5ea8c2260975c82fa7486fe27b8f5c92f8a3ad6adb74b950a",
+      "archive": "copied-redacted-text",
+      "repo_path": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/raw/benchmarks-raw/local-llm-cross-platform-benchmark/qwen38-27b-v1.0/gx10-single/diagnostics/bf16-cold-fault/server.log.txt"
+    }
+  ]
+}
