@@ -1,18 +1,18 @@
 nohup: ignoring input
 ==PROF== Waiting for profiler to attach on ports 49160-49223
-(APIServer pid=69806) INFO 09-02 <IPV6_REDACTED> [api_utils.py:333] 
-(APIServer pid=69806) INFO 09-02 <IPV6_REDACTED> [api_utils.py:333]        █     █     █▄   ▄█
-(APIServer pid=69806) INFO 09-02 <IPV6_REDACTED> [api_utils.py:333]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.28.0
-(APIServer pid=69806) INFO 09-02 <IPV6_REDACTED> [api_utils.py:333]   █▄█▀ █     █     █     █  model   $HOME/xxj/models/original/qwen3.8-27b/bf16/1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0
-(APIServer pid=69806) INFO 09-02 <IPV6_REDACTED> [api_utils.py:333]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
-(APIServer pid=69806) INFO 09-02 <IPV6_REDACTED> [api_utils.py:333] 
-(APIServer pid=69806) INFO 09-02 <IPV6_REDACTED> [api_utils.py:272] non-default args: {'model_tag': '$HOME/xxj/models/original/qwen3.8-27b/bf16/1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0', 'host': '<IP_REDACTED>', 'model': '$HOME/xxj/models/original/qwen3.8-27b/bf16/1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0', 'max_model_len': 65536, 'enforce_eager': True, 'served_model_name': ['qwen38-27b-bf16-ncu'], 'gpu_memory_utilization': 0.6, 'enable_prefix_caching': False, 'max_num_seqs': 1}
-(APIServer pid=69806) INFO 09-02 <IPV6_REDACTED> [model.py:672] Resolved architecture: Qwen3_5ForConditionalGeneration
-(APIServer pid=69806) INFO 09-02 <IPV6_REDACTED> [model.py:1965] Using max model len 65536
-(APIServer pid=69806) WARNING 09-02 <IPV6_REDACTED> [vllm.py:1285] Enforce eager set, disabling torch.compile and CUDAGraphs. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none
-(APIServer pid=69806) WARNING 09-02 <IPV6_REDACTED> [vllm.py:1354] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
-(APIServer pid=69806) INFO 09-02 <IPV6_REDACTED> [kernel.py:308] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'])
-(APIServer pid=69806) INFO 09-02 <IPV6_REDACTED> [vllm.py:1533] Cudagraph is disabled under eager mode
-(APIServer pid=69806) INFO 09-02 <IPV6_REDACTED> [compilation.py:329] Enabled custom fusions: norm_quant, act_quant
+(APIServer pid=69806) INFO 09-02 14:23:15 [api_utils.py:333] 
+(APIServer pid=69806) INFO 09-02 14:23:15 [api_utils.py:333]        █     █     █▄   ▄█
+(APIServer pid=69806) INFO 09-02 14:23:15 [api_utils.py:333]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.28.0
+(APIServer pid=69806) INFO 09-02 14:23:15 [api_utils.py:333]   █▄█▀ █     █     █     █  model   $HOME/xxj/models/original/qwen3.8-27b/bf16/1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0
+(APIServer pid=69806) INFO 09-02 14:23:15 [api_utils.py:333]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+(APIServer pid=69806) INFO 09-02 14:23:15 [api_utils.py:333] 
+(APIServer pid=69806) INFO 09-02 14:23:15 [api_utils.py:272] non-default args: {'model_tag': '$HOME/xxj/models/original/qwen3.8-27b/bf16/1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0', 'host': '<IP_REDACTED>', 'model': '$HOME/xxj/models/original/qwen3.8-27b/bf16/1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0', 'max_model_len': 65536, 'enforce_eager': True, 'served_model_name': ['qwen38-27b-bf16-ncu'], 'gpu_memory_utilization': 0.6, 'enable_prefix_caching': False, 'max_num_seqs': 1}
+(APIServer pid=69806) INFO 09-02 14:23:15 [model.py:672] Resolved architecture: Qwen3_5ForConditionalGeneration
+(APIServer pid=69806) INFO 09-02 14:23:15 [model.py:1965] Using max model len 65536
+(APIServer pid=69806) WARNING 09-02 14:23:16 [vllm.py:1285] Enforce eager set, disabling torch.compile and CUDAGraphs. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none
+(APIServer pid=69806) WARNING 09-02 14:23:16 [vllm.py:1354] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+(APIServer pid=69806) INFO 09-02 14:23:16 [kernel.py:308] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'])
+(APIServer pid=69806) INFO 09-02 14:23:16 [vllm.py:1533] Cudagraph is disabled under eager mode
+(APIServer pid=69806) INFO 09-02 14:23:16 [compilation.py:329] Enabled custom fusions: norm_quant, act_quant
 (APIServer pid=69806) [transformers] The `use_fast` parameter is deprecated and will be removed in a future version. Use `backend="torchvision"` instead of `use_fast=True`, or `backend="pil"` instead of `use_fast=False`.
 ==ERROR== The application returned an error code (9).

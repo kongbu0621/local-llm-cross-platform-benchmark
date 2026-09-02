@@ -14,7 +14,7 @@ Weight_Block_Size=128x128
 
 Runtime=vLLM 0.28.0
 
-Runtime_FP8_Kernel=vllm::cutlass_3x_gemm_fp8_blockwise
+Runtime_FP8_Kernel=vllm<IPV6_REDACTED>utlass_3x_gemm_fp8_blockwise
 Kernel_Schedule=KernelTmaWarpSpecializedBlockwiseCooperativeSm120
 
 Nsight_Systems=2025.3.2

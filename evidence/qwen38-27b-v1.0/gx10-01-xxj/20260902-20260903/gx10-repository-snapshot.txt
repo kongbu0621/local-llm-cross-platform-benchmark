@@ -5,5 +5,5 @@ github	git@github.com:kongbu0621/local-llm-cross-platform-benchmark.git (push)
 origin	ssh://git-authority/repos/local-llm-cross-platform-benchmark.git (fetch)
 origin	ssh://git-authority/repos/local-llm-cross-platform-benchmark.git (push)
 Python 3.12.3
-Linux gx10-01-xxj 6.17.0-1031-nvidia #31-Ubuntu SMP PREEMPT_DYNAMIC Fri Jul 24 <IPV6_REDACTED> UTC 2026 aarch64 aarch64 aarch64 GNU/Linux
+Linux gx10-01-xxj 6.17.0-1031-nvidia #31-Ubuntu SMP PREEMPT_DYNAMIC Fri Jul 24 22:03:06 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux
 NVIDIA GB10, [N/A], 580.173.02
