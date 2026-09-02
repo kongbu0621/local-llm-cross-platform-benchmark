@@ -4,6 +4,29 @@
 
 本仓库不只比较 `tokens/s`。目标是记录同一模型在不同真实硬件、操作系统、推理栈、量化、上下文长度和工作负载下的 **质量、性能、内存、稳定性、效率与可复现证据**。
 
+## 当前已验证实测结果
+
+> 当前首页只展示已经完成并有证据链支持的结果。下面的 Formal100 是 **32768 input + 256 output**，不是仓库固定定义的 `E2E@32K`（32768 input + 32768 output）。
+
+| Hardware | Model | Precision | Actual workload | Effective PP (tok/s) | TTFT (ms) | Decode (tok/s) | E2E (ms) | Completion | 详情 |
+| --- | --- | --- | --- | ---: | ---: | ---: | ---: | --- | --- |
+| 1× GX10 / GB10 | Qwen3.8-27B | BF16 | 32K + 256 | ~936 | 34991.595742 | 3.961224787 | 99365.624916 | 100/100 | [BF16 / 总分表](docs/results/qwen38-27b-gx10-20260903.md#formal100-性能分表) |
+| 1× GX10 / GB10 | Qwen3.8-27B | FP8 | 32K + 256 | ~1187 | 27602.710144 | 6.378244907 | 67582.360302 | 100/100 | [FP8 / 总分表](docs/results/qwen38-27b-gx10-20260903.md#formal100-性能分表) |
+| 1× GX10 / GB10 | Qwen3.8-27B | NVFP4 | 32K + 256 | ~1301 | 25194.248710 | 9.080872275 | 53275.251533 | 100/100 | [NVFP4 / 总分表](docs/results/qwen38-27b-gx10-20260903.md#formal100-性能分表) |
+
+`Effective PP` 是由总输入 token / TTFT 推导出的有效值，不是纯 prefill kernel benchmark。
+
+### 分表详情
+
+- **性能分表（Formal100）**：[BF16 / FP8 / NVFP4 横向对比](docs/results/qwen38-27b-gx10-20260903.md#formal100-性能分表)
+- **Runtime / Hardware Gate 分表**：[FP8 / NVFP4 kernel 与 profiler 证据](docs/results/qwen38-27b-gx10-20260903.md#runtime--hardware-gate-分表)
+- **过程与失败证据分表**：[B0、Diagnostics、Formal5/100、Model Freeze、Profiler inventory](docs/results/qwen38-27b-gx10-20260903.md#过程与失败证据分表)
+- **历史过程**：[2026-08-29 ～ 2026-09-03 GX10 / Qwen3.8-27B 实测历史](docs/history/2026-08-29-to-2026-09-03-gx10-qwen38-27b.md)
+- **完整证据清单**：[GX10 evidence manifest](evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/manifest.json)
+- **结构化汇总**：[GX10 Qwen3.8 history summary](evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/summary.json)
+
+后续 128K / 256K / 384K / 512K / 768K / 1M、质量测试、PRO 6000、2×/4× GB10、Apple / AMD 等完成后，继续追加到首页总表和对应分表；没有可靠实测的数据不补洞。
+
 ## 核心原则
 
 1. **主结果只来自真实拥有并实际运行过的硬件。** `planned` 仅表示未来可能接入，不进入正式结果或排名。
