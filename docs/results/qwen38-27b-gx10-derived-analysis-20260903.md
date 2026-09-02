@@ -42,11 +42,13 @@
 
 百分比之外，直接看每个 32K+256 请求少等多少秒：
 
-| 对比 | TTFT 少等 | E2E 少等 |
-| --- | ---: | ---: |
-| FP8 vs BF16 | 7.389 s | 31.783 s |
-| NVFP4 vs BF16 | 9.797 s | 46.090 s |
-| NVFP4 vs FP8 | 2.408 s | 14.307 s |
+| 对比 | TTFT 少等 | Post-first-token 少等* | E2E 少等 |
+| --- | ---: | ---: | ---: |
+| FP8 vs BF16 | 7.389 s | 24.394 s | 31.783 s |
+| NVFP4 vs BF16 | 9.797 s | 36.293 s | 46.090 s |
+| NVFP4 vs FP8 | 2.408 s | 11.899 s | 14.307 s |
+
+\* `Post-first-token = E2E - TTFT`，是同一批均值的 Derived 差值，不是 pure decode kernel time。
 
 这对交互式 Agent 更直观：NVFP4 相比 BF16，每次请求平均约 **提前 9.8 秒开始回复、提前 46.1 秒完成**。
 
@@ -80,15 +82,15 @@ requests/hour = completed_requests / benchmark_duration_seconds × 3600
 
 把 E2E 粗分为 `TTFT` 与 `E2E - TTFT` 两段：
 
-| Precision | TTFT share of E2E | TTFT (s) | Post-first-token tail (s) |
-| --- | ---: | ---: | ---: |
-| BF16 | 35.21% | 34.992 | 64.374 |
-| FP8 | 40.84% | 27.603 | 39.980 |
-| NVFP4 | 47.29% | 25.194 | 28.081 |
+| Precision | TTFT share of E2E | TTFT (s) | Post-first-token tail (s) | Tail share of E2E |
+| --- | ---: | ---: | ---: | ---: |
+| BF16 | 35.21% | 34.992 | 64.374 | 64.79% |
+| FP8 | 40.84% | 27.603 | 39.980 | 59.16% |
+| NVFP4 | 47.29% | 25.194 | 28.081 | 52.71% |
 
 **重要结论：** 随着 Decode 大幅加速，TTFT/输入处理在 E2E 中的占比从 BF16 的约 35% 提升到 NVFP4 的约 47%。所以在 NVFP4 上继续只优化 Decode，边际收益会下降；**Prefill/TTFT 正在成为下一阶段更值得优化的瓶颈。**
 
-注意：`E2E - TTFT` 是端到端剩余时间，不是严格 pure decode kernel time。
+注意：`E2E - TTFT` 是端到端剩余时间，不是严格 pure decode kernel time；这里描述的是**相对瓶颈占比迁移**，不是说 NVFP4 的 Prefill 变慢。NVFP4 的 Effective Prefill 仍是三档最快。
 
 ## 8. Formal100 稳定性衍生指标
 
@@ -102,15 +104,15 @@ requests/hour = completed_requests / benchmark_duration_seconds × 3600
 
 三档在当前 Formal100 内的相对波动都约 1% 或更低；NVFP4 的 TTFT/E2E CV 最低。
 
-### 8.2 P99 tail amplification
+### 8.2 P99 tail：百分比和“多等几秒”
 
-| Precision | TTFT P99 vs mean | TPOT P99 vs mean | E2E P99 vs mean |
-| --- | ---: | ---: | ---: |
-| BF16 | +4.04% | +2.32% | +2.71% |
-| FP8 | +3.31% | +3.17% | +3.37% |
-| NVFP4 | +3.68% | +2.86% | +3.25% |
+| Precision | TTFT P99 vs mean | TTFT P99 多等 | TPOT P99 vs mean | E2E P99 vs mean | E2E P99 多等 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| BF16 | +4.04% | +1.414 s | +2.32% | +2.71% | +2.691 s |
+| FP8 | +3.31% | +0.914 s | +3.17% | +3.37% | +2.276 s |
+| NVFP4 | +3.68% | +0.928 s | +2.86% | +3.25% | +1.729 s |
 
-P99 没有数量级放大，说明当前 warm 100-request 短输出批次尾部可控；它不能替代 24h soak、长输出或长上下文稳定性。
+P99 没有数量级放大。当前最慢约 1% 请求相对均值多出的 E2E 等待仍约 1.7～2.7 秒；它不能替代 24h soak、长输出或长上下文稳定性。
 
 ## 9. Formal5 → Formal100 可重复性
 
@@ -136,16 +138,28 @@ FP8/NVFP4 的阶段均值与 Formal100 高度接近；BF16 多轮 Formal5 有明
 
 1. **当前 warm 32K+256 workload 的综合效率排序稳定：NVFP4 > FP8 > BF16。** 排序同时体现在 Effective Prefill、TTFT、TPOT、Decode、E2E、duration 与 requests/hour；
 2. **NVFP4 的最大优势来自 Decode，但瓶颈已向 TTFT/Prefill 迁移。** 相对 FP8，Decode +42.37%，Effective Prefill +9.56%；TTFT 已占 NVFP4 E2E 的约 47%；
-3. **真实时间成本差异很大。** NVFP4 相对 BF16 每 100 requests 少约 76m49s；对持续 Agent 队列具有直接价值；
-4. **FP8/NVFP4 的 Formal5→Formal100 漂移很小。** 对当前 workload，小样本 gate 对 warm-batch 正式均值有较好的预测性；
-5. **BF16 对阶段状态更敏感。** 这一结论来自多轮 latency/throughput 的真实变化，不再用 `max_output_tokens_per_s` 的错误“限速”解释；
-6. **当前 100/100 + 低 CV/P99 tail 是批次稳定证据，不是系统长期稳定证据；**
-7. **Hardware Gate 与性能/质量是不同证据链。** FP8/NVFP4 kernel/hardware path 已闭环，但不能自动推出质量；
-8. **这批结果是 partial suite evidence。** 因为有 warmup 且缺 Pure Prefill/Peak Memory/KV/cold-cache/long-output 等，不应标成完整 frozen suite PASS。
+3. **真实时间成本差异很大。** NVFP4 相对 BF16 每请求平均少约 46.1 秒；每 100 requests 少约 76m49s；
+4. **等效串行处理能力接近翻倍。** 当前 workload 下 NVFP4 约 67.6 requests/hour，BF16 约 36.2，提升约 86.5%；
+5. **FP8/NVFP4 的 Formal5→Formal100 漂移很小。** 对当前 workload，小样本 gate 对 warm-batch 正式均值有较好的预测性；
+6. **BF16 对阶段状态更敏感。** 这一结论来自多轮 latency/throughput 的真实变化，不再用 `max_output_tokens_per_s` 的错误“限速”解释；
+7. **当前 100/100 + 低 CV/P99 tail 是批次稳定证据，不是系统长期稳定证据；**
+8. **Hardware Gate 与性能/质量是不同证据链。** FP8/NVFP4 kernel/hardware path 已闭环，但不能自动推出质量；
+9. **这批结果是 partial suite evidence。** 有 warmup 且缺 Pure Prefill/Peak Memory/KV/cold-cache/long-output 等，不应标成完整 frozen suite PASS。
 
-## 12. 仍然不能从现有数据算出的东西
+## 12. 有公式但本轮故意不做的“伪衍生”
 
-必须新增真实测试，不能数学外推：
+下面这些虽然可以拿当前均值硬算，却会跨越实测边界，因此**不进入正式结论**：
+
+- 用 256-output TPOT 外推 8K/32K output 完成时间；
+- 用 32K Effective Prefill 线性外推 128K/256K/1M TTFT；
+- 用启动/诊断日志里的 KV 信息外推目标 context Peak Memory；
+- 用 100-request 完成率外推 24h failure rate；
+- 用 Hardware Gate 推导模型质量；
+- 用单 GX10 结果推导 2×/4× scaling efficiency。
+
+这些都必须新增真实测试。
+
+## 13. 仍然不能从现有数据算出的东西
 
 - Pure Prefill `pp_tps`；
 - 正式 cold-cache isolation 结果；
