@@ -30,7 +30,13 @@
     "version": "0.28.0",
     "commit": null,
     "command": null,
-    "optimization_stack": ["compressed-tensors", "FlashInfer B12x NVFP4 linear backend", "gpu_memory_utilization=0.85", "prefix cache disabled", "enforce eager"]
+    "optimization_stack": [
+      "compressed-tensors",
+      "FlashInfer B12x NVFP4 linear backend",
+      "gpu_memory_utilization=0.85",
+      "prefix cache disabled",
+      "enforce eager"
+    ]
   },
   "workload": {
     "kind": "b0_calibration_single_request",
@@ -74,10 +80,7 @@
     "completed": false,
     "error_class": "HTTP_502_BAD_GATEWAY_ALL_REQUESTS_FAILED",
     "completed_requests": 0,
-    "failed_requests": 1,
-    "oom": false,
-    "timeout": false,
-    "context_truncated": false
+    "failed_requests": 1
   },
   "evidence": {
     "environment_snapshot": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/gx10-repository-snapshot.txt",
@@ -91,6 +94,7 @@
   "interpretation_limits": [
     "The client observed Bad Gateway and 0/1 completion; this record does not claim a proven root cause beyond that observed failure.",
     "gpu_memory_utilization=0.85 identifies the attempted configuration, not by itself the causal diagnosis.",
+    "OOM, timeout, and context-truncation status are not asserted because this archived evidence does not prove those root-cause flags.",
     "Zero values in the raw vLLM failure JSON are not valid performance measurements; canonical measurement fields are null here."
   ]
 }
