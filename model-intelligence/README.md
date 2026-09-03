@@ -1,28 +1,24 @@
-# Model Intelligence — Registry Set / 模型情报输入面
+# Model Intelligence — Primary Registry / 模型情报输入面
 
 本目录负责**候选发现、Variant 身份、外部证据与第一方测试优先级**。它不是 Production Recommendation 榜单。
 
 ## 机器文件怎么分
 
-Model Intelligence 现在是一个逻辑 Registry Set，而不是要求把所有模型塞进一个巨大 JSON：
+Model Intelligence 使用一个明确的机器权威源：
 
 ```text
 registry.json
-  核心模型 / 第一方 benchmark 主线 / 大型硬件候选
-
-registry.agentic*.json
-  因真实 Agentic Coding 证据进入候选池的 exact Variants / references
+  唯一权威 Model Variant Registry
+  包含核心模型、第一方 benchmark 主线、外部 Candidate / Reference、明确负向 exact Variant
 
 agentic-coding-evidence.json
   外部真实 search/edit/tool/test/hidden-test/task-completion 证据
+  正向 AGENTIC_CODING_TASKS 必须通过 registry_record_id 精确回指 registry.json
 ```
 
-所有 `registry*.json` 都必须通过同一个 `schemas/model-intelligence.schema.json`；`agentic-coding-evidence.json` 使用独立的 `schemas/agentic-coding-evidence.schema.json`，并且每条 evidence 必须通过 `registry_record_id` 回指 Registry Set 中的模型记录。
+不再使用 `registry.agentic*.json` 作为旁路 Registry。原因是多个机器权威源会允许 Dashboard / Agentic Evidence 与 primary Candidate Registry 发生漂移，并使不同 validator 对“Registry”产生不同定义。
 
-这避免两种错误：
-
-1. 人类 Dashboard 已经推荐某个模型，但自动推荐器的机器 Registry 看不到它；
-2. Agentic Coding benchmark 使用了某个具体 GGUF/NVFP4/INT4 Variant，却错误回指同模型家族的另一个 Variant。
+负向 `NEGATIVE_CONFIGURATION_EVIDENCE` 优先回指 primary registry 中明确的 exact negative Variant；如果 exact negative Variant 尚未物化，validator 只允许回退到已经存在的 primary Model Family，同时证据文本必须明确禁止把配置失败推广为 Model Family 失败。
 
 ## 五条证据轴
 
@@ -36,7 +32,7 @@ Agentic Coding Evidence
 First-party Coding Production Qualification
 ```
 
-其中 Context 还要继续拆：
+其中 Context 继续拆分：
 
 ```text
 Configured / Model Length
@@ -87,11 +83,6 @@ Quality != Hardware Fit
 Hardware Fit != Context Fit
 Context Fit != Agentic Coding Fit
 Agentic Coding Fit != Coding Production Qualification
-```
-
-此外：
-
-```text
 Model Family != Model Variant
 ```
 
@@ -154,12 +145,13 @@ external Agent Loop PASS
 
 CI 会：
 
-1. 校验全部 `registry*.json` 的 Model Intelligence Schema；
-2. 检查跨 shard `record_id` 唯一；
-3. 校验 Agentic Coding ledger Schema；
-4. 要求每条 Agentic evidence 的 `registry_record_id` 可解析；
+1. 校验 primary `registry.json` 的 Model Intelligence Schema 与语义规则；
+2. 校验 Agentic Coding ledger Schema；
+3. 要求每条正向 `AGENTIC_CODING_TASKS` 的 `registry_record_id` 精确解析到 primary `registry.json`；
+4. 对负向配置证据要求 exact negative Variant，或至少存在已记录的 primary Model Family，并禁止 family-level overgeneralization；
 5. 阻止外部证据产生 first-party Quality / Production Qualification；
-6. 检查 repeat range、hidden-test 计数、负配置生命周期与基础语义。
+6. 检查 repeat range、hidden-test 计数、Context claim 与基础语义；
+7. Python compile 与 repository/public-safety validation 必须同时通过。
 
 最终 Production Recommendation 仍必须回到本仓自己的：
 
