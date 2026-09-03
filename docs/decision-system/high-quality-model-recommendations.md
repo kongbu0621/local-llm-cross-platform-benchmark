@@ -1,323 +1,315 @@
 # 高质量大模型候选推荐与 GB10 / PRO6000 适配（2026-09-03）
 
-> 这页回答：**现在有哪些质量高、经典或火爆的大模型值得进入本地 AI 测试池？1×GX10、2×GB10、4×GB10、RTX PRO 6000 96GB 分别最值得先测谁？**
+> **目标：** 不是列“最火模型名字”，而是回答：在你真正拥有/考虑的 **1×GX10、2×GB10、4×GB10、RTX PRO 6000 96GB** 上，哪些高质量 Coding / Agent / Long-context 模型最值得先投入测试时间。
 >
-> 这里是 **Candidate Recommendation / 测试优先级**，不是本仓 Production Recommendation。外部同型号硬件的公开实跑可以提高 Hardware Fit 的证据强度，但不能替代本仓自己的 Quality / Stability / Coding Production Qualification。
+> **重要：** 这里的 P0/P1/P2 是“第一方验证优先级”，不是质量总分、速度排行榜或购买顺序。外部同型号 GB10 的公开实跑用于降低试错成本，仍不能代替本仓自己的 Quality / Stability / Coding Production Qualification。
 
-## 先看结论
+## 一页结论
 
-| 优先级 | Model / Variant | 最值得关注的原因 | 1×GX10 | 2×GB10 | 4×GB10 | 当前角色 |
+| Priority | Model / Variant | 为什么现在值得测 | 1×GX10 | 2×GB10 | 4×GB10 | 最适合的候选角色 |
 | --- | --- | --- | --- | --- | --- | --- |
-| **P0** | **Qwen3.8-27B NVFP4 / FP8** | 本仓已有 Formal100 + Hardware Gate | **第一方已测 @32K** | OPEN | OPEN | 当前本地性能锚点 / Fast Worker |
-| **P0** | **Qwen3.8-Flash-Next · RadixArk NVFP4** | 135GB；已有单 GB10 PLE streaming 与双 GB10 TP2 公开实跑；有 checkpoint-specific quality probes | **GOOD（外部同硬件）** | **GOOD（外部同硬件）** | OPEN | 当前最值得“不买新硬件先试”的大模型候选之一 |
-| **P0** | **DeepSeek-V4-Flash-0731 official checkpoint** | Coding/Agent 官方指标强；官方 checkpoint 约 167GB；已有 **2×GB10 TP2 / 1M** 可复现实跑 | 不适合 full-resident | **GOOD（外部同硬件）** | OPEN | 2×GB10 Main Coding / Architect 首要候选 |
-| **P1** | **GLM-5.3-Flash · LibertAI NVFP4** | ~181GiB；已有 **2×GB10 / 262K** 公开实跑；320B/18B-active、长上下文效率路线 | 不适合 full-resident | **GOOD（外部同硬件）** | OPEN | Coding / Repo / Long-context 候选 |
-| **P1** | **GLM-5.3-Flash official FP8** | 已有 **4×GB10 / 1M** 公开实跑 | 不适合 | 不适合 full-resident | **GOOD（外部同硬件）** | 4×GB10 high-quality / 1M reference candidate |
-| **P2** | **MiniMax-M3 official base** | 428B/23B-active、1M、MSA、多模态 Coding/Agent | 不适合 | 不适合 official base | 第三方 low-bit OPEN | 长上下文 / 多模态候选，暂无接受的同 GB10 证据 |
-| **WATCH** | **Kimi-K3 native MXFP4** | 2.8T/104B-active、1M、frontier coding/agentic | 不适合 | 不适合 | 不适合 native full-weight | API / Future Large-cluster Quality Reference |
+| **P0** | **Qwen3.8-27B NVFP4 / FP8 / BF16** | 本仓已有 Formal100 + Hardware Gate，是唯一第一方性能锚点 | **FIRST-PARTY** | OPEN | OPEN | Quality reference / Fast Worker baseline |
+| **P0** | **Qwen3.5-122B-A10B Hybrid INT4+FP8** | 成熟单-GB10 路线；256K；公开同硬件约 52–59 tok/s；官方 Coding/Long-context 能力仍强 | **GOOD external** | 不需要先加节点 | OPEN | Mature single-node Coding / Agent baseline |
+| **P0** | **Qwen3.8-Flash-Next · RadixArk NVFP4** | 135GB；单 GB10 PLE streaming + 双 GB10 TP2 已实跑；有 checkpoint-specific quality probes | **GOOD external** | **GOOD external** | OPEN | Fast Main Coding / Repo / Long-context |
+| **P0** | **DeepSeek-V4-Flash-0731 official mixed checkpoint** | 官方 checkpoint ~167GB；Coding/Agent 信号强；2×GB10 TP2 / 1M 已有实跑 | full-resident 不适合 | **GOOD external** | **GOOD external** | Main Coding / Architect / Repo-scale |
+| **P1** | **GLM-5.3-Flash · LibertAIDAI NVFP4** | ~181GiB；2×GB10 / 262K 已实跑；320B/18B-active、长上下文效率路线 | 不适合 full-resident | **GOOD external** | **GOOD external** | Coding / Repo / Long-context |
+| **P1** | **nvidia/MiniMax-M3-NVFP4** | NVIDIA ModelOpt 250GB checkpoint；4×GB10 已有 262K/1M 与完整 serving 验证 | 不适合 | 过紧，不作为首选 | **GOOD external** | Multimodal / Long-context / Coding Agent |
+| **P2** | **MiniMax-M3 W4A16 / other third-party low-bit** | 2×GB10 已存在约 36 tok/s 路线，但量化质量必须单独 Gate | 不适合 | **CONDITIONAL external** | OPEN | 2× MiniMax feasibility |
+| **WATCH** | **Kimi-K3 native MXFP4** | Frontier 2.8T/104B-active、1M；质量参考价值高 | native 不适配 | native 不适配 | native 不适配 | API / future large-cluster reference |
 
-**当前最重要的变化：** 2×GB10 已经不是“理论上也许能跑大型模型”的状态。至少 DeepSeek-V4-Flash-0731 官方 checkpoint、Qwen3.8-Flash-Next NVFP4、GLM-5.3-Flash NVFP4 都已经存在公开的同硬件部署证据；但这些仍属于 **Reproducible External Evidence**，不是本仓第一方结果。
+### 当前真正应该记住的 4 个结论
+
+1. **已有 1×GX10 并不等于必须马上买第二台。** 单节点现在至少有 Qwen3.8-27B、Qwen3.5-122B Hybrid、Qwen3.8-Flash-Next NVFP4，甚至 DeepSeek V4 的更激进流式/超低比特路线可先验证。
+2. **2×GB10 已经从“理论容量”升级为真实平台。** DeepSeek V4 official、Qwen Flash Next NVFP4、GLM NVFP4 都已有同 GB10 可复现部署；下一步应该做同合同第一方横比，而不是再讨论“能不能启动”。
+3. **4×GB10 的真正价值是更高质量/更大 KV/更大并发/1M，而不是简单把 2× 的 tok/s 乘二。** MiniMax-M3 NVFP4、GLM 1M、DeepSeek TP4 都已有外部先例，但是否值得你购买仍要靠 L3 Coding Production 数据。
+4. **模型新不等于更适合。** Qwen3.5-122B-A10B 不是最新一代，却因为单 GB10 成熟度、256K 与 Coding 质量信号，依然是非常高价值的 Classic/Sweet-Spot 对照。
 
 ---
 
-## 四级证据必须分开看
+# 证据分四级
 
-| 证据级别 | 含义 | 当前例子 |
+| Evidence tier | 能证明什么 | 不能证明什么 |
 | --- | --- | --- |
-| **First-party measured** | 本仓自己在目标硬件、固定合同下跑过 | Qwen3.8-27B BF16 / FP8 / NVFP4 @ 1×GX10 |
-| **Reproducible same-hardware external** | 有公开 recipe / config / measured result，且硬件就是 GB10 / DGX Spark / GX10 | DeepSeek V4 @2×GB10、Qwen Flash Next NVFP4 @1×/2×GB10、GLM NVFP4 @2×GB10 |
-| **Official/vendor model evidence** | 原厂模型卡、benchmark、架构、上下文、部署框架 | DeepSeek / Qwen / GLM / MiniMax / Kimi 官方资料 |
-| **Capacity arithmetic only** | 参数量/文件大小与内存的筛选计算 | “权重看起来放得下”但没实际启动的组合 |
+| **First-party measured** | 本仓目标硬件、固定合同真实测过 | 没测的 Context / Quality / Production 仍不能外推 |
+| **Reproducible same-hardware external** | 同 GB10 / Spark / GX10 有公开 recipe、版本和 measured result | 不能直接成为本仓 Qualification；不同 workload 的 tok/s 不能直接排名 |
+| **Official/vendor model evidence** | 架构、官方 benchmark、context claim、runtime support | 不能证明你的 GB10 已适配 |
+| **Capacity arithmetic only** | 排除明显放不下、筛选值得尝试的组合 | 不能证明 Runtime / KV / TTFT / Decode / Quality / Stability |
 
 固定边界：
 
 ```text
-外部同硬件跑通
-!= 本仓第一方 Qualification
-
-同硬件跑得快
-!= Coding Quality 已证明
-
-不同 benchmark 的 tok/s
-!= 可以直接横向排名
-
-权重放得下
-!= KV / 512K / 1M / 并发一定放得下
+external same-hardware PASS != first-party PASS
+runtime PASS != quality PASS
+quality PASS != production PASS
+weight fits != target context fits
+headline tok/s across different contracts != ranking
 ```
 
 ---
 
-# 1×GX10：现在最值得先做什么
+# 1×GX10：优先把现有机器榨透
 
-## P0-A：继续完成 Qwen3.8-27B 第一方闭环
+## P0-A — Qwen3.8-27B：完成本仓第一方基线
 
-当前已经有：
+已有：BF16 / FP8 / NVFP4 Formal100、32K+256 warm C=1、NVFP4 Hardware Gate。
 
-- BF16 / FP8 / NVFP4 Formal100；
-- 32K+256 warm C=1；
-- NVFP4 Runtime/Hardware Gate；
-- NVFP4 在当前合同下性能最好。
+下一步：
 
-下一步应该补：
+```text
+Quality Gate
+→ 128K
+→ 256K
+→ 384K
+→ 512K
+→ Pure Prefill / Memory / KV
+→ Real Coding Tool Loop
+```
 
-1. BF16 / FP8 / NVFP4 **Quality Gate**；
-2. 128K → 256K → 384K → 512K Actual Context；
-3. Pure Prefill、Peak Memory / KV；
-4. Real Coding Tool Loop。
+这条线的价值不是“最炫”，而是得到一条完全属于自己的可复现基准。
 
-这条线的价值是形成**完全属于本仓的一方基线**。
+## P0-B — Qwen3.5-122B-A10B Hybrid INT4+FP8：成熟 Classic/Sweet Spot
 
-## P0-B：Qwen3.8-Flash-Next RadixArk NVFP4 — 不增加节点就值得立即验证
+这是本轮深审后补回来的**经典但仍很能打**的路线。
 
-这是本轮深审后价值明显上升的一条路线。
+官方 Qwen3.5-122B-A10B：122B total / 10B active，native 262K，可扩到约 1M；官方公开 Coding / Long-context benchmark 仍很强。
 
-第三方 RadixArk checkpoint：
+公开单 DGX Spark/GX10 Hybrid INT4+FP8 路线已经做到：
 
-- 约 **135GB**；
-- routed experts 使用 NVFP4；PLE 使用 FP8；部分敏感路径保留高精度；
-- checkpoint 页面给出了 GSM8K / AIME26 等量化后质量 probe 和完整性审计；
-- 因总 checkpoint 大于单 GB10 可用统一内存，公开单-Spark recipe 使用 **PLE 从 NVMe streaming / mmap**，将 resident 部分压到可运行范围。
-
-已经存在同硬件公开实测：
-
-- 1× DGX Spark / GB10；
-- 262K context；
-- PLE 从 NVMe 流式读取；
-- 公共 recipe 报告单流大约 21~31 tok/s（配置不同）；
-- 另一个面向 coding 的 serving profile 报告五语言 mixed-code median 约 32.4 tok/s，并给出 HumanEval / HumanEval+ Mini 结果。
-
-**解释：** 这些数字不能直接和本仓 Qwen3.8-27B 的 9.081 tok/s 比，因为 prompt/output/runtime/speculative-decoding 合同不同；但它们足以把这条路线从“理论候选”提升为 **1×GX10 高优先复现候选**。
+- 256K context；
+- 公开复现实测 cross-prompt decode 约 **52 tok/s**；
+- 后续 DFlash 路线约 **59 tok/s e2e decode**；
+- 长期版本演进、benchmark harness、失败项、质量保护策略都比较成熟。
 
 公开来源：
+
+- https://huggingface.co/Qwen/Qwen3.5-122B-A10B
+- https://github.com/albond/DGX_Spark_Qwen3.5-122B-A10B-AR-INT4
+- https://github.com/Entrpi/qwen3.5-122B-A10B-on-spark
+
+**意义：** 它应该作为“单 GX10 成熟 Coding Agent 能做到什么”的外部参考锚，而不是因为 Qwen3.8 已发布就自动淘汰。
+
+## P0-C — Qwen3.8-Flash-Next RadixArk NVFP4：单节点能力跃迁候选
+
+RadixArk checkpoint 约 135GB：routed experts NVFP4、PLE FP8、敏感路径高精度。公开单 GB10 recipe 通过 PLE 从 NVMe streaming/mmap 把 resident footprint 控制到单节点可运行范围。
+
+公开同硬件证据包括：
+
+- 262K context；
+- 单流大约 21–31 tok/s（不同 serving profile）；
+- 另一个面向 coding 的单 GX10 profile 报告 mixed-code median ~32.4 tok/s，并给出 HumanEval / HumanEval+ Mini probe。
+
+来源：
 
 - https://huggingface.co/RadixArk/Qwen3.8-Flash-Next-NVFP4
 - https://github.com/maci0/qwen3.8-flash-next-spark
 - https://huggingface.co/sayyidfareed/Qwen3.8-Flash-Next-Code-Turbo-Spark
 
-### 对硬件升级决策的影响
+这些数字和本仓 9.081 tok/s **不能直接比较**，因为 prompt/output/speculative-decoding/runtime 合同不同；其价值是证明“现有单 GX10 有一条值得复现的大模型路线”。
 
-如果单 GX10 通过 PLE streaming 就能在 256K 级工作上下文上达到可接受的 Coding Agent 质量与等待感，那么“必须先买第二节点”这一结论会被削弱。它应该先经过本仓复现，再决定是否需要 scale-out。
+## P1 — DeepSeek V4 single-node ultra-low-bit / streaming
+
+公开单 GB10 路线也已经存在，例如：
+
+- vLLM-Moet 2-bit expert planes + FP4 quality recovery：约 9.8 tok/s、256K；
+- Colibri MXFP4 streaming-expert：完整 1M KV 能力但只有约 4–5 tok/s；
+- 一些 agent-serving 复现报告显示普通任务接近云端，但 harder reasoning 会出现可见质量损失。
+
+来源：
+
+- https://github.com/lrozewicz/vLLM-Moet-GB10
+- https://huggingface.co/Kanposer/DeepSeek-V4-Flash-0731-speedy-colibri-mxfp4
+- https://github.com/kandotrun/dgx-spark-deepseek-v4-flash
+
+**所以单节点 DeepSeek 是 P1 实验候选，不是当前首选生产路线：速度/量化质量代价比 Qwen 单节点路线更明显。**
 
 ---
 
-# 2×GB10：现在最值得测试的三条主线
+# 2×GB10：已经进入真正的大模型平台区间
 
-## P0-1：DeepSeek-V4-Flash-0731 官方 checkpoint
+## P0-1 — DeepSeek-V4-Flash-0731 official mixed checkpoint
 
-这是本轮最大的修正。
+这是前面最大的一次纠错。
 
-### 之前的错误
-
-之前用：
+错误旧推导：
 
 ```text
 304B × FP8 ≈ 304GB
+→ 2×256GB 放不下 official checkpoint
 ```
 
-推断 2×GB10 256GB 放不下官方 checkpoint。
+实际官方 release 约 **167GB**；config 同时有 `expert_dtype=fp4` 和 FP8 quantization path，因此不是“纯 304GB FP8 image”。官方 max position embeddings = 1,048,576，并带 DSpark speculative module。
 
-这个推导对**实际发布 checkpoint**不成立。
+公开 2×GB10 复现实测已经包括：TP2 / RoCE、1M model length、DSpark、真实 coding workload。不同公开 recipe 报告的 decode 数值差异很大（约 30–80+ tok/s 区间，配置/版本/contract 不同），因此**本仓必须重跑统一合同，不能挑最高数字当结论。**
 
-### 官方 checkpoint 实际情况
-
-官方 Hugging Face 仓库当前约 **167GB**。其 `config.json` 同时显示：
-
-- `expert_dtype = fp4`；
-- quantization config 使用 FP8 路径；
-- max position embeddings = 1,048,576；
-- 包含 DSpark speculative module。
-
-因此应称它为**官方 mixed-precision checkpoint**，不能再简称“纯 FP8 304GB”。
-
-更重要的是，已经有公开可复现的：
-
-- exact official HF revision；
-- **2× DGX Spark / GB10**；
-- TP=2 / RoCE；
-- 1M model length；
-- DSpark speculative decoding；
-- realistic sampled/max coding、C=1、forced 8K output；
-- 报告 median decode 约 **52 tok/s**。
-
-公开来源：
+来源：
 
 - https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731
-- https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/tree/main
 - https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/main/config.json
-- https://github.com/m9e/deepseek-v4-flash-0731-2x-dgx-spark
+- https://github.com/Deep-AI-Evo/deepseek-v4-flash-2x-dgx-spark
+- https://github.com/Reederey87/dgx-spark-2x-deepseek-v4-flash
 
-**当前判断：2×GB10 的 DeepSeek-V4-Flash-0731 不再是“low-bit capacity guess”，而是有 same-hardware reproducible evidence 的 P0 官方 checkpoint 候选。**
+当前结论：**2×GB10 DeepSeek V4 official = P0 direct candidate。**
 
-但本仓仍要重新跑：Runtime Gate → Formal5 → Formal100 → Quality → 384K/512K/1M → Coding Tool Loop。
+## P0-2 — Qwen3.8-Flash-Next RadixArk NVFP4
 
----
-
-## P0-2：Qwen3.8-Flash-Next RadixArk NVFP4
-
-公开同硬件证据比之前预计成熟得多。
-
-RadixArk NVFP4：约 **135GB**。公开 2×Spark recipe 报告：
-
-- 2×GB10；
-- TP=2 over RoCE；
-- 262,144 context；
-- 30-minute soak；
-- 单流约 **41~42 tok/s**；
-- 8 并发 aggregate 约 **153 tok/s**；
-- MTP/NEXTN speculative decoding。
-
-另有公开研究仓库报告 2×Spark 路线上已经把 NVFP4 profile 推到更长 context，包括 1M-context serving experiments。
+公开 2×Spark recipe：TP2 / RoCE、262K、30-minute soak、单流约 41–42 tok/s，8-stream aggregate ~153 tok/s，并使用 NEXTN/MTP speculative decoding。
 
 来源：
 
 - https://huggingface.co/pocharlies/Qwen3.8-Flash-Next
 - https://github.com/maci0/qwen3.8-flash-next-spark
-- https://github.com/x00byte/Qwen3.8-Flash-Dual-Spark-Recipe
 
-**当前判断：** 这是 2×GB10 上“高效率 Coding / Repo Agent”非常强的 P0 测试候选，尤其值得和 DeepSeek-V4-Flash 做同合同比较。
+当前结论：**高效率 Coding / Repo Agent P0，值得和 DeepSeek 用同一 suite 比。**
 
----
+## P1 — GLM-5.3-Flash LibertAIDAI NVFP4
 
-## P1：GLM-5.3-Flash LibertAIDAI NVFP4
+官方 GLM：320B total / 18B active，sparse + linear attention，面向 coding / agentic / multimodal / long context。
 
-官方 GLM-5.3-Flash 是 320B total / 18B active，采用 sparse + linear attention，面向 coding、agentic、multimodal 和长上下文效率。
+LibertAIDAI NVFP4-A16 variant：约 181GiB，主要把 routed-expert FFN 压成 NVFP4，attention/vision/shared expert/MTP/embedding 保留高精度，并公开 quantization provenance / round-trip checks。
 
-LibertAIDAI 的 third-party NVFP4-A16 checkpoint：
-
-- 约 **181GiB / 195GB repo**；
-- 97% 参数所在的 routed-expert FFN 量化为 NVFP4；
-- attention、vision、shared expert、MTP、embedding 等敏感部分继续高精度；
-- 发布量化 provenance / partition verification / round-trip cosine。
-
-公开 2×GB10 recipe 已报告：
-
-- TP=2；
-- 262K context；
-- MTP；
-- TTFT 约 0.29s（其测试合同）；
-- Decode 约 **21.8 tok/s**（FP8 KV + MTP-4）。
+2×GB10 已有 TP2 / 262K / MTP 公开实跑，约 21.8 tok/s decode（其测试合同）。
 
 来源：
 
 - https://huggingface.co/LibertAIDAI/GLM-5.3-Flash-NVFP4
-- https://github.com/tonyd2wild/GLM-5.3-Flash-NVFP4-262K-2x-DGX-Spark
+- https://github.com/tonyd2wild/GLM-5.3-Flash-NVFP4-2x-DGX-Spark
 - https://forums.developer.nvidia.com/t/glm-5-3-flash-nvfp4-on-2x-dgx-spark-vllm-tp-2-docker-compose/381541
 
-这使 GLM-5.3-Flash NVFP4 从“2×容量推测”升级为 **same-hardware reproducible candidate**。但量化后的 Coding Quality 仍必须单独测。
+## P2/P1 — MiniMax-M3 W4A16/GPTQ 等 third-party 2×路线
 
----
-
-# 4×GB10：什么时候真正有意义
-
-4× 不应该因为“更多就是更好”自动推荐。
-
-目前最清晰的外部证据之一是 **GLM-5.3-Flash native/official FP8 on 4× DGX Spark**：公开 recipe 报告 TP=4、1M context、约 30~43 tok/s 区间（不同 workload/config）。
-
-这说明 4×GB10 的确可以进入“300B 级高精度 + 1M context”平台能力，但它仍不能证明：
-
-- 对你的 Coding Task Suite 比 2×DeepSeek/Qwen 更高生产率；
-- 4×的边际收益值得额外成本；
-- 多节点复杂度、恢复、网络、维护成本可接受。
+2×GB10 已有 third-party W4A16/GPTQ + EAGLE3 / NVFP4-KV 路线，公开约 31–36 tok/s、~196K/262K 不同 profile。
 
 来源：
 
-- https://github.com/Wpnx330/GLM-5.3-Flash-FP8-4x-DGX-Spark
-- https://forums.developer.nvidia.com/t/glm-5-3-flash-on-4x-dgx-spark-30-43-tok-s-1m-context-uncensored-multimodal-cuda-graphs-on/381543
+- https://forums.developer.nvidia.com/t/minimax-m3-w4a16-gptq-2xgb10-deployment-36-t-s-fp8-nvfp4-kvarn-eagle-3/375595
 
-因此 4×仍然应该经过：
+因为量化层级更激进、当前缺本仓质量验证，它排在 DeepSeek/Qwen/GLM 后面。
+
+---
+
+# 4×GB10：更高质量 / 更大 KV / 更大并发，而非“2×速度翻倍”
+
+## P1 — nvidia/MiniMax-M3-NVFP4
+
+这也是本轮新抓到的重要遗漏。
+
+NVIDIA 官方 ModelOpt checkpoint：`nvidia/MiniMax-M3-NVFP4`，约 **250GB**。公开 4×GB10 方案已经验证：
+
+- native multi-node vLLM TP4；
+- NVIDIA DSpark；
+- 262K serving ceiling 的完整 benchmark；
+- 702/702 benchmark requests、0 server/OOM/NVRM errors；
+- C1 decode ~39 tok/s、100K depth C1 ~29.6 tok/s；
+- 另一路公开实现把 4×GB10 推到 1M KV，并报告约 31 tok/s。
+
+来源：
+
+- https://huggingface.co/nvidia/MiniMax-M3-NVFP4
+- https://github.com/mpfaffenberger/MiniMax-M3-NVFP4-DSpark-vLLM-4x-DGX-Spark
+- https://forums.developer.nvidia.com/t/minimax-m3-nvfp4-1m-context-31-tok-s-native-vision-4x-dgx-spark-gb10/376979
+
+**这使 MiniMax-M3 从“纯容量候选”升级为 4×GB10 P1 真实平台候选。** 但 NVIDIA NVFP4 variant 的 Coding Quality 仍要单独对官方 base 做质量差异 Gate。
+
+## GLM-5.3-Flash 的 4×路线：注意 Variant
+
+公开 4×GB10 / 1M 证据很强，但大多数清晰可审计的运行数据落在：
+
+- LibertAIDAI NVFP4；或
+- derived/uncensored FP8 checkpoint。
+
+因此不能把这些数字直接写成 `zai-org official FP8 exact checkpoint = GOOD`。
+
+更准确的结论：
 
 ```text
-2× workload bottleneck
-→ 证明瓶颈不可由模型/runtime/context strategy解决
-→ 4×同合同对照
-→ Scaling Efficiency / Useful Engineering Work per Hour
-→ 才决定是否值得升级
+GLM family @4xGB10 = strong reproducible external platform evidence
+zai-org official FP8 exact variant = CONDITIONAL until exact-variant run is pinned
 ```
 
----
+来源：
 
-# RTX PRO 6000 96GB
+- https://github.com/tonyd2wild/GLM-5.3-Flash-NVFP4-1M-KV-4x-DGX-Spark
+- https://github.com/alexellis/glm-5.3-flash-4x-dgx-spark-switchless
+- https://github.com/Wpnx330/GLM-5.3-Flash-FP8-4x-DGX-Spark
 
-当前最有价值的作用仍然是：
+## DeepSeek V4 4×
 
-1. Qwen3.8-27B BF16 / FP8 / NVFP4 质量与性能对照；
-2. 中等规模高质量模型 CUDA 主机；
-3. 对超大模型只做明确的 aggressive low-bit / offload 实验。
-
-DeepSeek official 167GB、Qwen Flash Next NVFP4 135GB、GLM NVFP4 ~181GiB 都超过 96GB full-resident 容量。即使 offload 能启动，也必须单独评价等待成本，不能因为“能跑”就作为主 Agent 推荐。
-
----
-
-# MiniMax-M3 与 Kimi-K3
-
-## MiniMax-M3 — P2 Candidate
-
-官方支持：约 428B total / 23B active、1M context、MSA、native multimodality、Coding / Agentic / Cowork。
-
-本轮没有接受到足够强的 same-GB10 evidence，因此对当前 fleet 仍保持：
-
-- official base：1×/2×/PRO6000 不适合 full-resident；
-- 4×GB10：只允许独立 third-party low-bit candidate；
-- 不继承官方 base 的 Quality Qualification。
+4×GB10 也已有 1M、C8、restart/retrieval 等更完整外部资格案例。它证明 4×可以提高 KV/concurrency/production envelope，但是否比 2×对你的实际项目更值钱，仍必须看同合同 scaling 和 Useful Engineering Work / Hour。
 
 来源：
 
-- https://huggingface.co/MiniMaxAI/MiniMax-M3
-- https://www.minimax.io/models/text/m3
-- https://www.minimax.io/blog/minimax-m3
-
-## Kimi-K3 — WATCH / Quality Reference
-
-官方：2.8T total / 104B active、1M context、native MXFP4 weights / MXFP8 activations。
-
-当前 native full-weight 远超 4×GB10 聚合内存，所以继续作为 API / future large-cluster quality reference，不作为当前采购 trigger。
-
-来源：
-
-- https://huggingface.co/moonshotai/Kimi-K3
-- https://arxiv.org/abs/2607.24653
+- https://forums.developer.nvidia.com/t/4x-gb10-deepseek-v4-flash-qualified-tp4-k5-c8-production-results/380041
 
 ---
 
-# 当前建议的真实测试顺序
+# Kimi-K3：为什么仍是 WATCH
+
+Native Kimi-K3：2.8T total / 104B active、1M、native MXFP4。当前 native checkpoint 远超 4×GB10 聚合内存。
+
+确实已经出现：
+
+- 单 GB10 expert-streaming（约 0.4 tok/s）；
+- 4×GB10 IQ1/expert-pruned 路线（约 5–8 tok/s）；
+- 512GB REAP expert-pruned builds。
+
+这些证明“技术上可以压进来”，但压缩/专家裁剪和速度代价都很大，目前没有足够理由把它排在 DeepSeek/Qwen/GLM/MiniMax 之前作为你的本地生产候选。
+
+来源：
+
+- https://huggingface.co/Kanposer/Kimi-K3-speedy-colibri-mxfp4
+- https://github.com/vcruz305/kimi-k3-neuron-tp4-vllm-recipe
+- https://huggingface.co/hellohazime/Kimi-K3-REAP-512GB-GGUF
+
+所以：**Kimi-K3 仍是 Quality/API/Future-cluster Reference，不是当前采购 Trigger。**
+
+---
+
+# PRO6000 96GB
+
+当前更适合：
+
+- Qwen3.8-27B BF16 / FP8 / NVFP4 第一方质量对照；
+- 中等规模 CUDA 高质量模型；
+- 超大模型的 aggressive low-bit/offload 独立实验。
+
+Qwen Flash Next NVFP4 135GB、DeepSeek official ~167GB、GLM NVFP4 ~181GiB、MiniMax NVIDIA NVFP4 250GB 都超过 96GB full-resident。即使 offload 能启动，也必须评价 TTFT/等待成本，不得因为“能跑”就标成高质量 Main Agent。
+
+---
+
+# 现在真正建议的测试顺序
 
 ## 已有 1×GX10
 
 ```text
-A. Qwen3.8-27B
-   Quality Gate
-   128K → 256K → 384K → 512K
-
-B. Qwen3.8-Flash-Next RadixArk NVFP4
-   先复现单 GX10 PLE streaming / 262K
-   再做本仓 Formal5 / Formal100 / Quality / Coding Loop
+P0  Qwen3.8-27B：Quality + 128K→512K（第一方基线）
+P0  Qwen3.5-122B-A10B Hybrid：成熟单节点 Coding baseline 复现
+P0  Qwen3.8-Flash-Next RadixArk NVFP4：PLE streaming / 262K 复现
+P1  DeepSeek-V4 single-node quantized/streaming：质量-速度 tradeoff 探索
 ```
-
-**B 是本轮新增加的“先不买硬件也能获得明显能力跃迁”的候选。**
 
 ## 2×GB10
 
 ```text
-P0-1 DeepSeek-V4-Flash-0731 official checkpoint
-P0-2 Qwen3.8-Flash-Next RadixArk NVFP4
-P1   GLM-5.3-Flash LibertAIDAI NVFP4
+P0  DeepSeek-V4-Flash-0731 official mixed checkpoint
+P0  Qwen3.8-Flash-Next RadixArk NVFP4
+P1  GLM-5.3-Flash LibertAIDAI NVFP4
+P2/P1 MiniMax-M3 third-party W4A16/GPTQ（先做质量 Gate）
 ```
-
-这三条都已经有 same-hardware external evidence，所以第一方测试应该优先做**同合同横向对照**，而不是再证明“它们能不能启动”。
 
 ## 4×GB10
 
-优先回答“2×已经哪里不够”，再决定是否测试：
+```text
+先回答：2×到底哪里不够？
 
-- GLM-5.3-Flash official FP8 @1M；
-- DeepSeek / Qwen 更高并发、更大 KV 或模型路由；
-- 4× scaling efficiency。
+P1  nvidia/MiniMax-M3-NVFP4
+P1  GLM-5.3 family 1M / larger-KV routes
+P1  DeepSeek-V4 TP4 concurrency / KV / production envelope
+P2  Kimi-K3 heavily-pruned experiments only if there is a specific reason
+```
 
 ---
 
 # 统一资格链
-
-无论外部证据多强，进入本仓仍按：
 
 ```text
 CANDIDATE
@@ -332,6 +324,6 @@ CANDIDATE
 → Production Recommendation
 ```
 
-**External evidence 用来节省试错时间，不用来跳过第一方资格链。**
+**外部证据的价值是少走弯路，不是替你完成第一方验收。**
 
-机器可读候选：[`model-intelligence/registry.json`](../../model-intelligence/registry.json)。
+机器 Registry：[`model-intelligence/registry.json`](../../model-intelligence/registry.json)。
