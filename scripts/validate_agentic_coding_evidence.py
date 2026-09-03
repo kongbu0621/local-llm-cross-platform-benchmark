@@ -11,24 +11,40 @@ from jsonschema import Draft202012Validator, FormatChecker
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = ROOT / "schemas/agentic-coding-evidence.schema.json"
+MODEL_SCHEMA = ROOT / "schemas/model-intelligence.schema.json"
 LEDGER = ROOT / "model-intelligence/agentic-coding-evidence.json"
-MODEL_REGISTRIES = [
-    ROOT / "model-intelligence/registry.json",
-    ROOT / "model-intelligence/registry.agentic.json",
-]
 
 
 def load(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def model_registry_paths() -> list[Path]:
+    """Return every shard in the one logical Model Intelligence registry set."""
+    return sorted((ROOT / "model-intelligence").glob("registry*.json"))
+
+
 def load_model_records(errors: list[str]) -> dict[str, dict]:
     records: dict[str, dict] = {}
-    for path in MODEL_REGISTRIES:
-        if not path.exists():
-            errors.append(f"missing Model Intelligence registry shard: {path.relative_to(ROOT)}")
-            continue
+    paths = model_registry_paths()
+    if not paths:
+        errors.append("missing Model Intelligence registry shards")
+        return records
+
+    if not MODEL_SCHEMA.exists():
+        errors.append("missing schemas/model-intelligence.schema.json")
+        return records
+
+    model_schema = load(MODEL_SCHEMA)
+    Draft202012Validator.check_schema(model_schema)
+    validator = Draft202012Validator(model_schema, format_checker=FormatChecker())
+
+    for path in paths:
         obj = load(path)
+        for err in sorted(validator.iter_errors(obj), key=lambda e: list(e.path)):
+            where = ".".join(str(p) for p in err.path) or "<root>"
+            errors.append(f"model registry schema error: {path.relative_to(ROOT)}:{where}: {err.message}")
+
         for record in obj.get("records", []):
             rid = record.get("record_id")
             if not isinstance(rid, str) or not rid:
@@ -38,6 +54,7 @@ def load_model_records(errors: list[str]) -> dict[str, dict]:
                 errors.append(f"duplicate Model Intelligence record_id across registry shards: {rid}")
                 continue
             records[rid] = record
+
     return records
 
 
@@ -50,6 +67,7 @@ def main() -> int:
         errors.append("missing model-intelligence/agentic-coding-evidence.json")
     model_records = load_model_records(errors)
     if errors:
+        print("AGENTIC CODING EVIDENCE VALIDATION FAILED")
         for error in errors:
             print(f"- {error}")
         return 1
@@ -123,6 +141,11 @@ def main() -> int:
             token in (notes + " " + caveats) for token in ("configuration", "config", "not a verdict", "not a model")
         ):
             errors.append(f"{eid}: negative configuration evidence must explicitly prevent family-level overgeneralization")
+        if scope == "NEGATIVE_CONFIGURATION_EVIDENCE" and registry_record is not None:
+            if registry_record.get("lifecycle") not in {"REJECTED", "DEPRECATED", "SUPERSEDED"}:
+                errors.append(
+                    f"{eid}: negative configuration evidence must resolve to an explicitly non-active registry lifecycle"
+                )
 
         # This ledger is external-only by design. It may influence test priority, never repo qualification.
         forbidden_keys = {
