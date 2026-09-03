@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "assessment_id": "gx10-qwen38-nvfp4-coding-worker-32k-v1",
+  "target": {
+    "model_family": "Qwen3.8-27B",
+    "model_variant": "NVFP4_mixed",
+    "serving_profile": "vLLM-0.28.0-warm-c1-32k256",
+    "hardware_topology": "1x ASUS GX10 / NVIDIA GB10"
+  },
+  "workload": {
+    "contract_id": "coding-worker-32k-short-c1-v1",
+    "archetype": "Coding Worker",
+    "context": {"target_tokens": 32768, "band": "32K"},
+    "output_profile": "SHORT",
+    "tool_call_frequency": "HIGH",
+    "session_duration": "HOURS",
+    "concurrency": 1,
+    "quality_requirement": "HIGH",
+    "sensitivities": {
+      "latency": "HIGH",
+      "prefill": "HIGH",
+      "decode": "HIGH",
+      "memory_kv": "MEDIUM",
+      "concurrency": "LOW",
+      "long_run": "HIGH"
+    },
+    "recovery_requirement": "REQUIRED",
+    "residency": "LONG_RUNNING",
+    "notes": "This contract represents a fast single coding worker at the currently measured 32K band; it is not the large-repo 384K/512K main-agent contract."
+  },
+  "hard_gates": [
+    {
+      "gate_id": "context-32k-performance",
+      "blocking": true,
+      "status": "PASS",
+      "reason": "32K+256 Formal100 completed 100/100 on the target variant/topology.",
+      "evidence_refs": ["results/qwen38-27b-v1.0/gb10-01/20260831-nvfp4-formal100-32k256.json"]
+    },
+    {
+      "gate_id": "runtime-hardware-path",
+      "blocking": true,
+      "status": "PASS",
+      "reason": "NVFP4 runtime/hardware path is frozen PASS with complete gate evidence.",
+      "evidence_refs": ["docs/results/qwen38-27b-gx10-20260903.md#runtime-gates"]
+    },
+    {
+      "gate_id": "coding-quality",
+      "blocking": true,
+      "status": "OPEN",
+      "reason": "No first-party coding-quality suite has qualified this variant yet.",
+      "evidence_refs": []
+    },
+    {
+      "gate_id": "real-repo-tool-loop",
+      "blocking": true,
+      "status": "OPEN",
+      "reason": "No real repository search/edit/compile/test loop has been measured for this local model/backend.",
+      "evidence_refs": []
+    }
+  ],
+  "qualification": "CONDITIONAL",
+  "fitness": "GOOD",
+  "confidence": {
+    "evidence": "FIRST_PARTY_MEASURED",
+    "recommendation": "MEDIUM"
+  },
+  "bottlenecks": [
+    "Coding quality is unqualified.",
+    "Real tool-loop and long-session production behavior are unmeasured.",
+    "At current short-output performance, TTFT/Prefill is becoming a larger share of E2E than before."
+  ],
+  "recommended_role": "Fast local Coding Worker candidate at the measured 32K band; not yet the qualified main large-project coding agent.",
+  "improvement_options": [
+    "Measure coding quality before changing hardware.",
+    "Measure pure prefill/TTFT and real tool-loop latency.",
+    "Keep model/variant substitution ahead of hardware purchase in the intervention ladder."
+  ],
+  "hardware_upgrade_triggers": [
+    "Do not promote 2x GB10 to ACTION unless target 384K/512K memory/KV gate is hit or target concurrency shows sustained QoS degradation."
+  ],
+  "next_required_tests": [
+    "Coding quality gate",
+    "Real repo search/edit/compile/test loop",
+    "384K and 512K context performance/memory gate",
+    "Long-session stability"
+  ],
+  "evidence_refs": [
+    "results/qwen38-27b-v1.0/gb10-01/20260831-nvfp4-formal100-32k256.json",
+    "docs/results/qwen38-27b-gx10-derived-analysis-20260903.md",
+    "docs/results/qwen38-27b-gx10-20260903.md#runtime-gates"
+  ],
+  "evaluated_at": "2026-09-03T11:30:00+08:00",
+  "evidence_as_of": "2026-09-03T10:54:29+08:00",
+  "notes": "Qualification remains CONDITIONAL because quality and real coding-loop gates are open."
+}

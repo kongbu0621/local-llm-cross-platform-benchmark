@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kongbu0621/local-llm-cross-platform-benchmark/schemas/workload-contract.schema.json",
+  "title": "Agent Workload Contract",
+  "type": "object",
+  "required": ["contract_id", "archetype", "context", "output_profile", "tool_call_frequency", "session_duration", "concurrency", "quality_requirement", "sensitivities", "recovery_requirement", "residency"],
+  "properties": {
+    "contract_id": {"type": "string", "minLength": 1},
+    "archetype": {"type": "string", "minLength": 1},
+    "context": {
+      "type": "object",
+      "required": ["target_tokens"],
+      "properties": {
+        "target_tokens": {"type": "integer", "minimum": 1},
+        "band": {"enum": ["32K", "128K", "256K", "384K", "512K", "768K", "1M", "OTHER"]}
+      },
+      "additionalProperties": false
+    },
+    "output_profile": {"enum": ["SHORT", "MEDIUM", "LONG", "VERY_LONG"]},
+    "tool_call_frequency": {"enum": ["LOW", "MEDIUM", "HIGH", "VERY_HIGH"]},
+    "session_duration": {"enum": ["MINUTES", "HOURS", "LONG_RUNNING", "RESIDENT"]},
+    "concurrency": {"type": "integer", "minimum": 1},
+    "quality_requirement": {"enum": ["NORMAL", "HIGH", "FLAGSHIP"]},
+    "sensitivities": {
+      "type": "object",
+      "required": ["latency", "prefill", "decode", "memory_kv", "concurrency", "long_run"],
+      "properties": {
+        "latency": {"enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]},
+        "prefill": {"enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]},
+        "decode": {"enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]},
+        "memory_kv": {"enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]},
+        "concurrency": {"enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]},
+        "long_run": {"enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]}
+      },
+      "additionalProperties": false
+    },
+    "recovery_requirement": {"enum": ["OPTIONAL", "REQUIRED", "CRITICAL"]},
+    "residency": {"enum": ["TRANSIENT", "LONG_RUNNING", "RESIDENT_24X7"]},
+    "notes": {"type": "string"}
+  },
+  "additionalProperties": false
+}

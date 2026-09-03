@@ -2,7 +2,7 @@
 
 一个长期维护、可复现、以真实硬件实测为核心的本地大模型（Local LLM）跨平台能力数据库。
 
-本仓库不只比较 `tokens/s`。目标是记录同一模型在不同真实硬件、操作系统、推理栈、量化、上下文长度和工作负载下的 **质量、性能、内存、稳定性、效率与可复现证据**。
+本仓库不只比较 `tokens/s`。目标是记录同一模型在不同真实硬件、操作系统、推理栈、量化、上下文长度和工作负载下的 **质量、性能、内存、稳定性、效率与可复现证据**，并在事实层之上形成可审计的 Agent 适配与大型编码生产决策。
 
 ## 当前已验证实测结果
 
@@ -36,6 +36,36 @@
 - **原始证据入口**：[Formal/B0/Diagnostics/Gates/Manifest/History](docs/results/qwen38-27b-gx10-20260903.md#raw-evidence-index)
 - **结果资产审计清单**：[本轮测试、证据、结构化结果、修复项与缺口](docs/results/qwen38-27b-gx10-asset-inventory-20260903.md)
 
+## Decision System v1
+
+Benchmark 事实之上新增三层决策体系，但不改变 L1 的证据边界：
+
+```text
+Model Intelligence → L1 FACT → L2 Agent Workload Fitness → L3 Coding Production Fitness
+                              ↘              ↗
+                               Recommendation → Next Test → L1
+```
+
+- **L1 — FACT**：只回答真实测到了什么；
+- **Model Intelligence**：维护经典/旗舰/生产甜点/编码/长上下文/热门候选，只负责候选发现，不直接产生生产推荐；
+- **L2 — Agent Workload Fitness**：评价 `Model Variant × Serving Profile × Hardware Topology × Agent Workload Contract`；
+- **L3 — Coding Production Fitness**：评价 Coding Tool、Model Portfolio、Inference/Workspace/Build/Test Placement、AI Node、开发主机、Storage/Authority、真实 Coding Loop 的完整生产配置；
+- **Recommendation**：L2/L3 的统一输出合同，不是第四层；硬件购买前必须先做 No-Hardware Counterfactual Check。
+
+关键规则：`Hard Gate → Qualification → Fitness → Recommendation`，禁止用一个加权总分掩盖未知或硬失败。`OPEN / NOT_QUALIFIED` 时 Fitness 必须为空。Popularity 只影响测试优先级，不能当 Quality/Hardware Fit/Production Fit。
+
+入口：
+
+- [Decision System v1 总纲](docs/decision-system/README.md)
+- [当前 1×GX10 + Qwen3.8-27B NVFP4 Agent 适配度](docs/decision-system/current-gx10-agent-fitness.md)
+- [Model Intelligence 规则](model-intelligence/README.md)
+- [Model Intelligence Registry](model-intelligence/registry.json)
+- [当前 L2 Agent Assessment](assessments/agent/gx10-qwen38-nvfp4-32k-v1.json)
+- [当前 L3 Large Coding Production Assessment](assessments/production/gx10-qwen38-nvfp4-large-coding-v1.json)
+- [当前升级/补测 Recommendation](recommendations/gx10-qwen38-nvfp4-roadmap-v1.json)
+
+CI 会编译并执行 `scripts/validate_decision_system.py`，检查 Schema、Hard Gate/Qualification/Fitness 语义、禁止 aggregate score、Model Intelligence 推荐资格、Hardware ACTION 的反事实门槛、本地 evidence 引用与 freshness 顺序。
+
 后续 128K / 256K / 384K / 512K / 768K / 1M、32K-output E2E、Pure Prefill、Peak Memory/KV、cold-cache isolation、质量、24h soak、PRO 6000、2×/4× GB10、Apple / AMD 等完成后，继续追加；没有可靠实测的数据保持“未测 / 不可计算”。
 
 ## 核心原则
@@ -47,6 +77,7 @@
 5. **历史结果不静默覆盖。** 测试方法变化通过新 suite/version 发布；旧数据可标记 `superseded` / `invalidated`，但不篡改历史。
 6. **平台公平层与平台最优层分开。** 前者尽量控制变量，后者允许各平台使用自身最优 runtime/kernel/量化。
 7. **模型权重、Token、代理配置、私有数据和受限制 benchmark 原题不进入公共仓库。**
+8. **Recommendation ≠ Buy Hardware。** 配置、runtime、context strategy、模型替换、routing、role reassignment 必须先于大额硬件替换做反事实检查。
 
 ## 实验维度
 
@@ -86,15 +117,18 @@ Context 轴：`32K / 128K / 256K / 384K / 512K / 768K / 1M`。
 ## 仓库结构
 
 ```text
-docs/        方法论、指标、比较规则、证据等级
-hardware/    硬件 registry 与已实测设备 profile
-suites/      每个模型/版本的冻结测试套件
-datasets/    数据集 manifest 与获取规则（不保存受限原题）
-runners/     vLLM / SGLang / llama.cpp / MLX 等 runner
-schemas/     结构化结果与环境合同
-results/     通过 schema 的正式结构化结果
-evidence/    可公开的原始日志、环境快照与校验信息
-scripts/     下载、校验、采集、汇总与 README dashboard 生成工具
+docs/              方法论、指标、结果详情、Decision System
+hardware/          硬件 registry 与已实测设备 profile
+suites/            每个模型/版本的冻结测试套件
+datasets/          数据集 manifest 与获取规则（不保存受限原题）
+runners/           vLLM / SGLang / llama.cpp / MLX 等 runner
+schemas/           Benchmark + Decision System 结构化合同
+results/           通过 schema 的正式结构化 benchmark 结果
+evidence/          可公开的原始日志、环境快照与校验信息
+model-intelligence/模型候选/角色/生命周期输入面
+assessments/        L2 Agent / L3 Production machine-readable assessments
+recommendations/    可审计 recommendation + trigger + next-test plan
+scripts/            下载、校验、采集、汇总、dashboard 与 validator
 ```
 
 ## Evidence Levels

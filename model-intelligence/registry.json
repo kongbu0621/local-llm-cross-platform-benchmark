@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-09-03T00:00:00+08:00",
+  "records": [
+    {
+      "record_id": "qwen38-27b-bf16-v1",
+      "model_family": "Qwen3.8-27B",
+      "model_variant": "BF16",
+      "revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+      "role_tags": ["classic_reference"],
+      "lifecycle": "PERFORMANCE_QUALIFIED",
+      "quality_status": "OPEN",
+      "popularity": null,
+      "momentum": null,
+      "hardware_fit_summary": {
+        "1x_gx10_32k_short_output": "CONDITIONAL"
+      },
+      "source_refs": [
+        "results/qwen38-27b-v1.0/gb10-01/20260901-bf16-formal100-32k256.json"
+      ],
+      "production_qualification_ref": null,
+      "recommendation_confidence": "OPEN",
+      "notes": "First-party performance reference. Quality and 128K+ production fitness remain open."
+    },
+    {
+      "record_id": "qwen38-27b-fp8-v1",
+      "model_family": "Qwen3.8-27B",
+      "model_variant": "FP8",
+      "revision": "017b9c7af6b5689d5dd426a76e0bc077eb5ca20a",
+      "role_tags": ["production_sweet_spot"],
+      "lifecycle": "PERFORMANCE_QUALIFIED",
+      "quality_status": "OPEN",
+      "popularity": null,
+      "momentum": null,
+      "hardware_fit_summary": {
+        "1x_gx10_32k_short_output": "GOOD"
+      },
+      "source_refs": [
+        "results/qwen38-27b-v1.0/gb10-01/20260901-fp8-formal100-32k256.json"
+      ],
+      "production_qualification_ref": null,
+      "recommendation_confidence": "OPEN",
+      "notes": "Performance sweet-spot candidate only; no quality or production qualification yet."
+    },
+    {
+      "record_id": "qwen38-27b-nvfp4-v1",
+      "model_family": "Qwen3.8-27B",
+      "model_variant": "NVFP4_mixed",
+      "revision": "9e3d73c76eddb75f795cc24ccfbc5affe41c66bd",
+      "role_tags": ["production_sweet_spot"],
+      "lifecycle": "PERFORMANCE_QUALIFIED",
+      "quality_status": "OPEN",
+      "popularity": null,
+      "momentum": null,
+      "hardware_fit_summary": {
+        "1x_gx10_32k_short_output": "EXCELLENT"
+      },
+      "source_refs": [
+        "results/qwen38-27b-v1.0/gb10-01/20260831-nvfp4-formal100-32k256.json",
+        "docs/results/qwen38-27b-gx10-20260903.md#runtime-gates"
+      ],
+      "production_qualification_ref": null,
+      "recommendation_confidence": "OPEN",
+      "notes": "Fast local Agent-backend candidate on the measured 32K+256 workload. Coding quality, long context and production qualification remain open."
+    }
+  ]
+}
