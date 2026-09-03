@@ -23,9 +23,7 @@
       "observed_repeat_max_hidden_tests": null,
       "result_scope": "AGENTIC_CODING_TASKS",
       "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
-      "source_refs": [
-        "https://github.com/DG1001/local-agentic-coding-128gb"
-      ],
+      "source_refs": ["https://github.com/DG1001/local-agentic-coding-128gb"],
       "caveats": [
         "One run for this exact pairing; the source explicitly warns that one run is not a measurement of fine-grained ranking.",
         "All tasks are small self-contained Python repositories, not large unfamiliar production codebases.",
@@ -121,9 +119,7 @@
       "observed_repeat_max_hidden_tests": null,
       "result_scope": "AGENTIC_CODING_TASKS",
       "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
-      "source_refs": [
-        "https://github.com/DG1001/local-agentic-coding-128gb"
-      ],
+      "source_refs": ["https://github.com/DG1001/local-agentic-coding-128gb"],
       "caveats": [
         "Different harness from the original opencode table; wall-clock and tool-count rankings are not comparable across harnesses.",
         "One run only.",
@@ -152,9 +148,7 @@
       "observed_repeat_max_hidden_tests": 86,
       "result_scope": "AGENTIC_CODING_TASKS",
       "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
-      "source_refs": [
-        "https://github.com/DG1001/local-agentic-coding-128gb"
-      ],
+      "source_refs": ["https://github.com/DG1001/local-agentic-coding-128gb"],
       "caveats": [
         "Two consecutive 86/86 runs are materially stronger repeat evidence than a single pass, but still only four small Python tasks.",
         "This Q3_K_XL GGUF is a separate Variant from RadixArk NVFP4 and official FP8; its quality/performance evidence must not be transferred between variants.",
@@ -164,14 +158,14 @@
       "notes": "One of the strongest external single-GB10 agentic-coding replication signals found in this audit; should be a P0 first-party replication candidate."
     },
     {
-      "evidence_id": "dg1001-qwen36-35b-nvfp4-opencode-1x-gb10-v1",
+      "evidence_id": "dg1001-qwen36-35b-nvfp4-opencode-best-1x-gb10-v1",
       "model_family": "Qwen3.6-35B-A3B",
       "model_variant": "NVFP4",
       "hardware_topology": "1x_gb10_128gb",
-      "runtime": "vLLM 0.27.1 / DSpark-capable external setup",
+      "runtime": "vLLM external NVFP4 serving profile",
       "agent_harness": "opencode 1.18.14",
       "task_suite": "DG1001 local-agentic-coding-128gb: four Python coding tasks / 86 hidden tests",
-      "run_count": 3,
+      "run_count": 1,
       "hidden_tests_passed": 86,
       "hidden_tests_total": 86,
       "wall_clock_seconds": 1261,
@@ -180,19 +174,48 @@
       "generation_tok_s": 78.3,
       "e2e_tok_s": 57.9,
       "configured_context_tokens": 131072,
+      "observed_repeat_min_hidden_tests": null,
+      "observed_repeat_max_hidden_tests": null,
+      "result_scope": "AGENTIC_CODING_TASKS",
+      "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "source_refs": ["https://github.com/DG1001/local-agentic-coding-128gb"],
+      "caveats": [
+        "This is the source's fast 86/86 opencode run and must not be combined into a same-harness repeat range with the separate Java/jaja repeated pair.",
+        "One run alone does not establish reliability.",
+        "Fine-grained ranking against other 86/86 models remains unsupported."
+      ],
+      "notes": "Fast perfect external run; useful as a Pareto candidate but not a stability claim."
+    },
+    {
+      "evidence_id": "dg1001-qwen36-35b-nvfp4-jaja-repeat-1x-gb10-v1",
+      "model_family": "Qwen3.6-35B-A3B",
+      "model_variant": "NVFP4 same server/config family",
+      "hardware_topology": "1x_gb10_128gb",
+      "runtime": "same external NVFP4 server/config family as the source's repeat study",
+      "agent_harness": "jaja / purpose-built Java harness",
+      "task_suite": "DG1001 local-agentic-coding-128gb: repeated four-task hidden-test study",
+      "run_count": 2,
+      "hidden_tests_passed": 67,
+      "hidden_tests_total": 86,
+      "wall_clock_seconds": null,
+      "tool_calls": null,
+      "own_tests_written": null,
+      "generation_tok_s": null,
+      "e2e_tok_s": null,
+      "configured_context_tokens": 131072,
       "observed_repeat_min_hidden_tests": 64,
-      "observed_repeat_max_hidden_tests": 86,
+      "observed_repeat_max_hidden_tests": 67,
       "result_scope": "AGENTIC_CODING_TASKS",
       "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
       "source_refs": [
-        "https://github.com/DG1001/local-agentic-coding-128gb"
+        "https://github.com/DG1001/local-agentic-coding-128gb/blob/main/docs/variance.md"
       ],
       "caveats": [
-        "The same model/configuration family produced materially different hidden-test totals across repeated runs; 86/86 is not a stability claim.",
-        "The source explicitly uses this model as evidence that speed does not buy consistency.",
-        "Fine-grained ranking against other models is unsupported without more repeats."
+        "These two back-to-back runs use the Java/jaja harness and therefore must not be merged numerically with the separate opencode 86/86 run.",
+        "One run lost an entire task because the harness accepted a four-token STOP with zero tool calls; the source explicitly identifies this as a harness gap.",
+        "The pair demonstrates that run-level outcome is a property of Model × Harness × Sample, not a stable scalar model score."
       ],
-      "notes": "Fast Pareto-frontier performance with a severe repeatability warning; valuable as a stability-control candidate, not as an automatic production winner."
+      "notes": "Retained as repeatability/harness evidence. It is a warning against ranking models by a single perfect run."
     },
     {
       "evidence_id": "dg1001-glm53-iq1s-negative-1x-gb10-v1",
@@ -215,9 +238,7 @@
       "observed_repeat_max_hidden_tests": null,
       "result_scope": "NEGATIVE_CONFIGURATION_EVIDENCE",
       "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
-      "source_refs": [
-        "https://github.com/DG1001/local-agentic-coding-128gb"
-      ],
+      "source_refs": ["https://github.com/DG1001/local-agentic-coding-128gb"],
       "caveats": [
         "The source shows all nine points were already present in the untouched seed; the model contributed no successful task completion in this configuration.",
         "This is a negative result for this exact IQ1_S + llama-server configuration, not a verdict on GLM-5.3-Flash or its NVFP4/FP8 variants.",
