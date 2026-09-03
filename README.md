@@ -4,6 +4,23 @@
 
 本仓库不只比较 `tokens/s`。目标是记录同一模型在不同真实硬件、操作系统、推理栈、量化、上下文长度和工作负载下的 **质量、性能、内存、稳定性、效率与可复现证据**，并在事实层之上形成可审计的 Agent 适配与大型编码生产决策。
 
+## 先看这里：人类可读 Decision Dashboard
+
+如果你是来判断“这台机器到底好不好用、适合什么 Agent、适不适合大型编码、下一步该怎么升级”，**不要先打开 `assessments/*.json` 或 `recommendations/*.json`**。JSON 是给程序、CI 和自动推荐器使用的机器底座。
+
+直接从下面的人类页面进入：
+
+| 入口 | 回答的问题 |
+| --- | --- |
+| **[三层 Decision Dashboard](docs/decision-system/dashboard.md)** | L1 / L2 / L3 当前状态一页看完 |
+| **[L1 — 性能 / 稳定性完整结果](docs/results/qwen38-27b-gx10-20260903.md)** | 真实测出了什么 |
+| **[L2 — 当前 GX10 Agent 适配度](docs/decision-system/current-gx10-agent-fitness.md)** | 适合 Coding Worker、Repo Analyst、RAG、多 Agent、7×24 吗 |
+| **[L3 — 当前大型编码生产适配度](docs/decision-system/current-gx10-production-fitness.md)** | 能不能承担高强度大型项目 Coding Production |
+| **[Model Intelligence 人类视图](docs/decision-system/model-intelligence-view.md)** | 经典 / 旗舰 / 生产甜点 / 编码专家 / 长上下文专家 / 热门模型怎么选 |
+| **[当前改善 / 补测 / 硬件升级路线](docs/decision-system/current-gx10-roadmap.md)** | 现在优化什么、什么时候才值得加第二节点 |
+
+机器可读文件仍然完整保留在 `results/`、`assessments/`、`model-intelligence/`、`recommendations/`，用于追证据、Schema 校验和后续自动生成页面。
+
 ## 当前已验证实测结果
 
 > 当前首页展示的是已进入 `results/` canonical result 的 GX10 Formal100 **部分 suite 数据**：32,768 input + 256 output、Concurrency=1、1 次 warmup 后主批次。它不是 frozen suite 的 cold-cache 完整 isolation，也不是仓库固定定义的 `E2E@32K`（32,768 input + 32,768 output）。
@@ -54,15 +71,21 @@ Model Intelligence → L1 FACT → L2 Agent Workload Fitness → L3 Coding Produ
 
 关键规则：`Hard Gate → Qualification → Fitness → Recommendation`，禁止用一个加权总分掩盖未知或硬失败。`OPEN / NOT_QUALIFIED` 时 Fitness 必须为空。Popularity 只影响测试优先级，不能当 Quality/Hardware Fit/Production Fit。
 
-入口：
+### 人类页面
 
+- [三层 Decision Dashboard](docs/decision-system/dashboard.md)
 - [Decision System v1 总纲](docs/decision-system/README.md)
-- [当前 1×GX10 + Qwen3.8-27B NVFP4 Agent 适配度](docs/decision-system/current-gx10-agent-fitness.md)
-- [Model Intelligence 规则](model-intelligence/README.md)
-- [Model Intelligence Registry](model-intelligence/registry.json)
-- [当前 L2 Agent Assessment](assessments/agent/gx10-qwen38-nvfp4-32k-v1.json)
-- [当前 L3 Large Coding Production Assessment](assessments/production/gx10-qwen38-nvfp4-large-coding-v1.json)
-- [当前升级/补测 Recommendation](recommendations/gx10-qwen38-nvfp4-roadmap-v1.json)
+- [L2：当前 1×GX10 + Qwen3.8-27B NVFP4 Agent 适配度](docs/decision-system/current-gx10-agent-fitness.md)
+- [L3：当前高强度大型项目 Coding Production 适配度](docs/decision-system/current-gx10-production-fitness.md)
+- [Model Intelligence：经典/旗舰/甜点/专家/热门模型视图](docs/decision-system/model-intelligence-view.md)
+- [当前改善/补测/硬件升级路线](docs/decision-system/current-gx10-roadmap.md)
+
+### 机器记录（程序 / CI / 自动推荐器）
+
+- [Model Intelligence Registry JSON](model-intelligence/registry.json)
+- [L2 Agent Assessment JSON](assessments/agent/gx10-qwen38-nvfp4-32k-v1.json)
+- [L3 Large Coding Production Assessment JSON](assessments/production/gx10-qwen38-nvfp4-large-coding-v1.json)
+- [Upgrade / Next-test Recommendation JSON](recommendations/gx10-qwen38-nvfp4-roadmap-v1.json)
 
 CI 会编译并执行 `scripts/validate_decision_system.py`，检查 Schema、Hard Gate/Qualification/Fitness 语义、禁止 aggregate score、Model Intelligence 推荐资格、Hardware ACTION 的反事实门槛、本地 evidence 引用与 freshness 顺序。
 
