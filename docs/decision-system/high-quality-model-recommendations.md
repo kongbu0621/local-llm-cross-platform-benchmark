@@ -31,13 +31,13 @@
 
 ```text
 外部模型很强
-≠ 目标 GB10 已经好用
+!= 目标 GB10 已经好用
 
 权重放得下
-≠ 长上下文放得下
+!= 长上下文放得下
 
 Runtime 能启动
-≠ Coding Production Qualified
+!= Coding Production Qualified
 ```
 
 ---
