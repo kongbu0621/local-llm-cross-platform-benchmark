@@ -1,101 +1,144 @@
-# Model Intelligence — 经典 / 旗舰 / 甜点 / 专家 / 热门模型人类可读视图
+# Model Intelligence — 高质量模型、角色与硬件证据一页看懂
 
-> 这页回答两个问题：**哪些模型值得关注？哪些高质量模型和你当前/计划中的硬件真正值得进入测试池？**
->
-> 这里区分“推荐测试”和“生产推荐”。外部模型即使很强，只要没有本仓第一方 Runtime / Performance / Quality / Context / Agent / Production 证据，就只能是 `WATCH / CANDIDATE`。
+> **这是给人看的 Model Intelligence 入口。** 机器 Registry 在 `model-intelligence/registry.json`。本页区分“本仓第一方已测”“同 GB10 可复现外部实跑”“厂商质量信号”“纯容量推理”，避免把它们混成一个模糊的“适配度”。
 
-## 先看真正的高质量候选推荐
+## 先看真正值得测的模型
 
-**完整推荐、硬件适配、证据强度和测试顺序：** [高质量大模型候选推荐与当前硬件适配](high-quality-model-recommendations.md)
+完整证据与部署边界：[高质量大模型候选推荐与 GB10 / PRO6000 适配](high-quality-model-recommendations.md)。
 
-| Priority | Model | 主要角色 | 1×GX10 | 2×GB10 | 4×GB10 | PRO6000 96GB | 证据边界 |
+| Priority | Model / Variant | 主要角色 | 1×GX10 | 2×GB10 | 4×GB10 | 证据层 | 本仓 Quality |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| **P0** | **Qwen3.8-27B NVFP4 / FP8** | Fast Worker / Local Agent | **已有32K第一方性能** | OPEN | OPEN | OPEN | Hardware=FIRST_PARTY；Quality仍 OPEN |
-| **P0** | **Qwen3.8-Flash-Next** | Fast Main Coding / Repo / Long Context | low-bit/offload OPEN | **official FP8 P0 candidate** | FP8 P0 | aggressive low-bit OPEN | Vendor quality signal；target-hardware runtime OPEN |
-| **P0** | **DeepSeek-V4-Flash-0731** | Main Coding / Architect / Repo-scale | low-bit OPEN | low-bit P0 | **official FP8 capacity candidate** | aggressive low-bit OPEN | Official agent/coding evidence strong；GB10 distributed fit OPEN |
-| **P1** | **GLM-5.3-Flash** | Coding / Repo / Long Context | low-bit OPEN | low-bit P1 | FP8 capacity P1 | low-bit OPEN | Official efficiency/coding evidence；GB10 fit OPEN |
-| **P1** | **MiniMax-M3** | Long-context / Multimodal Coding | official base 不适配 | third-party low-bit OPEN | third-party low-bit P1 | official base 不适配 | **不再把 MXFP4 写成官方 checkpoint** |
-| **P2 / Ref** | **Kimi-K3** | Quality Flagship / Large-cluster Ref | native 不适配 | native 不适配 | native 不适配 | native 不适配 | 2.8T native MXFP4；当前 fleet 只做 API/未来集群参考 |
+| **P0** | **Qwen3.8-27B NVFP4 / FP8** | Fast Worker / Local Agent | **第一方已测 @32K** | OPEN | OPEN | **FIRST_PARTY_MEASURED** | **OPEN** |
+| **P0** | **Qwen3.8-Flash-Next · RadixArk NVFP4** | Fast Main Coding / Repo / Long Context | **GOOD：外部单 GB10 PLE-streaming** | **GOOD：外部 TP2** | OPEN | **REPRODUCIBLE_EXTERNAL** | **OPEN** |
+| **P0** | **DeepSeek-V4-Flash-0731 official mixed checkpoint** | Main Coding / Architect / Repo-scale | full-resident 不适配 | **GOOD：外部 TP2 / 1M** | OPEN | **REPRODUCIBLE_EXTERNAL** | **OPEN** |
+| **P1** | **GLM-5.3-Flash · LibertAIDAI NVFP4** | Coding / Repo / Long Context | full-resident 不适配 | **GOOD：外部 TP2 / 262K** | OPEN | **REPRODUCIBLE_EXTERNAL** | **OPEN** |
+| **P1** | **GLM-5.3-Flash official FP8** | High-quality / 1M Reference | 不适配 | full-resident 不适配 | **GOOD：外部 TP4 / 1M** | **REPRODUCIBLE_EXTERNAL** | **OPEN** |
+| **P2** | **MiniMax-M3 official base** | Long-context / Multimodal Coding | 不适配 | 不适配 official base | third-party low-bit OPEN | Vendor / capacity only | **OPEN** |
+| **WATCH** | **Kimi-K3 native MXFP4** | Cloud/API Quality Flagship / Future Cluster | 不适配 | 不适配 | 不适配 native full-weight | Vendor / capacity only | **OPEN** |
 
-`P0/P1/P2` 是**测试优先级**，不是质量总分，也不是购买顺序。
+**现在最值得注意的不是一个“排行榜第一名”，而是三条已经有同 GB10 实跑证据的路线：**
+
+1. 现有 **1×GX10**：先复现 Qwen3.8-Flash-Next RadixArk NVFP4 的单节点 PLE-streaming 路线，同时完成 Qwen3.8-27B 第一方 Quality/长上下文闭环；
+2. **2×GB10**：DeepSeek-V4-Flash-0731 official、Qwen3.8-Flash-Next RadixArk NVFP4 是 P0；GLM-5.3-Flash NVFP4 是 P1；
+3. **4×GB10**：先证明 2× 的不可替代瓶颈，再看 GLM official FP8 / 1M、更多并发和 scaling efficiency，而不是因为 4 台理论更强就直接升级。
 
 ---
 
-## 模型候选固定 6 类
+## 四种证据不要混
 
-| 类别 | 含义 | 典型用途 |
+| Evidence | 可以证明什么 | 不能证明什么 |
 | --- | --- | --- |
-| **Quality Flagship** | 当前质量上限候选 | Main Agent / Architect / 高难 reasoning |
-| **Production Sweet Spot** | 质量 × 速度 × 内存 × 稳定性的综合甜点 | 日常生产主力 / Fast Worker |
-| **Coding Specialist** | 编码、补丁、代码理解表现特别强 | Coding Worker / Reviewer / Bug Fix Agent |
-| **Long-Context Specialist** | 长上下文、Repo-scale 理解能力突出 | Repo Analyst / Knowledge Agent / 大型项目主 Agent 候选 |
-| **Classic Reference** | 经典、成熟、生态广、历史数据丰富 | Benchmark 锚点 / 长期对照尺 |
-| **Emerging / Hot** | 新发布、爆火、有潜力，但尚未完成本地资格验证 | WATCH / CANDIDATE / 高优先测试池 |
+| **FIRST_PARTY_MEASURED** | 本仓目标硬件、固定合同确实跑过 | 未覆盖的 Context / Quality / Production 仍不能外推 |
+| **REPRODUCIBLE_EXTERNAL** | 同 GB10 类硬件已有公开 recipe + measured results，可显著降低试错风险 | 不能自动成为本仓 Qualification，也不能拿不同 workload 的 tok/s 直接排名 |
+| **VENDOR_CLAIM / official evidence** | 模型架构、官方 benchmark、context claim、支持框架值得进入候选池 | 不能证明你的 GX10 已适配 |
+| **Capacity arithmetic** | 可以排除明显放不下的组合，或判断值得不值得试 | 不能证明 Runtime / KV / 速度 / 长上下文 / 稳定性 |
 
-这些是**角色标签，可以多选**，不是排名。
-
-## 当前 Registry 状态
-
-| Model / Variant | Lifecycle | Test Priority | Quality Status | Quality Evidence | Hardware Evidence | License | 当前硬件含义 |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Qwen3.8-27B BF16 | PERFORMANCE_QUALIFIED | P0 | OPEN | Vendor claim | **First-party measured** | Apache-2.0 | 1×GX10 reference；补 Quality |
-| Qwen3.8-27B FP8 | PERFORMANCE_QUALIFIED | P0 | OPEN | Vendor claim | **First-party measured** | Apache-2.0 | 1×GX10 GOOD；补 Quality |
-| Qwen3.8-27B NVFP4 mixed | PERFORMANCE_QUALIFIED | P0 | OPEN | UNKNOWN for this quant | **First-party measured** | variant terms | 1×GX10 32K perf EXCELLENT；Fast Worker candidate |
-| Qwen3.8-Flash-Next | CANDIDATE | **P0** | CONDITIONAL | Vendor claim | UNKNOWN on fleet | qwen-community-1.0 | **2×GB10 当前最现实的新模型候选之一** |
-| DeepSeek-V4-Flash-0731 | CANDIDATE | **P0** | CONDITIONAL | Vendor claim | UNKNOWN on fleet | MIT | 2×low-bit / 4×FP8 candidate |
-| GLM-5.3-Flash | CANDIDATE | P1 | CONDITIONAL | Vendor claim | UNKNOWN on fleet | MIT | 2×low-bit / 4×FP8 candidate |
-| MiniMax-M3 | CANDIDATE | P1 | CONDITIONAL | Vendor claim | UNKNOWN on fleet | minimax-community | 4× third-party low-bit candidate；官方 base 太大 |
-| Kimi-K3 | WATCH | P2 | CONDITIONAL | Vendor claim | UNKNOWN on fleet | kimi-k3 | 当前 local native 不适配；API/reference |
-
-这里的 `CONDITIONAL` 只表示**存在较强外部 capability/quality 信号**，不代表本仓已经完成 Quality Qualification。
-
----
-
-## 为什么不能把“火爆”直接写成“生产推荐”
+固定语义：
 
 ```text
 Popularity != Quality
 Quality != Workload Fit
 Workload Fit != Hardware Fit
 Hardware Fit != Production Fit
+
+External same-hardware evidence
+!=
+First-party Qualification
 ```
 
-外部候选必须经过：
+---
+
+## 为什么 Variant 必须拆开
+
+模型推荐的单位不是一个模糊的模型名。例如下面这些**必须是不同记录**：
 
 ```text
-Runtime
-→ Performance
-→ Quality
-→ Context-band
-→ Agent Fitness
+Qwen3.8-Flash-Next official FP8
+!= RadixArk Qwen3.8-Flash-Next NVFP4
+
+GLM-5.3-Flash official FP8
+!= LibertAIDAI GLM-5.3-Flash NVFP4
+
+DeepSeek-V4-Flash-0731 official mixed checkpoint
+!= 任意第三方 MXFP4 / INT4 量化
+```
+
+原因是 Variant 会改变：权重驻留、Runtime backend、KV 余量、速度、质量损失和适用节点数。**外部某个 Variant 的实测证据不得自动转移给另一个 Variant。**
+
+---
+
+## 本轮三个重要纠错
+
+### DeepSeek-V4-Flash-0731
+
+之前按 `304B × FP8 ≈ 304GB` 判断官方 checkpoint 至少需要 4×GB10，这是错误的模型文件语义。实际发布 checkpoint 约 167GB，配置同时包含 `expert_dtype=fp4` 与 FP8 quantization path，属于 mixed-precision checkpoint；已经有公开 2×GB10 TP2 / 1M 实跑。因此当前应是 **2×GB10 P0 direct candidate**，不是“2×只能第三方低比特”。
+
+### Qwen3.8-Flash-Next
+
+官方 FP8 与 RadixArk NVFP4 必须拆开。RadixArk NVFP4 约 135GB，并已有 1×GB10 PLE 从 NVMe streaming、2×GB10 TP2 / 262K 的公开实跑。它使“**先不买第二节点也能尝试更大模型**”成为真正值得第一方复现的路线。
+
+### GLM-5.3-Flash
+
+2×GB10 的可复现路线是第三方 LibertAIDAI NVFP4；4×GB10 有 official/native FP8 的公开路线。两条证据不能混写。当前分别作为 2× P1 与 4× high-quality reference candidate。
+
+---
+
+## 模型候选固定 6 类
+
+| 类别 | 典型用途 |
+| --- | --- |
+| **Quality Flagship** | Main Agent / Architect / 高难 reasoning |
+| **Production Sweet Spot** | 日常生产主力 / Fast Worker |
+| **Coding Specialist** | Coding Worker / Reviewer / Bug Fix |
+| **Long-Context Specialist** | Repo Analyst / Knowledge Agent / 大型项目主 Agent |
+| **Classic Reference** | 长期 benchmark 锚点 / 质量参考 |
+| **Emerging / Hot** | WATCH / CANDIDATE / 高优先测试池 |
+
+角色标签可以多选；**Hot 只提高发现/测试优先级，不提高 Production Qualification。**
+
+---
+
+## 当前 Registry 生命周期
+
+- Qwen3.8-27B BF16 / FP8 / NVFP4：`PERFORMANCE_QUALIFIED`，但 Quality 仍 `OPEN`；
+- Qwen3.8-Flash-Next official FP8 / RadixArk NVFP4：`CANDIDATE`；
+- DeepSeek-V4-Flash-0731 official：`CANDIDATE`；
+- GLM-5.3-Flash official FP8 / LibertAIDAI NVFP4：`CANDIDATE`；
+- MiniMax-M3：`CANDIDATE / P2`；
+- Kimi-K3：`WATCH`。
+
+即使 `hardware_evidence_confidence=REPRODUCIBLE_EXTERNAL`，没有本仓 Quality Gate 时仍保持：
+
+```text
+quality_status = OPEN
+recommendation_confidence = OPEN
+```
+
+---
+
+## 统一资格链
+
+```text
+CANDIDATE
+→ Runtime Gate
+→ Formal5
+→ Formal100
+→ Quality Gate
+→ Context-band Gate
+→ Agent Workload Fitness
+→ Real Coding Tool Loop
 → Coding Production Fitness
+→ Production Recommendation
 ```
 
-才允许升级为 `RECOMMENDED`。
+外部同硬件证据的作用是**把第一方试错集中到最有价值的路线**，不是跳过资格链。
 
-## 推荐模型至少看五件事
+推荐阅读：
 
-1. **Model Quality Fit**：coding / reasoning / instruction / agent / long-context；
-2. **Workload Fit**：Coding Worker、Repo Analyst、Architect、RAG、Resident 等；
-3. **Hardware Fit**：目标精度、Actual Context、KV、速度、稳定性；
-4. **Evidence Confidence**：第一方实测、可复现外部、厂商 benchmark 还是社区信号；
-5. **License / Deployment Terms**：能否用于真实交付和长期部署。
+1. [高质量模型候选与 GB10 / PRO6000 适配](high-quality-model-recommendations.md)
+2. [三层 Decision Dashboard](dashboard.md)
+3. [当前 GX10 Agent Fitness](current-gx10-agent-fitness.md)
+4. [当前大型 Coding Production Fitness](current-gx10-production-fitness.md)
+5. [当前改善/升级路线](current-gx10-roadmap.md)
 
-最终推荐单位仍然是：
-
-```text
-Model Family
-+ Model Variant
-+ Serving Profile
-+ Hardware Topology
-+ Workload Contract
-```
-
-## 当前推荐阅读顺序
-
-1. [高质量模型候选与硬件适配](high-quality-model-recommendations.md) — 看“应该测谁、在哪套硬件上测”；
-2. [当前 GX10 Agent Fitness](current-gx10-agent-fitness.md) — 看“现在已经能承担什么”；
-3. [当前大型 Coding Production Fitness](current-gx10-production-fitness.md) — 看“离主编码生产系统还缺什么”；
-4. [当前改善/升级路线](current-gx10-roadmap.md) — 看“下一步怎么补”。
-
-机器可读 Registry：[`model-intelligence/registry.json`](../../model-intelligence/registry.json)。
+机器 Registry：[`model-intelligence/registry.json`](../../model-intelligence/registry.json)。
