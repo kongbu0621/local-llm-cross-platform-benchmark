@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "recommendation_id": "gx10-qwen38-nvfp4-roadmap-v1",
+  "target": "1xGX10 + Qwen3.8-27B NVFP4_mixed: move from measured 32K inference worker toward large-project Agent/Coding production qualification",
+  "optimization_objective": "Maximize useful high-intensity coding/Agent capability without buying hardware before a non-substitutable bottleneck is demonstrated.",
+  "assumptions": [
+    "Current first-party evidence is limited to 32K+256 warm C=1 performance/stability and runtime/hardware gate.",
+    "A main large-project coding agent should be evaluated at materially larger working-context bands such as 384K/512K.",
+    "Model/variant/runtime/context strategy changes are cheaper interventions than adding hardware and must be checked first."
+  ],
+  "constraints": [
+    "Do not extrapolate 32K results to 384K/512K/1M.",
+    "Do not treat local AI hardware upgrades as acceleration for cloud-model inference.",
+    "Do not use configuration maximums as Actual Context evidence.",
+    "Quality and production coding fitness must be measured separately from performance."
+  ],
+  "current_state": {
+    "qualification": "CONDITIONAL",
+    "fitness": "GOOD",
+    "dominant_bottlenecks": [
+      "Pure Prefill/TTFT is unmeasured as an isolated metric and has become a larger share of 32K E2E.",
+      "384K/512K memory/KV/performance gates are open.",
+      "Coding quality/tool-loop/long-session production gates are open."
+    ],
+    "evidence_refs": [
+      "results/qwen38-27b-v1.0/gb10-01/20260831-nvfp4-formal100-32k256.json",
+      "docs/results/qwen38-27b-gx10-derived-analysis-20260903.md"
+    ]
+  },
+  "options": [
+    {
+      "option_id": "hold-hardware-and-close-gates",
+      "kind": "NO_CHANGE",
+      "status": "ACTION",
+      "trigger": "Current state: no first-party target-context or target-concurrency hard gate has yet demonstrated a non-substitutable hardware bottleneck.",
+      "expected_gain": ["Avoid premature hardware spend", "Convert unknowns into measured blocking gates before changing topology"],
+      "does_not_solve": ["Does not itself improve TTFT/Decode", "Does not create 384K/512K capacity evidence"],
+      "cost": "NONE",
+      "operational_complexity": "LOW",
+      "residual_bottleneck": ["Large-context, coding-quality, concurrency and long-run gates remain open until tested"],
+      "new_failure_domains": [],
+      "counterfactual_no_hardware": {"result": "UNRESOLVED", "reason": "Software/model/context alternatives have not yet been exhausted at the target large-project workload."},
+      "evidence_refs": ["docs/decision-system/current-gx10-agent-fitness.md"]
+    },
+    {
+      "option_id": "prefill-ttft-optimization",
+      "kind": "RUNTIME_OPTIMIZATION",
+      "status": "OPTION",
+      "trigger": "Promote after pure-prefill/TTFT measurement confirms a material controllable bottleneck on the target workload.",
+      "expected_gain": ["Lower first-token wait", "Improve repeated Agent tool-loop wall-clock when inference is local"],
+      "does_not_solve": ["Cannot solve insufficient model quality", "Cannot solve hard memory/KV capacity limits"],
+      "cost": "LOW",
+      "operational_complexity": "MEDIUM",
+      "residual_bottleneck": ["Decode, quality, memory/KV, build/test may become dominant after TTFT improves"],
+      "new_failure_domains": ["Runtime/profile complexity and comparison-mode drift"],
+      "counterfactual_no_hardware": {"result": "NOT_APPLICABLE", "reason": "This is itself a no-new-hardware intervention."},
+      "evidence_refs": ["docs/results/qwen38-27b-gx10-derived-analysis-20260903.md"]
+    },
+    {
+      "option_id": "add-second-gx10",
+      "kind": "ADD_HOMOGENEOUS_NODE",
+      "status": "OPTION",
+      "trigger": "Only promote to ACTION if first-party 384K/512K testing hits a memory/KV blocking gate, or target C=2/4 Agent workload shows sustained QoS degradation that model/runtime/workload changes cannot resolve.",
+      "expected_gain": ["Additional capacity/model placement", "Potential task-level parallel throughput", "Potential relief for capacity/concurrency bottlenecks"],
+      "does_not_solve": ["Cloud-model latency", "CPU-bound UE/C++ compile time", "Workspace NVMe bottlenecks", "Model quality deficits"],
+      "cost": "HIGH",
+      "operational_complexity": "HIGH",
+      "residual_bottleneck": ["Single-request TTFT may remain", "Distributed/runtime support may become the new bottleneck"],
+      "new_failure_domains": ["Inter-node networking", "Scheduling", "Node failure/recovery", "Configuration drift"],
+      "counterfactual_no_hardware": {"result": "UNRESOLVED", "reason": "Target large-context/concurrency evidence and model/runtime substitution checks are not complete."},
+      "evidence_refs": []
+    },
+    {
+      "option_id": "split-ai-and-development-roles",
+      "kind": "SPLIT_REDESIGN_TOPOLOGY",
+      "status": "OPTION",
+      "trigger": "Promote when end-to-end coding-task data shows AI inference and build/workspace bottlenecks are best served by different hosts.",
+      "expected_gain": ["Keep GX10 focused as AI node", "Allow CPU/RAM/NVMe-heavy build/test work on a stronger development host"],
+      "does_not_solve": ["Does not automatically improve local model quality", "Requires explicit execution placement and remote-control reliability"],
+      "cost": "MEDIUM",
+      "operational_complexity": "HIGH",
+      "residual_bottleneck": ["Network/tool orchestration and recovery become part of production latency"],
+      "new_failure_domains": ["Cross-host connectivity", "Placement/configuration errors", "Control-plane dependency"],
+      "counterfactual_no_hardware": {"result": "UNRESOLVED", "reason": "Requires real coding-loop placement measurements before choosing topology."},
+      "evidence_refs": ["assessments/production/gx10-qwen38-nvfp4-large-coding-v1.json"]
+    }
+  ],
+  "selected_option": "hold-hardware-and-close-gates",
+  "next_test_plan": [
+    "Pure Prefill / TTFT measurement",
+    "128K → 256K → 384K → 512K Actual Context performance and memory/KV gates",
+    "Coding quality suite",
+    "Real repo search/edit/compile/test task suite",
+    "C=2/4 Agent concurrency test",
+    "Long-session/recovery test",
+    "Re-evaluate 2x homogeneous-node trigger only after the relevant blocking gate is measured"
+  ],
+  "confidence": {
+    "evidence": "FIRST_PARTY_MEASURED",
+    "recommendation": "MEDIUM"
+  },
+  "previous_recommendation_ref": null,
+  "changed_because": ["Decision-system v1 now requires counterfactual no-hardware checks and explicit upgrade triggers."],
+  "evaluated_at": "2026-09-03T11:30:00+08:00",
+  "evidence_as_of": "2026-09-03T10:54:29+08:00"
+}

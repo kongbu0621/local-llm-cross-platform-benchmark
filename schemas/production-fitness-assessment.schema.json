@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kongbu0621/local-llm-cross-platform-benchmark/schemas/production-fitness-assessment.schema.json",
+  "title": "Coding Production Fitness Assessment",
+  "type": "object",
+  "required": ["schema_version", "assessment_id", "configuration", "hard_gates", "qualification", "fitness", "confidence", "topology_modes", "open_metrics", "next_required_tests", "evaluated_at", "evidence_as_of"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "assessment_id": {"type": "string", "minLength": 1},
+    "configuration": {
+      "type": "object",
+      "required": ["coding_tool", "model_backend", "model_portfolio", "execution_placement", "project_profile", "context_strategy", "operating_mode"],
+      "properties": {
+        "coding_tool": {"type": "string"},
+        "model_backend": {"enum": ["LOCAL", "CLOUD", "HYBRID"]},
+        "model_portfolio": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "model_routing": {"type": "array", "items": {"type": "string"}},
+        "execution_placement": {
+          "type": "object",
+          "required": ["inference", "workspace", "build", "test", "repository", "knowledge_rag", "control_plane"],
+          "properties": {
+            "inference": {"type": "string"},
+            "workspace": {"type": "string"},
+            "build": {"type": "string"},
+            "test": {"type": "string"},
+            "repository": {"type": "string"},
+            "knowledge_rag": {"type": "string"},
+            "control_plane": {"type": "string"}
+          },
+          "additionalProperties": false
+        },
+        "project_profile": {
+          "type": "object",
+          "required": ["project_type", "scale"],
+          "properties": {
+            "project_type": {"type": "string"},
+            "scale": {"enum": ["SMALL", "MEDIUM", "LARGE", "VERY_LARGE"]},
+            "repo_characteristics": {"type": "array", "items": {"type": "string"}}
+          },
+          "additionalProperties": false
+        },
+        "context_strategy": {"type": "string"},
+        "storage_authority": {"type": ["string", "null"]},
+        "network": {"type": ["string", "null"]},
+        "operating_mode": {"enum": ["INTERACTIVE", "LONG_RUNNING", "AUTONOMOUS", "MULTI_PROJECT", "RESIDENT"]}
+      },
+      "additionalProperties": false
+    },
+    "hard_gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["gate_id", "blocking", "status", "reason", "evidence_refs"],
+        "properties": {
+          "gate_id": {"type": "string"},
+          "blocking": {"type": "boolean"},
+          "status": {"enum": ["PASS", "FAIL", "OPEN"]},
+          "reason": {"type": "string"},
+          "evidence_refs": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "qualification": {"enum": ["QUALIFIED", "CONDITIONAL", "NOT_QUALIFIED", "OPEN"]},
+    "fitness": {"type": ["string", "null"], "enum": ["EXCELLENT", "GOOD", "FAIR", "WEAK", "UNSUITABLE", null]},
+    "confidence": {
+      "type": "object",
+      "required": ["evidence", "recommendation"],
+      "properties": {
+        "evidence": {"enum": ["FIRST_PARTY_MEASURED", "REPRODUCIBLE_EXTERNAL", "STRONG_EXTERNAL", "COMMUNITY", "VENDOR_CLAIM", "UNKNOWN"]},
+        "recommendation": {"enum": ["HIGH", "MEDIUM", "LOW", "OPEN"]}
+      },
+      "additionalProperties": false
+    },
+    "topology_modes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["mode", "qualification", "fitness", "reason"],
+        "properties": {
+          "mode": {"enum": ["MONOLITHIC", "SPLIT"]},
+          "qualification": {"enum": ["QUALIFIED", "CONDITIONAL", "NOT_QUALIFIED", "OPEN"]},
+          "fitness": {"type": ["string", "null"], "enum": ["EXCELLENT", "GOOD", "FAIR", "WEAK", "UNSUITABLE", null]},
+          "reason": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "observed_metrics": {"type": "object"},
+    "open_metrics": {"type": "array", "items": {"type": "string"}},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "next_required_tests": {"type": "array", "items": {"type": "string"}},
+    "evaluated_at": {"type": "string", "format": "date-time"},
+    "evidence_as_of": {"type": "string", "format": "date-time"},
+    "notes": {"type": "string"}
+  },
+  "additionalProperties": false
+}

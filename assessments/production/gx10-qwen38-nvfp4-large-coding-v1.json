@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "assessment_id": "gx10-qwen38-nvfp4-large-coding-production-v1",
+  "configuration": {
+    "coding_tool": "Generic agentic coding tool using a local OpenAI-compatible model backend",
+    "model_backend": "LOCAL",
+    "model_portfolio": ["Qwen3.8-27B NVFP4_mixed on 1xGX10"],
+    "model_routing": ["Main coding role is not yet production-qualified; current evidence supports a fast local worker candidate only."],
+    "execution_placement": {
+      "inference": "1x GX10 / GB10",
+      "workspace": "Development host — outside current benchmark evidence",
+      "build": "Development/build host — outside current benchmark evidence",
+      "test": "Development/test host — outside current benchmark evidence",
+      "repository": "Git working copy + Git Authority topology — evaluated separately",
+      "knowledge_rag": "OPEN",
+      "control_plane": "OPEN"
+    },
+    "project_profile": {
+      "project_type": "High-intensity large C++/UE-style software project",
+      "scale": "VERY_LARGE",
+      "repo_characteristics": ["large multi-module repository", "frequent search/edit/build/test loops", "long-lived architectural constraints"]
+    },
+    "context_strategy": "Target 384K/512K working-context bands before qualifying a main large-project coding agent.",
+    "storage_authority": "NAS/Git Authority topology is outside the LLM performance result itself.",
+    "network": "Execution placement must distinguish local inference from cloud inference; local GPU upgrades cannot be credited to cloud-model latency.",
+    "operating_mode": "LONG_RUNNING"
+  },
+  "hard_gates": [
+    {
+      "gate_id": "large-context-384k-512k",
+      "blocking": true,
+      "status": "OPEN",
+      "reason": "384K/512K performance, memory/KV and stability are not yet first-party measured for this target configuration.",
+      "evidence_refs": ["docs/results/qwen38-27b-gx10-20260903.md#conclusions"]
+    },
+    {
+      "gate_id": "coding-production-quality",
+      "blocking": true,
+      "status": "OPEN",
+      "reason": "Correctness, repo understanding, patch minimality, regression avoidance and scope control are not yet measured.",
+      "evidence_refs": []
+    },
+    {
+      "gate_id": "tool-loop",
+      "blocking": true,
+      "status": "OPEN",
+      "reason": "Real search/edit/diff/build/test/repair loops are not yet benchmarked.",
+      "evidence_refs": []
+    },
+    {
+      "gate_id": "long-session-recovery",
+      "blocking": true,
+      "status": "OPEN",
+      "reason": "Long-session, restart, crash recovery and context-retention evidence is absent.",
+      "evidence_refs": []
+    },
+    {
+      "gate_id": "execution-placement",
+      "blocking": true,
+      "status": "OPEN",
+      "reason": "The final production topology must bind inference/workspace/build/test/repository/control placement before end-to-end fitness can be scored.",
+      "evidence_refs": []
+    }
+  ],
+  "qualification": "OPEN",
+  "fitness": null,
+  "confidence": {
+    "evidence": "FIRST_PARTY_MEASURED",
+    "recommendation": "OPEN"
+  },
+  "topology_modes": [
+    {
+      "mode": "MONOLITHIC",
+      "qualification": "OPEN",
+      "fitness": null,
+      "reason": "Current LLM benchmark cannot qualify one GX10 as the complete workspace/build/test/coding-production node."
+    },
+    {
+      "mode": "SPLIT",
+      "qualification": "OPEN",
+      "fitness": null,
+      "reason": "Split AI-node + development-host topology is architecturally plausible, but end-to-end coding task evidence is still required."
+    }
+  ],
+  "observed_metrics": {
+    "local_inference_32k_effective_prefill_tps": 1300.614,
+    "local_inference_32k_ttft_ms": 25194.249,
+    "local_inference_32k_decode_tps": 9.081,
+    "local_inference_32k_e2e_ms": 53275.252,
+    "local_inference_completion": "100/100"
+  },
+  "open_metrics": [
+    "384K/512K Actual Context performance",
+    "Pure Prefill",
+    "Target-context Peak Memory/KV",
+    "Coding production quality",
+    "Task Success Rate",
+    "Accepted Patch Rate",
+    "Human Intervention / Task",
+    "Tool-loop Count",
+    "Build/Test Failure and Regression Rate",
+    "Recovery Rate",
+    "Useful Engineering Work / Hour"
+  ],
+  "evidence_refs": [
+    "results/qwen38-27b-v1.0/gb10-01/20260831-nvfp4-formal100-32k256.json",
+    "docs/results/qwen38-27b-gx10-derived-analysis-20260903.md"
+  ],
+  "next_required_tests": [
+    "384K then 512K performance/memory/stability gate",
+    "Coding quality suite",
+    "Real large-repo coding task suite",
+    "Long-session/recovery test",
+    "Compare monolithic vs split execution placement"
+  ],
+  "evaluated_at": "2026-09-03T11:30:00+08:00",
+  "evidence_as_of": "2026-09-03T10:54:29+08:00",
+  "notes": "Current 32K performance is strong evidence for an inference worker role, not enough to qualify the full high-intensity large-project coding production configuration."
+}

@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kongbu0621/local-llm-cross-platform-benchmark/schemas/agent-fitness-assessment.schema.json",
+  "title": "Agent Workload Fitness Assessment",
+  "type": "object",
+  "required": ["schema_version", "assessment_id", "target", "workload", "hard_gates", "qualification", "fitness", "confidence", "bottlenecks", "improvement_options", "hardware_upgrade_triggers", "next_required_tests", "evaluated_at", "evidence_as_of"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "assessment_id": {"type": "string", "minLength": 1},
+    "target": {
+      "type": "object",
+      "required": ["model_family", "model_variant", "serving_profile", "hardware_topology"],
+      "properties": {
+        "model_family": {"type": "string"},
+        "model_variant": {"type": "string"},
+        "serving_profile": {"type": "string"},
+        "hardware_topology": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "workload": {
+      "type": "object",
+      "required": ["contract_id", "archetype", "context", "output_profile", "tool_call_frequency", "session_duration", "concurrency", "quality_requirement", "sensitivities", "recovery_requirement", "residency"],
+      "properties": {
+        "contract_id": {"type": "string"},
+        "archetype": {"type": "string"},
+        "context": {"type": "object", "required": ["target_tokens"], "properties": {"target_tokens": {"type": "integer", "minimum": 1}, "band": {"type": "string"}}, "additionalProperties": false},
+        "output_profile": {"type": "string"},
+        "tool_call_frequency": {"type": "string"},
+        "session_duration": {"type": "string"},
+        "concurrency": {"type": "integer", "minimum": 1},
+        "quality_requirement": {"type": "string"},
+        "sensitivities": {"type": "object"},
+        "recovery_requirement": {"type": "string"},
+        "residency": {"type": "string"},
+        "notes": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "hard_gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["gate_id", "blocking", "status", "reason", "evidence_refs"],
+        "properties": {
+          "gate_id": {"type": "string"},
+          "blocking": {"type": "boolean"},
+          "status": {"enum": ["PASS", "FAIL", "OPEN"]},
+          "reason": {"type": "string"},
+          "evidence_refs": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "qualification": {"enum": ["QUALIFIED", "CONDITIONAL", "NOT_QUALIFIED", "OPEN"]},
+    "fitness": {"type": ["string", "null"], "enum": ["EXCELLENT", "GOOD", "FAIR", "WEAK", "UNSUITABLE", null]},
+    "confidence": {
+      "type": "object",
+      "required": ["evidence", "recommendation"],
+      "properties": {
+        "evidence": {"enum": ["FIRST_PARTY_MEASURED", "REPRODUCIBLE_EXTERNAL", "STRONG_EXTERNAL", "COMMUNITY", "VENDOR_CLAIM", "UNKNOWN"]},
+        "recommendation": {"enum": ["HIGH", "MEDIUM", "LOW", "OPEN"]}
+      },
+      "additionalProperties": false
+    },
+    "bottlenecks": {"type": "array", "items": {"type": "string"}},
+    "recommended_role": {"type": ["string", "null"]},
+    "improvement_options": {"type": "array", "items": {"type": "string"}},
+    "hardware_upgrade_triggers": {"type": "array", "items": {"type": "string"}},
+    "next_required_tests": {"type": "array", "items": {"type": "string"}},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "evaluated_at": {"type": "string", "format": "date-time"},
+    "evidence_as_of": {"type": "string", "format": "date-time"},
+    "notes": {"type": "string"}
+  },
+  "additionalProperties": false
+}

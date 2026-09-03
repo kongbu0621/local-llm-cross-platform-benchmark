@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kongbu0621/local-llm-cross-platform-benchmark/schemas/recommendation.schema.json",
+  "title": "Decision Recommendation",
+  "type": "object",
+  "required": ["schema_version", "recommendation_id", "target", "optimization_objective", "assumptions", "constraints", "current_state", "options", "selected_option", "next_test_plan", "confidence", "evaluated_at", "evidence_as_of"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "recommendation_id": {"type": "string", "minLength": 1},
+    "target": {"type": "string", "minLength": 1},
+    "optimization_objective": {"type": "string", "minLength": 1},
+    "assumptions": {"type": "array", "items": {"type": "string"}},
+    "constraints": {"type": "array", "items": {"type": "string"}},
+    "current_state": {
+      "type": "object",
+      "required": ["qualification", "fitness", "dominant_bottlenecks", "evidence_refs"],
+      "properties": {
+        "qualification": {"enum": ["QUALIFIED", "CONDITIONAL", "NOT_QUALIFIED", "OPEN"]},
+        "fitness": {"type": ["string", "null"], "enum": ["EXCELLENT", "GOOD", "FAIR", "WEAK", "UNSUITABLE", null]},
+        "dominant_bottlenecks": {"type": "array", "items": {"type": "string"}},
+        "evidence_refs": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "options": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["option_id", "kind", "status", "trigger", "expected_gain", "does_not_solve", "cost", "operational_complexity", "residual_bottleneck", "new_failure_domains", "counterfactual_no_hardware"],
+        "properties": {
+          "option_id": {"type": "string", "minLength": 1},
+          "kind": {"enum": ["NO_CHANGE", "CONFIGURATION_FIX", "RUNTIME_OPTIMIZATION", "WORKLOAD_CONTEXT_STRATEGY", "MODEL_VARIANT_SUBSTITUTION", "MODEL_ROUTING", "ROLE_REASSIGNMENT", "COMPONENT_UPGRADE", "ADD_HOMOGENEOUS_NODE", "SPLIT_REDESIGN_TOPOLOGY", "PLATFORM_REPLACEMENT"]},
+          "status": {"enum": ["OPTION", "ACTION", "REJECTED"]},
+          "trigger": {"type": "string"},
+          "expected_gain": {"type": "array", "items": {"type": "string"}},
+          "does_not_solve": {"type": "array", "items": {"type": "string"}},
+          "cost": {"enum": ["NONE", "LOW", "MEDIUM", "HIGH", "VERY_HIGH", "UNKNOWN"]},
+          "operational_complexity": {"enum": ["LOW", "MEDIUM", "HIGH", "VERY_HIGH", "UNKNOWN"]},
+          "residual_bottleneck": {"type": "array", "items": {"type": "string"}},
+          "new_failure_domains": {"type": "array", "items": {"type": "string"}},
+          "counterfactual_no_hardware": {
+            "type": "object",
+            "required": ["result", "reason"],
+            "properties": {
+              "result": {"enum": ["SUFFICIENT", "INSUFFICIENT", "UNRESOLVED", "NOT_APPLICABLE"]},
+              "reason": {"type": "string"}
+            },
+            "additionalProperties": false
+          },
+          "evidence_refs": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "selected_option": {"type": ["string", "null"]},
+    "next_test_plan": {"type": "array", "items": {"type": "string"}},
+    "confidence": {
+      "type": "object",
+      "required": ["evidence", "recommendation"],
+      "properties": {
+        "evidence": {"enum": ["FIRST_PARTY_MEASURED", "REPRODUCIBLE_EXTERNAL", "STRONG_EXTERNAL", "COMMUNITY", "VENDOR_CLAIM", "UNKNOWN"]},
+        "recommendation": {"enum": ["HIGH", "MEDIUM", "LOW", "OPEN"]}
+      },
+      "additionalProperties": false
+    },
+    "previous_recommendation_ref": {"type": ["string", "null"]},
+    "changed_because": {"type": "array", "items": {"type": "string"}},
+    "evaluated_at": {"type": "string", "format": "date-time"},
+    "evidence_as_of": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false
+}
