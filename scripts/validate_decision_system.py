@@ -28,6 +28,7 @@ HARDWARE_KINDS = {
     "SPLIT_REDESIGN_TOPOLOGY",
     "PLATFORM_REPLACEMENT",
 }
+POSITIVE_HARDWARE_FIT = {"EXCELLENT", "GOOD", "FAIR", "CONDITIONAL"}
 
 
 def load(path: Path) -> Any:
@@ -130,20 +131,57 @@ def validate_topology_modes(path: Path, obj: dict[str, Any]) -> list[str]:
 
 
 def validate_model_registry(path: Path, obj: dict[str, Any]) -> list[str]:
+    """Enforce evidence-tier boundaries for Model Intelligence.
+
+    External evidence may raise test priority or hardware-fit confidence, but it may
+    not silently become this repository's Quality Qualification. Likewise, an
+    UNKNOWN hardware-evidence record may only say OPEN or UNSUITABLE; positive fit
+    requires at least an explicit external evidence tier.
+    """
     errors: list[str] = []
     seen: set[str] = set()
+
     for record in obj.get("records", []):
         rid = record.get("record_id")
         if rid in seen:
             errors.append(f"duplicate model-intelligence record_id: {rid}")
         seen.add(rid)
+
+        quality_evidence = record.get("quality_evidence_confidence")
+        quality_status = record.get("quality_status")
+        if quality_evidence != "FIRST_PARTY_MEASURED" and quality_status != "OPEN":
+            errors.append(
+                f"model {rid}: non-first-party quality evidence requires quality_status=OPEN; external evidence is candidate evidence, not repo qualification"
+            )
+
+        hardware_evidence = record.get("hardware_evidence_confidence")
+        fits = record.get("hardware_fit_summary", {})
+        if hardware_evidence == "UNKNOWN" and isinstance(fits, dict):
+            positive = sorted(
+                key for key, value in fits.items() if value in POSITIVE_HARDWARE_FIT
+            )
+            if positive:
+                errors.append(
+                    f"model {rid}: hardware_evidence_confidence=UNKNOWN cannot claim positive hardware fit for {positive}; use OPEN/UNSUITABLE or add evidence"
+                )
+
+        if hardware_evidence == "REPRODUCIBLE_EXTERNAL":
+            refs = record.get("source_refs", [])
+            if not any(isinstance(ref, str) and ref.startswith(("http://", "https://")) for ref in refs):
+                errors.append(
+                    f"model {rid}: REPRODUCIBLE_EXTERNAL hardware evidence requires at least one external source_ref"
+                )
+
         if record.get("lifecycle") == "RECOMMENDED":
             if record.get("quality_status") != "QUALIFIED":
                 errors.append(f"model {rid}: RECOMMENDED requires quality_status=QUALIFIED")
+            if record.get("quality_evidence_confidence") != "FIRST_PARTY_MEASURED":
+                errors.append(f"model {rid}: RECOMMENDED requires first-party quality evidence")
             if not record.get("production_qualification_ref"):
                 errors.append(f"model {rid}: RECOMMENDED requires production_qualification_ref")
             if record.get("recommendation_confidence") not in {"HIGH", "MEDIUM"}:
                 errors.append(f"model {rid}: RECOMMENDED requires non-open recommendation confidence")
+
     return errors
 
 
