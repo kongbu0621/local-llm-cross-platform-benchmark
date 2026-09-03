@@ -4,6 +4,40 @@
 
 本仓库不只比较 `tokens/s`。目标是记录同一模型在不同真实硬件、操作系统、推理栈、量化、上下文长度和工作负载下的 **质量、性能、内存、稳定性、效率与可复现证据**。
 
+## 当前已验证实测结果
+
+> 当前首页展示的是已进入 `results/` canonical result 的 GX10 Formal100 **部分 suite 数据**：32,768 input + 256 output、Concurrency=1、1 次 warmup 后主批次。它不是 frozen suite 的 cold-cache 完整 isolation，也不是仓库固定定义的 `E2E@32K`（32,768 input + 32,768 output）。
+
+<!-- BEGIN AUTO:FORMAL100_DASHBOARD -->
+| Hardware | Model | Precision | Workload | Cache | Mode | Evidence | Effective Prefill* (tok/s) | Pure Prefill (tok/s) | TTFT (ms) | TPOT (ms/token) | Decode (tok/s) | E2E (ms) | Completion | 详情 |
+| --- | --- | --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- |
+| 1× GX10 / GB10 | Qwen3.8-27B | BF16 | 32K + 256 | warm (1 warmup) | platform_optimized | B | 936.453 | 未单独测 | 34991.596 | 252.447 | 3.961 | 99365.625 | 100/100 | [完整详情](docs/results/qwen38-27b-gx10-20260903.md#formal100-performance) |
+| 1× GX10 / GB10 | Qwen3.8-27B | FP8 | 32K + 256 | warm (1 warmup) | platform_optimized | B | 1187.130 | 未单独测 | 27602.710 | 156.783 | 6.378 | 67582.360 | 100/100 | [完整详情](docs/results/qwen38-27b-gx10-20260903.md#formal100-performance) |
+| 1× GX10 / GB10 | Qwen3.8-27B | NVFP4 | 32K + 256 | warm (1 warmup) | platform_optimized | B | 1300.614 | 未单独测 | 25194.249 | 110.122 | 9.081 | 53275.252 | 100/100 | [完整详情](docs/results/qwen38-27b-gx10-20260903.md#formal100-performance) |
+<!-- END AUTO:FORMAL100_DASHBOARD -->
+
+\* `Effective Prefill* = 32768 / TTFT(s)`，是 Derived 的实际首 token 链路有效输入速度，**不是 Pure Prefill `pp_tps`**。Pure Prefill 本轮没有独立测量，因此保持“未单独测”。
+
+这张首页表由 `results/qwen38-27b-v1.0/gb10-01/*.json` 的 canonical Formal100 结果生成/校验；CI 会阻止 README 数字与结构化结果静默漂移。
+
+**看不懂 Prefill / TTFT / TPOT / Decode / E2E / Std / P99 / CV？** 统一看：[Benchmark 指标统一解释](docs/metrics/benchmark-metrics-glossary.md)。
+
+### 这一轮的数据资产
+
+- **Canonical Results**：[BF16 / FP8 / NVFP4 Formal100 + NVFP4 failed B0](results/qwen38-27b-v1.0/gb10-01/)
+- **指标统一解释**：[Measured / Derived / Unmeasured、Prefill、TTFT、TPOT、Decode、E2E、ITL、Std、CV、P50-P99、Peak output、throughput、drift](docs/metrics/benchmark-metrics-glossary.md)
+- **衍生数据与决策结论**：[相对收益、单请求节省时间、100 请求成本、requests/hour、E2E 阶段占比、瓶颈迁移、tail、可重复性](docs/results/qwen38-27b-gx10-derived-analysis-20260903.md)
+- **Formal5（5 次）阶段数据**：[三档横向表 + BF16 多轮 Formal5](docs/results/qwen38-27b-gx10-20260903.md#formal5-performance)
+- **Formal100（100 次）正式 warm-batch 性能**：[runner 参数、均值、duration、Completion、Effective Prefill / Decode / E2E](docs/results/qwen38-27b-gx10-20260903.md#formal100-performance)
+- **Formal100 批次稳定性**：[Std / CV / P50 / P90 / P95 / P99 / ITL / Formal5→100 drift](docs/results/qwen38-27b-gx10-20260903.md#formal100-stability)
+- **FP8 / NVFP4 Runtime + Hardware Gate**：[checkpoint → runtime → inference → Nsys → NCU → Tensor Pipe](docs/results/qwen38-27b-gx10-20260903.md#runtime-gates)
+- **失败与诊断过程**：[NVFP4 B0 Bad Gateway、BF16 diagnostics、kernel trace](docs/results/qwen38-27b-gx10-20260903.md#failure-evidence)
+- **最终结论与边界**：[哪些成立、哪些仍必须新增实测](docs/results/qwen38-27b-gx10-20260903.md#conclusions)
+- **原始证据入口**：[Formal/B0/Diagnostics/Gates/Manifest/History](docs/results/qwen38-27b-gx10-20260903.md#raw-evidence-index)
+- **结果资产审计清单**：[本轮测试、证据、结构化结果、修复项与缺口](docs/results/qwen38-27b-gx10-asset-inventory-20260903.md)
+
+后续 128K / 256K / 384K / 512K / 768K / 1M、32K-output E2E、Pure Prefill、Peak Memory/KV、cold-cache isolation、质量、24h soak、PRO 6000、2×/4× GB10、Apple / AMD 等完成后，继续追加；没有可靠实测的数据保持“未测 / 不可计算”。
+
 ## 核心原则
 
 1. **主结果只来自真实拥有并实际运行过的硬件。** `planned` 仅表示未来可能接入，不进入正式结果或排名。
@@ -58,15 +92,15 @@ suites/      每个模型/版本的冻结测试套件
 datasets/    数据集 manifest 与获取规则（不保存受限原题）
 runners/     vLLM / SGLang / llama.cpp / MLX 等 runner
 schemas/     结构化结果与环境合同
-results/     通过 schema 的正式结果
+results/     通过 schema 的正式结构化结果
 evidence/    可公开的原始日志、环境快照与校验信息
-scripts/     下载、校验、采集与汇总工具
+scripts/     下载、校验、采集、汇总与 README dashboard 生成工具
 ```
 
 ## Evidence Levels
 
 - **A — Fully Reproducible**：完整参数、版本、环境快照、测试数据 hash、原始日志、结构化结果均存在。
-- **B — Verified**：关键条件可验证，但少量原始证据缺失。
+- **B — Verified**：关键条件可验证，但少量 A 级要求仍缺失；必须展示证据缺口。
 - **C — Community Reference**：第三方论坛/GitHub/社区数据，仅作为外部参考，不与本仓库主实测等权。
 
 详见 `docs/evidence-levels.md`。

@@ -1,8 +1,10 @@
 # Qwen3.8-27B Cross-Platform Work Benchmark v1.0
 
-状态：**FROZEN FOR INITIAL DATA PREPARATION**
+状态：**FROZEN — INITIAL GX10 PARTIAL PERFORMANCE DATA PUBLISHED**
 
 本 suite 是本仓库第一套正式跨平台测试母本。后续 GB10、RTX PRO 6000、Mac 以及实际购入的其他硬件，均应复用本 suite 的冻结定义；方法变化必须发布新版本。
+
+> 初始数据状态：`gb10-01` 已发布 BF16 / FP8 / NVFP4 的 **32,768 input + 256 output、Concurrency=1、1 warmup 后主批次** Formal100 结果，按 `comparison_mode=platform_optimized` 记录。它是有效的部分覆盖，不代表本 suite 已完成：Pure Prefill、Peak Memory/KV、cold-cache isolation、32K-output `E2E@32K`、128K+ context、质量与长时稳定性仍待真实测试。
 
 ## Model Arms
 

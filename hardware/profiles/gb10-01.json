@@ -2,7 +2,7 @@
   "schema_version": 1,
   "node_id": "gb10-01",
   "captured_at": "2026-08-29T17:33:33+08:00",
-  "status": "owned",
+  "status": "tested",
   "hardware": {
     "vendor": "ASUSTeK COMPUTER INC.",
     "model": "GX10",
@@ -31,5 +31,8 @@
     "hostname": "redacted",
     "ip_addresses": "not_recorded"
   },
-  "benchmark_state": "environment-prepared; formal model benchmark pending"
+  "evidence_aliases": ["gx10-01-xxj"],
+  "latest_environment_evidence": "evidence/qwen38-27b-v1.0/gx10-01-xxj/20260902-20260903/gx10-repository-snapshot.txt",
+  "published_results_root": "results/qwen38-27b-v1.0/gb10-01/",
+  "benchmark_state": "initial Qwen3.8-27B 32K+256 Formal100 performance published; partial suite coverage; full cold-cache/pure-prefill/memory/quality/long-context/long-output coverage pending"
 }
