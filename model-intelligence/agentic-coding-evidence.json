@@ -4,7 +4,7 @@
   "records": [
     {
       "evidence_id": "dg1001-deepseek-v4-opencode-1x-gb10-v1",
-      "registry_record_id": "deepseek-v4-flash-0731-single-gb10-vllm-moet-v1",
+      "registry_record_id": "deepseek-v4-dg1001-iq2xxs-ds4-v1",
       "model_family": "DeepSeek-V4-Flash",
       "model_variant": "DG1001 usable local setup; GGUF IQ2_XXS-based mixed quantization via ds4-server",
       "hardware_topology": "1x_gb10_128gb",
