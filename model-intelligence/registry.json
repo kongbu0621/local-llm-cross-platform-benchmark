@@ -16,14 +16,8 @@
       "hardware_evidence_confidence": "FIRST_PARTY_MEASURED",
       "popularity": null,
       "momentum": null,
-      "hardware_fit_summary": {
-        "1x_gx10_32k_short_output": "CONDITIONAL"
-      },
-      "source_refs": [
-        "results/qwen38-27b-v1.0/gb10-01/20260901-bf16-formal100-32k256.json",
-        "https://github.com/QwenLM/Qwen3.8",
-        "https://huggingface.co/Qwen/Qwen3.8-27B"
-      ],
+      "hardware_fit_summary": {"1x_gx10_32k_short_output": "CONDITIONAL"},
+      "source_refs": ["results/qwen38-27b-v1.0/gb10-01/20260901-bf16-formal100-32k256.json", "https://github.com/QwenLM/Qwen3.8", "https://huggingface.co/Qwen/Qwen3.8-27B"],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
       "notes": "P0 quality/reference arm because it is already available and first-party performance-measured. Intrinsic coding/agent quality is still not first-party qualified."
@@ -42,14 +36,8 @@
       "hardware_evidence_confidence": "FIRST_PARTY_MEASURED",
       "popularity": null,
       "momentum": null,
-      "hardware_fit_summary": {
-        "1x_gx10_32k_short_output": "GOOD"
-      },
-      "source_refs": [
-        "results/qwen38-27b-v1.0/gb10-01/20260901-fp8-formal100-32k256.json",
-        "https://github.com/QwenLM/Qwen3.8",
-        "https://huggingface.co/Qwen/Qwen3.8-27B-FP8"
-      ],
+      "hardware_fit_summary": {"1x_gx10_32k_short_output": "GOOD"},
+      "source_refs": ["results/qwen38-27b-v1.0/gb10-01/20260901-fp8-formal100-32k256.json", "https://github.com/QwenLM/Qwen3.8", "https://huggingface.co/Qwen/Qwen3.8-27B-FP8"],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
       "notes": "P0 performance/quality-balance candidate because first-party 1xGX10 performance is measured; first-party quality and large-project production qualification remain OPEN."
@@ -68,14 +56,8 @@
       "hardware_evidence_confidence": "FIRST_PARTY_MEASURED",
       "popularity": null,
       "momentum": null,
-      "hardware_fit_summary": {
-        "1x_gx10_32k_short_output": "EXCELLENT"
-      },
-      "source_refs": [
-        "results/qwen38-27b-v1.0/gb10-01/20260831-nvfp4-formal100-32k256.json",
-        "docs/results/qwen38-27b-gx10-20260903.md#runtime-gates",
-        "https://github.com/QwenLM/Qwen3.8"
-      ],
+      "hardware_fit_summary": {"1x_gx10_32k_short_output": "EXCELLENT"},
+      "source_refs": ["results/qwen38-27b-v1.0/gb10-01/20260831-nvfp4-formal100-32k256.json", "docs/results/qwen38-27b-gx10-20260903.md#runtime-gates", "https://github.com/QwenLM/Qwen3.8"],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
       "notes": "P0 current local fast-worker candidate on the measured 32K+256 workload. The third-party NVFP4 variant requires its own quality qualification; do not inherit BF16/FP8 quality automatically."
@@ -94,18 +76,8 @@
       "hardware_evidence_confidence": "UNKNOWN",
       "popularity": null,
       "momentum": null,
-      "hardware_fit_summary": {
-        "1x_gx10_official_fp8_full_resident": "UNSUITABLE",
-        "1x_gx10_lowbit_or_offload": "OPEN",
-        "2x_gb10_official_fp8": "OPEN",
-        "4x_gb10_official_fp8": "OPEN",
-        "pro6000_96gb_lowbit_or_offload": "OPEN"
-      },
-      "source_refs": [
-        "https://github.com/QwenLM/Qwen3.8-Flash-Next",
-        "https://huggingface.co/Qwen/Qwen3.8-Flash-Next",
-        "https://huggingface.co/Qwen/Qwen3.8-Flash-Next-FP8"
-      ],
+      "hardware_fit_summary": {"1x_gx10_official_fp8_full_resident": "UNSUITABLE", "1x_gx10_lowbit_or_offload": "OPEN", "2x_gb10_official_fp8": "OPEN", "4x_gb10_official_fp8": "OPEN", "pro6000_96gb_lowbit_or_offload": "OPEN"},
+      "source_refs": ["https://github.com/QwenLM/Qwen3.8-Flash-Next", "https://huggingface.co/Qwen/Qwen3.8-Flash-Next", "https://huggingface.co/Qwen/Qwen3.8-Flash-Next-FP8"],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
       "notes": "P0 practical next-step candidate, especially for 2xGB10. Official material describes a 125B main model plus 51B n-gram embeddings, 6B activated per token, native 262K context extensible to 1M, and strong coding/agent benchmarks. Official FP8 is weight-capacity-plausible on 2xGB10 aggregate memory, but distributed runtime, KV headroom, long-context stability and quality on this fleet remain OPEN."
@@ -124,19 +96,8 @@
       "hardware_evidence_confidence": "UNKNOWN",
       "popularity": null,
       "momentum": null,
-      "hardware_fit_summary": {
-        "1x_gx10_official_fp8_bf16_full_resident": "UNSUITABLE",
-        "1x_gx10_lowbit_quantized": "OPEN",
-        "2x_gb10_lowbit_quantized": "OPEN",
-        "4x_gb10_official_fp8_capacity_plausible": "OPEN",
-        "pro6000_96gb_lowbit_quantized": "OPEN"
-      },
-      "source_refs": [
-        "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731",
-        "https://api-docs.deepseek.com/quick_start/pricing/",
-        "https://github.com/sgl-project/sglang/blob/main/docs/cookbook/autoregressive/DeepSeek/DeepSeek-V4.mdx",
-        "https://arxiv.org/abs/2606.19348"
-      ],
+      "hardware_fit_summary": {"1x_gx10_official_fp8_bf16_full_resident": "UNSUITABLE", "1x_gx10_lowbit_quantized": "OPEN", "2x_gb10_lowbit_quantized": "OPEN", "4x_gb10_official_fp8_capacity_plausible": "OPEN", "pro6000_96gb_lowbit_quantized": "OPEN"},
+      "source_refs": ["https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731", "https://api-docs.deepseek.com/quick_start/pricing/", "https://github.com/sgl-project/sglang/blob/main/docs/cookbook/autoregressive/DeepSeek/DeepSeek-V4.mdx", "https://arxiv.org/abs/2606.19348"],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
       "notes": "P0 external candidate for high-quality coding/agentic and million-token work. The official model card reports 304B parameters and strong agentic coding benchmarks. 4xGB10 is only capacity-plausible for the official FP8 weight class; there is no first-party proof here that the GB10 distributed runtime, KV budget or target context works."
@@ -155,18 +116,8 @@
       "hardware_evidence_confidence": "UNKNOWN",
       "popularity": null,
       "momentum": null,
-      "hardware_fit_summary": {
-        "1x_gx10_high_precision_full_resident": "UNSUITABLE",
-        "1x_gx10_lowbit_quantized": "OPEN",
-        "2x_gb10_lowbit_quantized": "OPEN",
-        "4x_gb10_fp8_capacity_plausible": "OPEN",
-        "pro6000_96gb_lowbit_quantized": "OPEN"
-      },
-      "source_refs": [
-        "https://huggingface.co/zai-org/GLM-5.3-Flash",
-        "https://docs.nvidia.com/dynamo/dev/recipes/glm-5-3-flash",
-        "https://huggingface.co/docs/transformers/main/en/model_doc/glm5_next"
-      ],
+      "hardware_fit_summary": {"1x_gx10_high_precision_full_resident": "UNSUITABLE", "1x_gx10_lowbit_quantized": "OPEN", "2x_gb10_lowbit_quantized": "OPEN", "4x_gb10_fp8_capacity_plausible": "OPEN", "pro6000_96gb_lowbit_quantized": "OPEN"},
+      "source_refs": ["https://huggingface.co/zai-org/GLM-5.3-Flash", "https://docs.nvidia.com/dynamo/dev/recipes/glm-5-3-flash", "https://huggingface.co/docs/transformers/main/en/model_doc/glm5_next"],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
       "notes": "P1 high-value efficiency/coding/long-context candidate. Official material reports 320B total / 18B active and sparse+linear attention. NVIDIA documents FP8 serving on data-center-class targets, but this does not qualify 4xGB10; target fleet runtime/communication/KV remain OPEN."
@@ -185,18 +136,8 @@
       "hardware_evidence_confidence": "UNKNOWN",
       "popularity": null,
       "momentum": null,
-      "hardware_fit_summary": {
-        "1x_gx10_official_base_full_resident": "UNSUITABLE",
-        "2x_gb10_third_party_lowbit": "OPEN",
-        "4x_gb10_third_party_lowbit": "OPEN",
-        "pro6000_96gb_official_base_full_resident": "UNSUITABLE"
-      },
-      "source_refs": [
-        "https://huggingface.co/MiniMaxAI/MiniMax-M3",
-        "https://github.com/MiniMax-AI/MiniMax-M3",
-        "https://www.minimax.io/models/text/m3",
-        "https://www.minimax.io/blog/minimax-m3"
-      ],
+      "hardware_fit_summary": {"1x_gx10_official_base_full_resident": "UNSUITABLE", "2x_gb10_third_party_lowbit": "OPEN", "4x_gb10_third_party_lowbit": "OPEN", "pro6000_96gb_official_base_full_resident": "UNSUITABLE"},
+      "source_refs": ["https://huggingface.co/MiniMaxAI/MiniMax-M3", "https://github.com/MiniMax-AI/MiniMax-M3", "https://www.minimax.io/models/text/m3", "https://www.minimax.io/blog/minimax-m3"],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
       "notes": "P1 long-context/multimodal coding candidate. Official sources report about 428B total / 23B active, 1M context and local deployment support through vLLM/SGLang/Transformers/KTransformers/Unsloth. This registry does NOT claim an official MXFP4 checkpoint: any 4-bit/MXFP4 route for current GB10 nodes is a separate third-party quantization candidate requiring its own runtime and quality gates."
@@ -215,18 +156,8 @@
       "hardware_evidence_confidence": "UNKNOWN",
       "popularity": null,
       "momentum": null,
-      "hardware_fit_summary": {
-        "1x_gx10_native_mxfp4": "UNSUITABLE",
-        "2x_gb10_native_mxfp4": "UNSUITABLE",
-        "4x_gb10_native_mxfp4": "UNSUITABLE",
-        "pro6000_96gb_native_mxfp4": "UNSUITABLE",
-        "cloud_or_large_cluster_reference": "CONDITIONAL"
-      },
-      "source_refs": [
-        "https://huggingface.co/moonshotai/Kimi-K3",
-        "https://github.com/MoonshotAI/Kimi-K3",
-        "https://www.kimi.com/en/blog/kimi-k3"
-      ],
+      "hardware_fit_summary": {"1x_gx10_native_mxfp4": "UNSUITABLE", "2x_gb10_native_mxfp4": "UNSUITABLE", "4x_gb10_native_mxfp4": "UNSUITABLE", "pro6000_96gb_native_mxfp4": "UNSUITABLE", "cloud_or_large_cluster_reference": "CONDITIONAL"},
+      "source_refs": ["https://huggingface.co/moonshotai/Kimi-K3", "https://github.com/MoonshotAI/Kimi-K3", "https://www.kimi.com/en/blog/kimi-k3"],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
       "notes": "P2 quality/reference candidate for the current fleet. Official sources report 2.8T total / 104B active, native MXFP4 weights and 1M context; the official Hugging Face repository is roughly 1.56TB as of this review, far above 4xGB10 aggregate memory. It is not a current local-hardware purchase trigger."
