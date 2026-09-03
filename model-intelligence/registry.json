@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "as_of": "2026-09-03T00:00:00+08:00",
+  "as_of": "2026-09-03T11:52:00+08:00",
   "records": [
     {
       "record_id": "qwen38-27b-bf16-v1",
@@ -16,11 +16,12 @@
         "1x_gx10_32k_short_output": "CONDITIONAL"
       },
       "source_refs": [
-        "results/qwen38-27b-v1.0/gb10-01/20260901-bf16-formal100-32k256.json"
+        "results/qwen38-27b-v1.0/gb10-01/20260901-bf16-formal100-32k256.json",
+        "https://github.com/QwenLM/Qwen3.8"
       ],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
-      "notes": "First-party performance reference. Quality and 128K+ production fitness remain open."
+      "notes": "First-party performance reference. Official Qwen material describes Qwen3.8 as a major coding/agentic upgrade, but first-party quality and 128K+ production fitness remain OPEN."
     },
     {
       "record_id": "qwen38-27b-fp8-v1",
@@ -36,11 +37,12 @@
         "1x_gx10_32k_short_output": "GOOD"
       },
       "source_refs": [
-        "results/qwen38-27b-v1.0/gb10-01/20260901-fp8-formal100-32k256.json"
+        "results/qwen38-27b-v1.0/gb10-01/20260901-fp8-formal100-32k256.json",
+        "https://github.com/QwenLM/Qwen3.8"
       ],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
-      "notes": "Performance sweet-spot candidate only; no quality or production qualification yet."
+      "notes": "Performance sweet-spot candidate only; first-party quality and large-project production qualification are still OPEN."
     },
     {
       "record_id": "qwen38-27b-nvfp4-v1",
@@ -57,11 +59,112 @@
       },
       "source_refs": [
         "results/qwen38-27b-v1.0/gb10-01/20260831-nvfp4-formal100-32k256.json",
-        "docs/results/qwen38-27b-gx10-20260903.md#runtime-gates"
+        "docs/results/qwen38-27b-gx10-20260903.md#runtime-gates",
+        "https://github.com/QwenLM/Qwen3.8"
       ],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
-      "notes": "Fast local Agent-backend candidate on the measured 32K+256 workload. Coding quality, long context and production qualification remain open."
+      "notes": "P0 current local fast-worker candidate on the measured 32K+256 workload. Coding quality, 384K/512K and production qualification remain OPEN."
+    },
+    {
+      "record_id": "deepseek-v4-flash-0731-official-v1",
+      "model_family": "DeepSeek-V4-Flash",
+      "model_variant": "0731 official release",
+      "revision": "DeepSeek-V4-Flash-0731",
+      "role_tags": ["quality_flagship", "production_sweet_spot", "coding_specialist", "long_context_specialist", "emerging_hot"],
+      "lifecycle": "CANDIDATE",
+      "quality_status": "CONDITIONAL",
+      "popularity": null,
+      "momentum": null,
+      "hardware_fit_summary": {
+        "1x_gx10_official_fp8_bf16_full_resident": "UNSUITABLE",
+        "1x_gx10_lowbit_quantized": "OPEN",
+        "2x_gb10_lowbit_quantized": "OPEN",
+        "4x_gb10_official_fp8": "OPEN",
+        "pro6000_96gb_lowbit_quantized": "OPEN"
+      },
+      "source_refs": [
+        "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731",
+        "https://arxiv.org/abs/2606.19348"
+      ],
+      "production_qualification_ref": null,
+      "recommendation_confidence": "OPEN",
+      "notes": "P0 external candidate for high-quality coding/agentic and million-token work. Official model card reports 304B parameters, strong coding-agent benchmarks, vLLM/SGLang support and DSpark. Full official FP8/BF16 is not a 1xGX10/2xGB10 resident fit by weight capacity alone; low-bit variants and 4xGB10 must be qualified separately."
+    },
+    {
+      "record_id": "glm-5-3-flash-official-v1",
+      "model_family": "GLM-5.3-Flash",
+      "model_variant": "official open-weight",
+      "revision": "GLM-5.3-Flash-2026-08-26",
+      "role_tags": ["quality_flagship", "production_sweet_spot", "coding_specialist", "long_context_specialist", "emerging_hot"],
+      "lifecycle": "CANDIDATE",
+      "quality_status": "CONDITIONAL",
+      "popularity": null,
+      "momentum": null,
+      "hardware_fit_summary": {
+        "1x_gx10_high_precision_full_resident": "UNSUITABLE",
+        "1x_gx10_lowbit_quantized": "OPEN",
+        "2x_gb10_lowbit_quantized": "OPEN",
+        "4x_gb10_fp8_candidate": "OPEN",
+        "pro6000_96gb_lowbit_quantized": "OPEN"
+      },
+      "source_refs": [
+        "https://huggingface.co/zai-org/GLM-5.3-Flash",
+        "https://huggingface.co/docs/transformers/main/en/model_doc/glm5_next"
+      ],
+      "production_qualification_ref": null,
+      "recommendation_confidence": "OPEN",
+      "notes": "P0/P1 external candidate. Official material reports 320B total / 18B active parameters, strong coding/agentic performance and long-context-efficient sparse+linear attention. 2xGB10 is primarily a low-bit candidate; 4xGB10 is the more plausible high-precision local test target."
+    },
+    {
+      "record_id": "minimax-m3-official-v1",
+      "model_family": "MiniMax-M3",
+      "model_variant": "official open-weight",
+      "revision": "MiniMax-M3-2026-06-01",
+      "role_tags": ["quality_flagship", "coding_specialist", "long_context_specialist", "emerging_hot"],
+      "lifecycle": "CANDIDATE",
+      "quality_status": "CONDITIONAL",
+      "popularity": null,
+      "momentum": null,
+      "hardware_fit_summary": {
+        "1x_gx10_full_resident": "UNSUITABLE",
+        "2x_gb10_mxfp4_candidate": "OPEN",
+        "4x_gb10_mxfp4_candidate": "OPEN",
+        "pro6000_96gb_full_resident": "UNSUITABLE"
+      },
+      "source_refs": [
+        "https://huggingface.co/MiniMaxAI/MiniMax-M3",
+        "https://github.com/MiniMax-AI/MiniMax-M3",
+        "https://www.minimax.io/blog/minimax-m3"
+      ],
+      "production_qualification_ref": null,
+      "recommendation_confidence": "OPEN",
+      "notes": "P1 long-context/multimodal coding candidate. Official sources report about 428B total / 23B active parameters, 1M context and local deployment paths including vLLM/SGLang/ATOM MXFP4-MXFP8. 2xGB10 MXFP4 is capacity-tight once runtime/KV are included; 4xGB10 is the safer local qualification target."
+    },
+    {
+      "record_id": "kimi-k3-official-v1",
+      "model_family": "Kimi-K3",
+      "model_variant": "native MXFP4 open-weight",
+      "revision": "Kimi-K3-2026-07",
+      "role_tags": ["quality_flagship", "coding_specialist", "long_context_specialist", "emerging_hot"],
+      "lifecycle": "WATCH",
+      "quality_status": "CONDITIONAL",
+      "popularity": null,
+      "momentum": null,
+      "hardware_fit_summary": {
+        "1x_gx10_native_mxfp4": "UNSUITABLE",
+        "2x_gb10_native_mxfp4": "UNSUITABLE",
+        "4x_gb10_native_mxfp4": "UNSUITABLE",
+        "pro6000_96gb_native_mxfp4": "UNSUITABLE",
+        "cloud_or_large_cluster_reference": "CONDITIONAL"
+      },
+      "source_refs": [
+        "https://huggingface.co/moonshotai/Kimi-K3",
+        "https://github.com/MoonshotAI/Kimi-K3"
+      ],
+      "production_qualification_ref": null,
+      "recommendation_confidence": "OPEN",
+      "notes": "P2 quality/reference candidate for current fleet. Official sources report 2.8T total / 104B active parameters, native MXFP4 weights and 1M context. Native MXFP4 weight storage alone is far beyond 4xGB10 aggregate memory, so it is not a current local-hardware purchase trigger; treat it as cloud/API or future large-cluster reference."
     }
   ]
 }
