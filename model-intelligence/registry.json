@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "as_of": "2026-09-03T17:50:00+08:00",
+  "as_of": "2026-09-03T18:05:00+08:00",
   "records": [
     {
       "record_id": "qwen38-27b-bf16-v1",
@@ -60,7 +60,27 @@
       "source_refs": ["results/qwen38-27b-v1.0/gb10-01/20260831-nvfp4-formal100-32k256.json", "docs/results/qwen38-27b-gx10-20260903.md#runtime-gates", "https://github.com/QwenLM/Qwen3.8"],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
-      "notes": "Current first-party local fast-worker performance leader at measured 32K+256. Third-party quantization quality must be qualified separately."
+      "notes": "Current first-party local fast-worker performance leader at measured 32K+256. Quantization quality must be qualified separately."
+    },
+    {
+      "record_id": "qwen35-122b-a10b-hybrid-int4-fp8-v1",
+      "model_family": "Qwen3.5-122B-A10B",
+      "model_variant": "community Hybrid INT4 experts + FP8 dense/shared paths",
+      "revision": "albond/DGX_Spark_Qwen3.5-122B-A10B-AR-INT4 v2.x family",
+      "license": "Apache-2.0 / upstream Qwen terms + community patch terms",
+      "role_tags": ["classic_reference", "production_sweet_spot", "coding_specialist", "long_context_specialist"],
+      "lifecycle": "CANDIDATE",
+      "test_priority": "P0",
+      "quality_status": "OPEN",
+      "quality_evidence_confidence": "STRONG_EXTERNAL",
+      "hardware_evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "popularity": null,
+      "momentum": null,
+      "hardware_fit_summary": {"1x_gx10_256k": "GOOD", "2x_gb10": "OPEN", "4x_gb10": "OPEN", "pro6000_96gb": "OPEN"},
+      "source_refs": ["https://huggingface.co/Qwen/Qwen3.5-122B-A10B", "https://github.com/albond/DGX_Spark_Qwen3.5-122B-A10B-AR-INT4", "https://github.com/Entrpi/qwen3.5-122B-A10B-on-spark"],
+      "production_qualification_ref": null,
+      "recommendation_confidence": "OPEN",
+      "notes": "Mature single-GB10 classic/sweet-spot candidate. Public same-hardware recipes report 256K support and roughly 52-59 tok/s under their own contracts. Strong official coding/long-context quality signals remain external; this repo must run its own Quality Gate."
     },
     {
       "record_id": "qwen38-flash-next-official-fp8-v1",
@@ -80,7 +100,7 @@
       "source_refs": ["https://github.com/QwenLM/Qwen3.8-Flash-Next", "https://huggingface.co/Qwen/Qwen3.8-Flash-Next-FP8", "https://github.com/0rand/qwen3.8-flash-next-2x-dgx-sparks"],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
-      "notes": "Official FP8 candidate. Qwen reports 125B main + 51B n-gram embeddings, 6B active/token; n-gram tables can be held off accelerator. A public 2xGB10 TP2 serving stack exists, but this repo has not measured runtime, KV headroom, context stability or quality."
+      "notes": "Official FP8 candidate. Keep separate from RadixArk NVFP4; public 2xGB10 serving support exists, but this repo has not measured target runtime/KV/context/quality."
     },
     {
       "record_id": "qwen38-flash-next-radixark-nvfp4-v1",
@@ -100,7 +120,7 @@
       "source_refs": ["https://huggingface.co/RadixArk/Qwen3.8-Flash-Next-NVFP4", "https://github.com/maci0/qwen3.8-flash-next-spark", "https://huggingface.co/pocharlies/Qwen3.8-Flash-Next", "https://huggingface.co/sayyidfareed/Qwen3.8-Flash-Next-Code-Turbo-Spark"],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
-      "notes": "135GB external quantization candidate with checkpoint-specific quality probes. Public same-hardware evidence exists for one GB10 with PLE streamed from NVMe at 262K and for 2xGB10 TP2, including measured throughput/soak. Treat these as reproducible external evidence, not this repo's qualification."
+      "notes": "135GB external quantization candidate. Public same-hardware evidence exists for 1xGB10 PLE streaming at 262K and 2xGB10 TP2 with measured throughput/soak."
     },
     {
       "record_id": "deepseek-v4-flash-0731-official-v1",
@@ -116,16 +136,36 @@
       "hardware_evidence_confidence": "REPRODUCIBLE_EXTERNAL",
       "popularity": null,
       "momentum": null,
-      "hardware_fit_summary": {"1x_gx10_full_resident": "UNSUITABLE", "2x_gb10_tp2": "GOOD", "4x_gb10": "OPEN", "pro6000_96gb_full_resident": "UNSUITABLE"},
-      "source_refs": ["https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731", "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/tree/main", "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/main/config.json", "https://github.com/m9e/deepseek-v4-flash-0731-2x-dgx-spark", "https://arxiv.org/abs/2606.19348"],
+      "hardware_fit_summary": {"1x_gx10_full_resident": "UNSUITABLE", "2x_gb10_tp2": "GOOD", "4x_gb10_tp4": "GOOD", "pro6000_96gb_full_resident": "UNSUITABLE"},
+      "source_refs": ["https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731", "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/main/config.json", "https://github.com/Deep-AI-Evo/deepseek-v4-flash-2x-dgx-spark", "https://github.com/Reederey87/dgx-spark-2x-deepseek-v4-flash", "https://forums.developer.nvidia.com/t/4x-gb10-deepseek-v4-flash-qualified-tp4-k5-c8-production-results/380041"],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
-      "notes": "Important correction: the released official checkpoint is ~167GB, not a pure 304GB FP8 image. Its config includes FP4 experts plus an FP8 quantization path. Public reproducible 2xGB10 TP2 evidence exists at 1M model length with measured coding decode, so 2xGB10 is a direct official-checkpoint P0 candidate; first-party quality/production qualification remains OPEN."
+      "notes": "Released official checkpoint is ~167GB mixed precision (FP4 experts + FP8 path), not a pure 304GB FP8 image. Public reproducible 2x and 4x GB10 evidence exists; first-party quality/production qualification remains OPEN."
+    },
+    {
+      "record_id": "deepseek-v4-flash-0731-single-gb10-vllm-moet-v1",
+      "model_family": "DeepSeek-V4-Flash",
+      "model_variant": "single-GB10 vLLM-Moet 2-bit experts + FP4 quality recovery",
+      "revision": "lrozewicz/vLLM-Moet-GB10@reviewed-2026-09-03",
+      "license": "MIT / upstream + community runtime terms",
+      "role_tags": ["coding_specialist", "long_context_specialist"],
+      "lifecycle": "CANDIDATE",
+      "test_priority": "P1",
+      "quality_status": "OPEN",
+      "quality_evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "hardware_evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "popularity": null,
+      "momentum": null,
+      "hardware_fit_summary": {"1x_gx10_256k": "CONDITIONAL", "2x_gb10": "OPEN", "4x_gb10": "OPEN", "pro6000_96gb": "OPEN"},
+      "source_refs": ["https://github.com/lrozewicz/vLLM-Moet-GB10", "https://github.com/kandotrun/dgx-spark-deepseek-v4-flash", "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/discussions/32"],
+      "production_qualification_ref": null,
+      "recommendation_confidence": "OPEN",
+      "notes": "Single-GB10 experimental route with ~9.8 tok/s and 256K reported in public recipes. Quality trade-off is visible on harder reasoning; therefore P1 experiment, not current main-agent recommendation."
     },
     {
       "record_id": "glm-5-3-flash-official-fp8-v1",
       "model_family": "GLM-5.3-Flash",
-      "model_variant": "official FP8 release",
+      "model_variant": "zai-org official FP8",
       "revision": "zai-org/GLM-5.3-Flash@main-as-of-2026-09-03",
       "license": "MIT",
       "role_tags": ["production_sweet_spot", "coding_specialist", "long_context_specialist", "emerging_hot"],
@@ -133,14 +173,14 @@
       "test_priority": "P1",
       "quality_status": "OPEN",
       "quality_evidence_confidence": "VENDOR_CLAIM",
-      "hardware_evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "hardware_evidence_confidence": "STRONG_EXTERNAL",
       "popularity": null,
       "momentum": null,
-      "hardware_fit_summary": {"1x_gx10_full_resident": "UNSUITABLE", "2x_gb10_full_resident": "UNSUITABLE", "4x_gb10_tp4": "GOOD", "pro6000_96gb_full_resident": "UNSUITABLE"},
-      "source_refs": ["https://huggingface.co/zai-org/GLM-5.3-Flash", "https://huggingface.co/zai-org/GLM-5.3-Flash/tree/main", "https://github.com/Wpnx330/GLM-5.3-Flash-FP8-4x-DGX-Spark", "https://huggingface.co/docs/transformers/main/en/model_doc/glm5_next"],
+      "hardware_fit_summary": {"1x_gx10_full_resident": "UNSUITABLE", "2x_gb10_full_resident": "UNSUITABLE", "4x_gb10_tp4": "CONDITIONAL", "pro6000_96gb_full_resident": "UNSUITABLE"},
+      "source_refs": ["https://huggingface.co/zai-org/GLM-5.3-Flash", "https://github.com/Wpnx330/GLM-5.3-Flash-FP8-4x-DGX-Spark", "https://huggingface.co/docs/transformers/main/en/model_doc/glm5_next"],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
-      "notes": "Official FP8 line. Public 4xGB10 TP4 evidence reports 1M-context operation and measured throughput, so 4xGB10 hardware fit is supported externally. This remains external evidence, not first-party qualification."
+      "notes": "Exact official FP8 checkpoint remains CONDITIONAL on 4xGB10: strong FP8-family recipes exist, but inspected measured runs use derived/uncensored FP8 or NVFP4 weights. Do not transfer their numbers to this exact variant."
     },
     {
       "record_id": "glm-5-3-flash-libertai-nvfp4-v1",
@@ -156,11 +196,11 @@
       "hardware_evidence_confidence": "REPRODUCIBLE_EXTERNAL",
       "popularity": null,
       "momentum": null,
-      "hardware_fit_summary": {"1x_gx10_full_resident": "UNSUITABLE", "2x_gb10_tp2": "GOOD", "4x_gb10": "OPEN", "pro6000_96gb_full_resident": "UNSUITABLE"},
-      "source_refs": ["https://huggingface.co/LibertAIDAI/GLM-5.3-Flash-NVFP4", "https://github.com/tonyd2wild/GLM-5.3-Flash-NVFP4-262K-2x-DGX-Spark", "https://forums.developer.nvidia.com/t/glm-5-3-flash-nvfp4-on-2x-dgx-spark-vllm-tp-2-docker-compose/381541"],
+      "hardware_fit_summary": {"1x_gx10_full_resident": "UNSUITABLE", "2x_gb10_tp2": "GOOD", "4x_gb10_tp4": "GOOD", "pro6000_96gb_full_resident": "UNSUITABLE"},
+      "source_refs": ["https://huggingface.co/LibertAIDAI/GLM-5.3-Flash-NVFP4", "https://github.com/tonyd2wild/GLM-5.3-Flash-NVFP4-2x-DGX-Spark", "https://github.com/tonyd2wild/GLM-5.3-Flash-NVFP4-1M-KV-4x-DGX-Spark", "https://github.com/alexellis/glm-5.3-flash-4x-dgx-spark-switchless"],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
-      "notes": "Third-party ~181GiB weight-only NVFP4 variant. Public same-hardware 2xGB10 TP2 evidence exists at 262K with measured decode/TTFT. Quantizer provenance and round-trip checks are published, but coding-production quality still needs this repo's own Quality Gate."
+      "notes": "Third-party ~181GiB weight-only NVFP4 variant. Public 2xGB10 TP2/262K and 4xGB10 TP4/large-KV recipes provide reproducible same-hardware evidence."
     },
     {
       "record_id": "minimax-m3-official-v1",
@@ -170,17 +210,57 @@
       "license": "minimax-community",
       "role_tags": ["quality_flagship", "coding_specialist", "long_context_specialist", "emerging_hot"],
       "lifecycle": "CANDIDATE",
-      "test_priority": "P2",
+      "test_priority": "P1",
       "quality_status": "OPEN",
       "quality_evidence_confidence": "VENDOR_CLAIM",
       "hardware_evidence_confidence": "UNKNOWN",
       "popularity": null,
       "momentum": null,
-      "hardware_fit_summary": {"1x_gx10_official_base_full_resident": "UNSUITABLE", "2x_gb10_official_base_full_resident": "UNSUITABLE", "4x_gb10_third_party_lowbit": "OPEN", "pro6000_96gb_official_base_full_resident": "UNSUITABLE"},
-      "source_refs": ["https://huggingface.co/MiniMaxAI/MiniMax-M3", "https://github.com/MiniMax-AI/MiniMax-M3", "https://www.minimax.io/models/text/m3", "https://www.minimax.io/blog/minimax-m3"],
+      "hardware_fit_summary": {"1x_gx10_official_base_full_resident": "UNSUITABLE", "2x_gb10_official_base_full_resident": "UNSUITABLE", "4x_gb10_official_base_full_resident": "OPEN", "pro6000_96gb_official_base_full_resident": "UNSUITABLE"},
+      "source_refs": ["https://huggingface.co/MiniMaxAI/MiniMax-M3", "https://www.minimax.io/models/text/m3", "https://www.minimax.io/blog/minimax-m3"],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
-      "notes": "High-quality long-context/multimodal candidate, but no same-GB10 evidence was accepted in this review. Any 4-bit/MXFP4 route for the current fleet is a separate third-party variant and must be qualified independently."
+      "notes": "Official base quality/capability signal only. Keep separate from NVIDIA ModelOpt NVFP4 and community W4A16/MXFP4 variants."
+    },
+    {
+      "record_id": "minimax-m3-nvidia-nvfp4-v1",
+      "model_family": "MiniMax-M3",
+      "model_variant": "nvidia/MiniMax-M3-NVFP4 ModelOpt",
+      "revision": "nvidia/MiniMax-M3-NVFP4@main-as-of-2026-09-03",
+      "license": "minimax-community-license",
+      "role_tags": ["production_sweet_spot", "coding_specialist", "long_context_specialist"],
+      "lifecycle": "CANDIDATE",
+      "test_priority": "P1",
+      "quality_status": "OPEN",
+      "quality_evidence_confidence": "VENDOR_CLAIM",
+      "hardware_evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "popularity": null,
+      "momentum": null,
+      "hardware_fit_summary": {"1x_gx10": "UNSUITABLE", "2x_gb10": "CONDITIONAL", "4x_gb10_tp4": "GOOD", "pro6000_96gb": "UNSUITABLE"},
+      "source_refs": ["https://huggingface.co/nvidia/MiniMax-M3-NVFP4", "https://github.com/mpfaffenberger/MiniMax-M3-NVFP4-DSpark-vLLM-4x-DGX-Spark", "https://forums.developer.nvidia.com/t/minimax-m3-nvfp4-1m-context-31-tok-s-native-vision-4x-dgx-spark-gb10/376979"],
+      "production_qualification_ref": null,
+      "recommendation_confidence": "OPEN",
+      "notes": "NVIDIA ModelOpt 250GB NVFP4 checkpoint. Public 4xGB10 TP4 evidence includes 262K benchmark runs, 702/702 successes, and separate 1M-KV serving work. 2x aggregate memory is too tight for a comfortable full-resident production envelope."
+    },
+    {
+      "record_id": "minimax-m3-community-w4a16-2x-v1",
+      "model_family": "MiniMax-M3",
+      "model_variant": "community W4A16/GPTQ + speculative serving lane",
+      "revision": "community 2xGB10 recipes reviewed 2026-09-03",
+      "license": "upstream MiniMax community license + variant/runtime terms",
+      "role_tags": ["coding_specialist", "long_context_specialist"],
+      "lifecycle": "CANDIDATE",
+      "test_priority": "P2",
+      "quality_status": "OPEN",
+      "quality_evidence_confidence": "UNKNOWN",
+      "hardware_evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "popularity": null,
+      "momentum": null,
+      "hardware_fit_summary": {"1x_gx10": "UNSUITABLE", "2x_gb10": "CONDITIONAL", "4x_gb10": "OPEN", "pro6000_96gb": "UNSUITABLE"},
+      "source_refs": ["https://forums.developer.nvidia.com/t/minimax-m3-w4a16-gptq-2xgb10-deployment-36-t-s-fp8-nvfp4-kvarn-eagle-3/375595"],
+      "production_qualification_ref": null,
+      "recommendation_confidence": "OPEN",
+      "notes": "2xGB10 feasibility route with public measured serving profiles, but aggressive quantization quality is not qualified here; keep behind DeepSeek/Qwen/GLM in test priority."
     },
     {
       "record_id": "kimi-k3-official-v1",
@@ -200,7 +280,7 @@
       "source_refs": ["https://huggingface.co/moonshotai/Kimi-K3", "https://arxiv.org/abs/2607.24653"],
       "production_qualification_ref": null,
       "recommendation_confidence": "OPEN",
-      "notes": "Frontier quality/reference model for this fleet, not a local deployment target. Official 2.8T/104B-active, 1M-context native MXFP4 checkpoint is far beyond current aggregate memory."
+      "notes": "Frontier quality/reference model for this fleet, not a native local deployment target. Highly compressed/streamed community variants exist but currently carry large speed and/or pruning trade-offs, so they do not trigger hardware purchase."
     }
   ]
 }
