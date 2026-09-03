@@ -12,10 +12,33 @@ from jsonschema import Draft202012Validator, FormatChecker
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = ROOT / "schemas/agentic-coding-evidence.schema.json"
 LEDGER = ROOT / "model-intelligence/agentic-coding-evidence.json"
+MODEL_REGISTRIES = [
+    ROOT / "model-intelligence/registry.json",
+    ROOT / "model-intelligence/registry.agentic.json",
+]
 
 
 def load(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def load_model_records(errors: list[str]) -> dict[str, dict]:
+    records: dict[str, dict] = {}
+    for path in MODEL_REGISTRIES:
+        if not path.exists():
+            errors.append(f"missing Model Intelligence registry shard: {path.relative_to(ROOT)}")
+            continue
+        obj = load(path)
+        for record in obj.get("records", []):
+            rid = record.get("record_id")
+            if not isinstance(rid, str) or not rid:
+                errors.append(f"{path.relative_to(ROOT)} contains record without record_id")
+                continue
+            if rid in records:
+                errors.append(f"duplicate Model Intelligence record_id across registry shards: {rid}")
+                continue
+            records[rid] = record
+    return records
 
 
 def main() -> int:
@@ -25,6 +48,7 @@ def main() -> int:
         errors.append("missing schemas/agentic-coding-evidence.schema.json")
     if not LEDGER.exists():
         errors.append("missing model-intelligence/agentic-coding-evidence.json")
+    model_records = load_model_records(errors)
     if errors:
         for error in errors:
             print(f"- {error}")
@@ -46,6 +70,21 @@ def main() -> int:
             errors.append(f"duplicate evidence_id: {eid}")
         seen.add(eid)
 
+        registry_id = record.get("registry_record_id")
+        registry_record = model_records.get(registry_id)
+        if registry_record is None:
+            errors.append(f"{eid}: registry_record_id does not resolve: {registry_id}")
+        else:
+            if registry_record.get("model_family") != record.get("model_family"):
+                errors.append(
+                    f"{eid}: model_family differs from registry {registry_id}: "
+                    f"{record.get('model_family')} != {registry_record.get('model_family')}"
+                )
+            if registry_record.get("lifecycle") == "RECOMMENDED":
+                errors.append(
+                    f"{eid}: external agentic evidence may not point to a RECOMMENDED record; first-party production qualification must remain separate"
+                )
+
         passed = record.get("hidden_tests_passed")
         total = record.get("hidden_tests_total")
         if isinstance(passed, int) and isinstance(total, int) and passed > total:
@@ -64,6 +103,10 @@ def main() -> int:
             errors.append(f"{eid}: single-run evidence cannot claim a repeat range")
         if isinstance(run_count, int) and run_count > 1 and (repeat_min is None or repeat_max is None):
             errors.append(f"{eid}: repeated evidence requires observed repeat min/max")
+        if isinstance(repeat_min, int) and isinstance(passed, int) and passed < repeat_min:
+            errors.append(f"{eid}: representative hidden_tests_passed cannot be below observed repeat min")
+        if isinstance(repeat_max, int) and isinstance(passed, int) and passed > repeat_max:
+            errors.append(f"{eid}: representative hidden_tests_passed cannot exceed observed repeat max")
 
         context = record.get("configured_context_tokens")
         if context is not None and context < 1024:
