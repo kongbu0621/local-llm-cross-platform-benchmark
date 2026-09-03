@@ -28,7 +28,9 @@ HARDWARE_KINDS = {
     "SPLIT_REDESIGN_TOPOLOGY",
     "PLATFORM_REPLACEMENT",
 }
-POSITIVE_HARDWARE_FIT = {"EXCELLENT", "GOOD", "FAIR", "CONDITIONAL"}
+# CONDITIONAL remains allowed with UNKNOWN evidence because it means a gated candidate,
+# not a positive qualification. GOOD/EXCELLENT/FAIR require an explicit evidence tier.
+POSITIVE_HARDWARE_FIT = {"EXCELLENT", "GOOD", "FAIR"}
 
 
 def load(path: Path) -> Any:
@@ -134,9 +136,9 @@ def validate_model_registry(path: Path, obj: dict[str, Any]) -> list[str]:
     """Enforce evidence-tier boundaries for Model Intelligence.
 
     External evidence may raise test priority or hardware-fit confidence, but it may
-    not silently become this repository's Quality Qualification. Likewise, an
-    UNKNOWN hardware-evidence record may only say OPEN or UNSUITABLE; positive fit
-    requires at least an explicit external evidence tier.
+    not silently become this repository's Quality Qualification. UNKNOWN hardware
+    evidence cannot claim GOOD/EXCELLENT/FAIR; CONDITIONAL remains a valid gated
+    candidate state.
     """
     errors: list[str] = []
     seen: set[str] = set()
@@ -162,7 +164,7 @@ def validate_model_registry(path: Path, obj: dict[str, Any]) -> list[str]:
             )
             if positive:
                 errors.append(
-                    f"model {rid}: hardware_evidence_confidence=UNKNOWN cannot claim positive hardware fit for {positive}; use OPEN/UNSUITABLE or add evidence"
+                    f"model {rid}: hardware_evidence_confidence=UNKNOWN cannot claim GOOD/EXCELLENT/FAIR hardware fit for {positive}; use OPEN/CONDITIONAL/UNSUITABLE or add evidence"
                 )
 
         if hardware_evidence == "REPRODUCIBLE_EXTERNAL":
