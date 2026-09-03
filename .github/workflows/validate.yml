@@ -30,8 +30,11 @@ jobs:
       - name: Validate benchmark contracts and public-repo safety
         run: python scripts/validate_repo.py
 
-      - name: Compile decision-system validator
-        run: python -m py_compile scripts/validate_decision_system.py
+      - name: Compile decision-system validators
+        run: python -m py_compile scripts/validate_decision_system.py scripts/validate_agentic_coding_evidence.py
 
       - name: Validate decision-system schemas and semantics
         run: python scripts/validate_decision_system.py
+
+      - name: Validate external agentic-coding evidence
+        run: python scripts/validate_agentic_coding_evidence.py
