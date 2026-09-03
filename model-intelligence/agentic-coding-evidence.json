@@ -1,0 +1,229 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-09-03T18:36:00+08:00",
+  "records": [
+    {
+      "evidence_id": "dg1001-deepseek-v4-opencode-1x-gb10-v1",
+      "model_family": "DeepSeek-V4-Flash",
+      "model_variant": "DG1001 usable local setup; GGUF IQ2_XXS-based mixed quantization via ds4-server",
+      "hardware_topology": "1x_gb10_128gb",
+      "runtime": "ds4-server / llama.cpp-derived server",
+      "agent_harness": "opencode 1.18.14",
+      "task_suite": "DG1001 local-agentic-coding-128gb: four Python coding tasks / 86 hidden tests",
+      "run_count": 1,
+      "hidden_tests_passed": 86,
+      "hidden_tests_total": 86,
+      "wall_clock_seconds": 1549,
+      "tool_calls": 57,
+      "own_tests_written": 73,
+      "generation_tok_s": null,
+      "e2e_tok_s": 16.5,
+      "configured_context_tokens": 131072,
+      "observed_repeat_min_hidden_tests": null,
+      "observed_repeat_max_hidden_tests": null,
+      "result_scope": "AGENTIC_CODING_TASKS",
+      "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "source_refs": [
+        "https://github.com/DG1001/local-agentic-coding-128gb"
+      ],
+      "caveats": [
+        "One run for this exact pairing; the source explicitly warns that one run is not a measurement of fine-grained ranking.",
+        "All tasks are small self-contained Python repositories, not large unfamiliar production codebases.",
+        "This quantized single-node setup is not the same Variant as the official DeepSeek-V4-Flash-0731 mixed checkpoint used in 2xGB10 evidence.",
+        "Wall-clock and E2E throughput must not be compared with other harnesses or this repository's Formal100 contract."
+      ],
+      "notes": "Strong external signal that a heavily compressed DeepSeek V4 lane can complete a real tool/edit/test loop on one GB10; does not qualify first-party production quality."
+    },
+    {
+      "evidence_id": "dg1001-laguna-s21-opencode-1x-gb10-v1",
+      "model_family": "Laguna-S-2.1",
+      "model_variant": "poolside Laguna-S-2.1 NVFP4",
+      "hardware_topology": "1x_gb10_128gb",
+      "runtime": "vLLM 0.26.0",
+      "agent_harness": "opencode 1.18.14",
+      "task_suite": "DG1001 local-agentic-coding-128gb: four Python coding tasks / 86 hidden tests",
+      "run_count": 1,
+      "hidden_tests_passed": 86,
+      "hidden_tests_total": 86,
+      "wall_clock_seconds": 1856,
+      "tool_calls": 76,
+      "own_tests_written": 111,
+      "generation_tok_s": null,
+      "e2e_tok_s": 19.5,
+      "configured_context_tokens": 131072,
+      "observed_repeat_min_hidden_tests": null,
+      "observed_repeat_max_hidden_tests": null,
+      "result_scope": "AGENTIC_CODING_TASKS",
+      "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "source_refs": [
+        "https://github.com/DG1001/local-agentic-coding-128gb",
+        "https://huggingface.co/poolside/Laguna-S-2.1",
+        "https://github.com/Reederey87/laguna-s-2.1-dgx-spark"
+      ],
+      "caveats": [
+        "One run in the DG1001 hidden-test suite; do not treat 86/86 as a stable probability estimate.",
+        "The external suite is four small Python tasks and does not establish large-repository or 384K/512K production fitness.",
+        "Laguna serving behavior is runtime-sensitive: public GB10 reports document tool-call breakage on older vLLM and deep-prefill hard-hang risks with unsafe DFlash settings.",
+        "Reported E2E throughput is source-contract-specific and not comparable to this repository's Formal100 tok/s."
+      ],
+      "notes": "Material P0 single-GB10 coding candidate: strong model-side agentic signal plus mature GB10 serving recipes, but first-party quality/context/recovery gates remain required."
+    },
+    {
+      "evidence_id": "dg1001-kat-coder-v25-opencode-1x-gb10-v1",
+      "model_family": "KAT-Coder-V2.5-Dev",
+      "model_variant": "open-weight 35B/3B-active local setup",
+      "hardware_topology": "1x_gb10_128gb",
+      "runtime": "vLLM 0.26.0",
+      "agent_harness": "opencode 1.18.14",
+      "task_suite": "DG1001 local-agentic-coding-128gb: four Python coding tasks / 86 hidden tests",
+      "run_count": 1,
+      "hidden_tests_passed": 84,
+      "hidden_tests_total": 86,
+      "wall_clock_seconds": 1559,
+      "tool_calls": 169,
+      "own_tests_written": 79,
+      "generation_tok_s": null,
+      "e2e_tok_s": null,
+      "configured_context_tokens": 131072,
+      "observed_repeat_min_hidden_tests": null,
+      "observed_repeat_max_hidden_tests": null,
+      "result_scope": "AGENTIC_CODING_TASKS",
+      "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "source_refs": [
+        "https://github.com/DG1001/local-agentic-coding-128gb",
+        "https://huggingface.co/Kwaipilot/KAT-Coder-V2.5-Dev"
+      ],
+      "caveats": [
+        "One run only.",
+        "84/86 is a strong solve-class signal but not enough to rank fine differences against 86/86 models.",
+        "The suite is small Python repositories; large-project and long-context production behavior remain unproven."
+      ],
+      "notes": "Worth a P1 coding-specialist watch/replication lane because it nearly saturated the hidden suite with competitive wall-clock, but it is not yet a top hardware-purchase driver."
+    },
+    {
+      "evidence_id": "dg1001-qwen38-27b-jaja-1x-gb10-v1",
+      "model_family": "Qwen3.8-27B",
+      "model_variant": "NVFP4 + MTP external setup",
+      "hardware_topology": "1x_gb10_128gb",
+      "runtime": "vLLM / external NVFP4+MTP serving profile",
+      "agent_harness": "jaja purpose-built Java harness",
+      "task_suite": "DG1001 local-agentic-coding-128gb: four Python coding tasks / 86 hidden tests",
+      "run_count": 1,
+      "hidden_tests_passed": 86,
+      "hidden_tests_total": 86,
+      "wall_clock_seconds": 3243,
+      "tool_calls": null,
+      "own_tests_written": null,
+      "generation_tok_s": 24.8,
+      "e2e_tok_s": null,
+      "configured_context_tokens": null,
+      "observed_repeat_min_hidden_tests": null,
+      "observed_repeat_max_hidden_tests": null,
+      "result_scope": "AGENTIC_CODING_TASKS",
+      "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "source_refs": [
+        "https://github.com/DG1001/local-agentic-coding-128gb"
+      ],
+      "caveats": [
+        "Different harness from the original opencode table; wall-clock and tool-count rankings are not comparable across harnesses.",
+        "One run only.",
+        "The external NVFP4 setup is not automatically identical to this repository's measured NVFP4 checkpoint/runtime profile."
+      ],
+      "notes": "Useful external evidence that the Qwen3.8-27B family can close an agentic coding loop; this complements but does not upgrade this repository's first-party performance-only qualification."
+    },
+    {
+      "evidence_id": "dg1001-qwen38-flash-next-q3xl-opencode-1x-gb10-v1",
+      "model_family": "Qwen3.8-Flash-Next",
+      "model_variant": "Unsloth UD-Q3_K_XL GGUF via llama-server",
+      "hardware_topology": "1x_gb10_128gb",
+      "runtime": "llama-server; -c 65536 -ngl 99 --parallel 1 --no-mmap --jinja",
+      "agent_harness": "opencode 1.18.14",
+      "task_suite": "DG1001 local-agentic-coding-128gb: four Python coding tasks / 86 hidden tests",
+      "run_count": 2,
+      "hidden_tests_passed": 86,
+      "hidden_tests_total": 86,
+      "wall_clock_seconds": null,
+      "tool_calls": null,
+      "own_tests_written": 98,
+      "generation_tok_s": 29.0,
+      "e2e_tok_s": 23.7,
+      "configured_context_tokens": 65536,
+      "observed_repeat_min_hidden_tests": 86,
+      "observed_repeat_max_hidden_tests": 86,
+      "result_scope": "AGENTIC_CODING_TASKS",
+      "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "source_refs": [
+        "https://github.com/DG1001/local-agentic-coding-128gb"
+      ],
+      "caveats": [
+        "Two consecutive 86/86 runs are materially stronger repeat evidence than a single pass, but still only four small Python tasks.",
+        "This Q3_K_XL GGUF is a separate Variant from RadixArk NVFP4 and official FP8; its quality/performance evidence must not be transferred between variants.",
+        "Configured context was 65,536 in these coding runs, so this result does not establish 256K/384K/512K coding fitness.",
+        "The two wall clocks were 33:33 and 38:24; a single wall-clock value is intentionally omitted."
+      ],
+      "notes": "One of the strongest external single-GB10 agentic-coding replication signals found in this audit; should be a P0 first-party replication candidate."
+    },
+    {
+      "evidence_id": "dg1001-qwen36-35b-nvfp4-opencode-1x-gb10-v1",
+      "model_family": "Qwen3.6-35B-A3B",
+      "model_variant": "NVFP4",
+      "hardware_topology": "1x_gb10_128gb",
+      "runtime": "vLLM 0.27.1 / DSpark-capable external setup",
+      "agent_harness": "opencode 1.18.14",
+      "task_suite": "DG1001 local-agentic-coding-128gb: four Python coding tasks / 86 hidden tests",
+      "run_count": 3,
+      "hidden_tests_passed": 86,
+      "hidden_tests_total": 86,
+      "wall_clock_seconds": 1261,
+      "tool_calls": 61,
+      "own_tests_written": 132,
+      "generation_tok_s": 78.3,
+      "e2e_tok_s": 57.9,
+      "configured_context_tokens": 131072,
+      "observed_repeat_min_hidden_tests": 64,
+      "observed_repeat_max_hidden_tests": 86,
+      "result_scope": "AGENTIC_CODING_TASKS",
+      "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "source_refs": [
+        "https://github.com/DG1001/local-agentic-coding-128gb"
+      ],
+      "caveats": [
+        "The same model/configuration family produced materially different hidden-test totals across repeated runs; 86/86 is not a stability claim.",
+        "The source explicitly uses this model as evidence that speed does not buy consistency.",
+        "Fine-grained ranking against other models is unsupported without more repeats."
+      ],
+      "notes": "Fast Pareto-frontier performance with a severe repeatability warning; valuable as a stability-control candidate, not as an automatic production winner."
+    },
+    {
+      "evidence_id": "dg1001-glm53-iq1s-negative-1x-gb10-v1",
+      "model_family": "GLM-5.3-Flash",
+      "model_variant": "Unsloth UD-IQ1_S GGUF external configuration",
+      "hardware_topology": "1x_gb10_128gb",
+      "runtime": "llama-server",
+      "agent_harness": "opencode 1.18.14",
+      "task_suite": "DG1001 local-agentic-coding-128gb: four Python coding tasks / 86 hidden tests",
+      "run_count": 1,
+      "hidden_tests_passed": 9,
+      "hidden_tests_total": 86,
+      "wall_clock_seconds": 2128,
+      "tool_calls": 16,
+      "own_tests_written": null,
+      "generation_tok_s": 18.8,
+      "e2e_tok_s": 17.7,
+      "configured_context_tokens": 65536,
+      "observed_repeat_min_hidden_tests": null,
+      "observed_repeat_max_hidden_tests": null,
+      "result_scope": "NEGATIVE_CONFIGURATION_EVIDENCE",
+      "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "source_refs": [
+        "https://github.com/DG1001/local-agentic-coding-128gb"
+      ],
+      "caveats": [
+        "The source shows all nine points were already present in the untouched seed; the model contributed no successful task completion in this configuration.",
+        "This is a negative result for this exact IQ1_S + llama-server configuration, not a verdict on GLM-5.3-Flash or its NVFP4/FP8 variants.",
+        "Do not transfer this failure to the 2xGB10 LibertAIDAI NVFP4 or 4xGB10 FP8-family routes."
+      ],
+      "notes": "Retained as configuration-failure evidence to enforce Variant identity and prevent family-level overgeneralization."
+    }
+  ]
+}
