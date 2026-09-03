@@ -1,0 +1,308 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-09-03T18:36:00+08:00",
+  "records": [
+    {
+      "record_id": "laguna-s21-nvfp4-v1",
+      "model_family": "Laguna-S-2.1",
+      "model_variant": "poolside Laguna-S-2.1 NVFP4",
+      "revision": "poolside/Laguna-S-2.1-NVFP4@reviewed-2026-09-03",
+      "license": "OpenMDW-1.1 / model repository terms",
+      "role_tags": ["production_sweet_spot", "coding_specialist", "long_context_specialist", "emerging_hot"],
+      "lifecycle": "CANDIDATE",
+      "test_priority": "P0",
+      "quality_status": "OPEN",
+      "quality_evidence_confidence": "VENDOR_CLAIM",
+      "hardware_evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "popularity": null,
+      "momentum": null,
+      "hardware_fit_summary": {
+        "1x_gx10_128k": "GOOD",
+        "1x_gx10_256k": "CONDITIONAL",
+        "2x_gb10": "OPEN",
+        "4x_gb10": "OPEN",
+        "pro6000_96gb": "OPEN"
+      },
+      "hardware_evidence_by_topology": {
+        "1x_gx10_128k": "REPRODUCIBLE_EXTERNAL",
+        "1x_gx10_256k": "STRONG_EXTERNAL",
+        "2x_gb10": "UNKNOWN",
+        "4x_gb10": "UNKNOWN",
+        "pro6000_96gb": "UNKNOWN"
+      },
+      "context_evidence_by_topology": {
+        "1x_gx10_128k": {
+          "configured_context_tokens": 131072,
+          "actual_prompt_tokens": null,
+          "retrieval_validated_tokens": null,
+          "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+          "notes": "Public single-GB10 NVFP4 serving profiles use 128K as a stable/sweet-spot configuration; external agentic coding tasks were also served at 131K context, but no 128K-deep prompt claim is made."
+        },
+        "1x_gx10_256k": {
+          "configured_context_tokens": 262144,
+          "actual_prompt_tokens": null,
+          "retrieval_validated_tokens": null,
+          "evidence_confidence": "STRONG_EXTERNAL",
+          "notes": "Public non-spec/safer profiles reach roughly 250K/256K; this is serving-profile evidence, not a deep-prompt or retrieval PASS."
+        }
+      },
+      "source_refs": [
+        "https://huggingface.co/poolside/Laguna-S-2.1",
+        "https://huggingface.co/poolside/Laguna-S-2.1-NVFP4",
+        "https://github.com/Reederey87/laguna-s-2.1-dgx-spark",
+        "https://github.com/sudoingX/dgx-spark-laguna",
+        "https://github.com/DG1001/local-agentic-coding-128gb"
+      ],
+      "production_qualification_ref": null,
+      "recommendation_confidence": "OPEN",
+      "notes": "P0 single-GB10 first-party replication candidate because serving maturity and real external agentic-coding evidence align; first-party quality/context/recovery/production qualification remain OPEN."
+    },
+    {
+      "record_id": "qwen38-flash-next-q3-k-xl-v1",
+      "model_family": "Qwen3.8-Flash-Next",
+      "model_variant": "Unsloth UD-Q3_K_XL GGUF via llama-server",
+      "revision": "external Q3_K_XL GGUF reviewed 2026-09-03",
+      "license": "Qwen Community License 1.0 + quantization repository terms",
+      "role_tags": ["production_sweet_spot", "coding_specialist"],
+      "lifecycle": "CANDIDATE",
+      "test_priority": "P0",
+      "quality_status": "OPEN",
+      "quality_evidence_confidence": "UNKNOWN",
+      "hardware_evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "popularity": null,
+      "momentum": null,
+      "hardware_fit_summary": {
+        "1x_gx10_65k_agentic": "GOOD",
+        "2x_gb10": "OPEN",
+        "4x_gb10": "OPEN",
+        "pro6000_96gb": "OPEN"
+      },
+      "hardware_evidence_by_topology": {
+        "1x_gx10_65k_agentic": "REPRODUCIBLE_EXTERNAL",
+        "2x_gb10": "UNKNOWN",
+        "4x_gb10": "UNKNOWN",
+        "pro6000_96gb": "UNKNOWN"
+      },
+      "context_evidence_by_topology": {
+        "1x_gx10_65k_agentic": {
+          "configured_context_tokens": 65536,
+          "actual_prompt_tokens": null,
+          "retrieval_validated_tokens": null,
+          "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+          "notes": "Two consecutive external 86/86 coding-loop runs used llama-server at 65,536 context; this does not establish 256K/384K/512K coding fitness."
+        }
+      },
+      "source_refs": [
+        "https://github.com/DG1001/local-agentic-coding-128gb"
+      ],
+      "production_qualification_ref": null,
+      "recommendation_confidence": "OPEN",
+      "notes": "Separate Variant from official FP8 and RadixArk NVFP4. Strong repeated agentic-coding signal at 65K, but generic quality and long-context production remain OPEN."
+    },
+    {
+      "record_id": "kat-coder-v25-dev-v1",
+      "model_family": "KAT-Coder-V2.5-Dev",
+      "model_variant": "open-weight 35B / ~3B-active local setup",
+      "revision": "Kwaipilot/KAT-Coder-V2.5-Dev@reviewed-2026-09-03",
+      "license": "Apache-2.0",
+      "role_tags": ["coding_specialist"],
+      "lifecycle": "CANDIDATE",
+      "test_priority": "P1",
+      "quality_status": "OPEN",
+      "quality_evidence_confidence": "UNKNOWN",
+      "hardware_evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "popularity": null,
+      "momentum": null,
+      "hardware_fit_summary": {
+        "1x_gx10_131k_agentic": "GOOD",
+        "2x_gb10": "OPEN",
+        "4x_gb10": "OPEN",
+        "pro6000_96gb": "OPEN"
+      },
+      "hardware_evidence_by_topology": {
+        "1x_gx10_131k_agentic": "REPRODUCIBLE_EXTERNAL",
+        "2x_gb10": "UNKNOWN",
+        "4x_gb10": "UNKNOWN",
+        "pro6000_96gb": "UNKNOWN"
+      },
+      "context_evidence_by_topology": {
+        "1x_gx10_131k_agentic": {
+          "configured_context_tokens": 131072,
+          "actual_prompt_tokens": null,
+          "retrieval_validated_tokens": null,
+          "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+          "notes": "External agentic coding run used a 131K serving window; no claim is made that a 131K-deep prompt was processed."
+        }
+      },
+      "source_refs": [
+        "https://huggingface.co/Kwaipilot/KAT-Coder-V2.5-Dev",
+        "https://github.com/DG1001/local-agentic-coding-128gb"
+      ],
+      "production_qualification_ref": null,
+      "recommendation_confidence": "OPEN",
+      "notes": "P1 Coding Specialist replication candidate after an external 84/86 hidden-test run on one GB10; one run is not a reliability estimate."
+    },
+    {
+      "record_id": "qwen3-coder-30b-a3b-instruct-v1",
+      "model_family": "Qwen3-Coder-30B-A3B-Instruct",
+      "model_variant": "official instruct",
+      "revision": "Qwen/Qwen3-Coder-30B-A3B-Instruct@reviewed-2026-09-03",
+      "license": "Apache-2.0",
+      "role_tags": ["classic_reference", "coding_specialist", "long_context_specialist"],
+      "lifecycle": "CANDIDATE",
+      "test_priority": "P2",
+      "quality_status": "OPEN",
+      "quality_evidence_confidence": "VENDOR_CLAIM",
+      "hardware_evidence_confidence": "STRONG_EXTERNAL",
+      "popularity": null,
+      "momentum": null,
+      "hardware_fit_summary": {
+        "1x_gx10": "CONDITIONAL",
+        "2x_gb10": "OPEN",
+        "4x_gb10": "OPEN",
+        "pro6000_96gb": "OPEN"
+      },
+      "hardware_evidence_by_topology": {
+        "1x_gx10": "STRONG_EXTERNAL",
+        "2x_gb10": "UNKNOWN",
+        "4x_gb10": "UNKNOWN",
+        "pro6000_96gb": "UNKNOWN"
+      },
+      "context_evidence_by_topology": {
+        "1x_gx10": {
+          "configured_context_tokens": 262144,
+          "actual_prompt_tokens": null,
+          "retrieval_validated_tokens": null,
+          "evidence_confidence": "VENDOR_CLAIM",
+          "notes": "Official model contract is native 262,144 context; this review did not promote that claim to a same-GB10 deep-prompt PASS."
+        }
+      },
+      "source_refs": [
+        "https://huggingface.co/Qwen/Qwen3-Coder-30B-A3B-Instruct",
+        "https://github.com/heitor-mocelin/dgx-spark-research"
+      ],
+      "production_qualification_ref": null,
+      "recommendation_confidence": "OPEN",
+      "notes": "P2 Classic Coding Specialist reference: lightweight MoE, native 256K, explicit agentic-coding/repo-scale positioning; lower replication priority than Laguna/Qwen Flash Next/Qwen3.5."
+    },
+    {
+      "record_id": "qwen38-27b-nvfp4-mtp-external-v1",
+      "model_family": "Qwen3.8-27B",
+      "model_variant": "external NVFP4 + MTP agentic serving setup",
+      "revision": "DG1001 external setup reviewed 2026-09-03",
+      "license": "upstream Qwen / external variant terms",
+      "role_tags": ["production_sweet_spot", "coding_specialist"],
+      "lifecycle": "CANDIDATE",
+      "test_priority": "P1",
+      "quality_status": "OPEN",
+      "quality_evidence_confidence": "UNKNOWN",
+      "hardware_evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "popularity": null,
+      "momentum": null,
+      "hardware_fit_summary": {
+        "1x_gx10_agentic": "GOOD",
+        "2x_gb10": "OPEN",
+        "4x_gb10": "OPEN",
+        "pro6000_96gb": "OPEN"
+      },
+      "hardware_evidence_by_topology": {
+        "1x_gx10_agentic": "REPRODUCIBLE_EXTERNAL",
+        "2x_gb10": "UNKNOWN",
+        "4x_gb10": "UNKNOWN",
+        "pro6000_96gb": "UNKNOWN"
+      },
+      "context_evidence_by_topology": {},
+      "source_refs": [
+        "https://github.com/DG1001/local-agentic-coding-128gb"
+      ],
+      "production_qualification_ref": null,
+      "recommendation_confidence": "OPEN",
+      "notes": "External agentic setup is intentionally separate from this repository's first-party Qwen3.8-27B NVFP4 checkpoint/runtime."
+    },
+    {
+      "record_id": "qwen36-35b-a3b-nvfp4-external-v1",
+      "model_family": "Qwen3.6-35B-A3B",
+      "model_variant": "external NVFP4 serving family",
+      "revision": "DG1001 external setup reviewed 2026-09-03",
+      "license": "upstream Qwen / variant terms",
+      "role_tags": ["production_sweet_spot", "coding_specialist"],
+      "lifecycle": "CANDIDATE",
+      "test_priority": "P2",
+      "quality_status": "OPEN",
+      "quality_evidence_confidence": "UNKNOWN",
+      "hardware_evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "popularity": null,
+      "momentum": null,
+      "hardware_fit_summary": {
+        "1x_gx10_131k_agentic": "GOOD",
+        "2x_gb10": "OPEN",
+        "4x_gb10": "OPEN",
+        "pro6000_96gb": "OPEN"
+      },
+      "hardware_evidence_by_topology": {
+        "1x_gx10_131k_agentic": "REPRODUCIBLE_EXTERNAL",
+        "2x_gb10": "UNKNOWN",
+        "4x_gb10": "UNKNOWN",
+        "pro6000_96gb": "UNKNOWN"
+      },
+      "context_evidence_by_topology": {
+        "1x_gx10_131k_agentic": {
+          "configured_context_tokens": 131072,
+          "actual_prompt_tokens": null,
+          "retrieval_validated_tokens": null,
+          "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+          "notes": "External opencode/Java harness evidence used the same GB10 class and 131K serving window; actual deep-prompt depth was not normalized."
+        }
+      },
+      "source_refs": [
+        "https://github.com/DG1001/local-agentic-coding-128gb",
+        "https://github.com/DG1001/local-agentic-coding-128gb/blob/main/docs/variance.md"
+      ],
+      "production_qualification_ref": null,
+      "recommendation_confidence": "OPEN",
+      "notes": "P2 stability-control candidate: one fast 86/86 opencode run exists, while a separate Java/jaja repeated pair produced 64/67 with a documented harness gap."
+    },
+    {
+      "record_id": "glm53-iq1s-gguf-negative-v1",
+      "model_family": "GLM-5.3-Flash",
+      "model_variant": "Unsloth UD-IQ1_S GGUF via llama-server",
+      "revision": "external IQ1_S configuration reviewed 2026-09-03",
+      "license": "upstream GLM / Unsloth quantization terms",
+      "role_tags": ["coding_specialist"],
+      "lifecycle": "REJECTED",
+      "test_priority": "WATCH",
+      "quality_status": "OPEN",
+      "quality_evidence_confidence": "UNKNOWN",
+      "hardware_evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+      "popularity": null,
+      "momentum": null,
+      "hardware_fit_summary": {
+        "1x_gx10_65k": "CONDITIONAL",
+        "2x_gb10": "OPEN",
+        "4x_gb10": "OPEN",
+        "pro6000_96gb": "OPEN"
+      },
+      "hardware_evidence_by_topology": {
+        "1x_gx10_65k": "REPRODUCIBLE_EXTERNAL",
+        "2x_gb10": "UNKNOWN",
+        "4x_gb10": "UNKNOWN",
+        "pro6000_96gb": "UNKNOWN"
+      },
+      "context_evidence_by_topology": {
+        "1x_gx10_65k": {
+          "configured_context_tokens": 65536,
+          "actual_prompt_tokens": null,
+          "retrieval_validated_tokens": null,
+          "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
+          "notes": "The configuration served under llama-server, but its agentic-coding run contributed no hidden-test success beyond the untouched seed baseline."
+        }
+      },
+      "source_refs": [
+        "https://github.com/DG1001/local-agentic-coding-128gb"
+      ],
+      "production_qualification_ref": null,
+      "recommendation_confidence": "OPEN",
+      "notes": "REJECTED only for this exact IQ1_S + llama-server agentic-coding configuration. This is not a GLM-5.3-Flash family verdict and does not transfer to LibertAIDAI NVFP4 or other FP8 variants."
+    }
+  ]
+}
