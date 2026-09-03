@@ -1,165 +1,151 @@
 # Agentic Coding Evidence — 单 GB10 真实编码循环外部证据
 
-> 这页回答一个与普通 Quality Benchmark 不同的问题：**模型能不能在真实 Agent Loop 里搜索、修改、调用工具、运行测试并把任务做完？**
+> 这页回答：**模型能不能在真实 Agent Loop 里搜索、修改、调用工具、运行测试并把任务做完？**
 >
-> 这里全部是 **外部同 GB10 可复现证据**，不是本仓第一方 Production Qualification。它的作用是筛选最值得我们自己复现的模型/Variant，而不是直接宣布“生产推荐”。
+> 这里全部是外部同 GB10 证据，不是本仓 First-party Production Qualification。机器记录见 [`agentic-coding-evidence.json`](../../model-intelligence/agentic-coding-evidence.json)。
 
-## 为什么必须独立一层
-
-下面五件事不能再混：
+## 为什么要独立成一条证据轴
 
 ```text
-模型厂商 Coding benchmark 很高
-!=
-GB10 上能稳定 serve
-!=
-能处理目标 Context
-!=
-真实 Agent Tool Loop 能完成任务
-!=
-本仓大型项目 Production Qualified
+Vendor Coding Benchmark
+!= GB10 Runtime PASS
+!= Context PASS
+!= Real Agent Coding Loop PASS
+!= 本仓 Coding Production Qualified
 ```
 
-因此 Model Intelligence 现在除了 Hardware / Context / Quality，还需要单独观察 **Agentic Coding Evidence**。
+因此 L2/L3 不能只看 tok/s 和通用 benchmark，还必须单独观察 Agentic Coding。
 
 ---
 
-## 当前最重要的一组同硬件证据
+# 外部同 GB10 真实 Coding Loop
 
-来源主线：`DG1001/local-agentic-coding-128gb`，硬件是 **ASUS Ascent GX10 / NVIDIA GB10 / 128GB unified memory**，与 DGX Spark 属于同 GB10 类硬件。其主套件是 4 个真实编码任务、每模型 86 个 hidden tests，并通过 opencode / Claude Code / Oh My Pi / 后续专用 Java harness 驱动本地 endpoint。
+主要来源：`DG1001/local-agentic-coding-128gb`。硬件是 ASUS Ascent GX10 / NVIDIA GB10 / 128GB unified memory；主套件包含 4 个 Python coding tasks、86 个 hidden tests，并通过本地 Agent harness 操作真实文件和测试。
 
-| Model / Variant | Harness | Hidden tests | Wall clock | 关键判断 |
-| --- | --- | ---: | ---: | --- |
-| **DeepSeek-V4-Flash，DG1001 单机压缩 Variant** | opencode | **86/86** | **25:49** | 单 GB10 上已经证明“能闭合真实编码 loop”；但它不是 2×GB10 official mixed checkpoint |
-| **Laguna-S-2.1 NVFP4** | opencode | **86/86** | 30:56 | **本轮最大遗漏之一**：模型本身就是 agentic coding / long-horizon 取向，且单 GB10 serving 路线成熟 |
-| **Qwen3.6-27B dense** | opencode | **86/86** | 3:07:36 | 质量可过，但 dense decode 导致人类等待成本过高；“能做对”不等于生产甜点 |
-| **KAT-Coder-V2.5-Dev** | opencode | 84/86 | 25:59 | 很强的 Coding Specialist 候选，但仍是一轮数据 |
-| **Qwen3.8-27B NVFP4+MTP external setup** | jaja | **86/86** | 54:03 | 对我们已有 Qwen3.8 第一方性能链很有价值，但 harness 不同，不能横比 wall-clock |
-| **Qwen3.8-Flash-Next UD-Q3_K_XL** | opencode | **86/86，连续两次** | 33:33 / 38:24 | **目前找到的单 GB10 最强重复 Agent Coding 信号之一**；必须和 RadixArk NVFP4 分 Variant |
-| **Qwen3.6-35B-A3B NVFP4** | opencode | 64→67→**86/86** | 最快完美 run 21:01 | 极快，但重复波动很大；非常适合做“稳定性反例” |
-| **GLM-5.3-Flash UD-IQ1_S** | opencode | 9/86 | 35:28 | **不是 GLM 家族差**；这 9 分是 seed 自带，证明的是这条 IQ1_S 配置失败 |
+| Model / Variant | Harness | Hidden tests | Run / Repeat | Wall-clock | 正确解释 |
+| --- | --- | ---: | --- | ---: | --- |
+| **DeepSeek-V4-Flash 压缩单机 Variant** | opencode | **86/86** | 1 run | 25:49 | 单 GB10 能闭合 agent loop；不是 2× official checkpoint |
+| **Laguna-S-2.1 NVFP4** | opencode | **86/86** | 1 run | 30:56 | P0 复现候选；单 run 不能变成可靠性概率 |
+| **Qwen3.8-Flash-Next UD-Q3_K_XL** | opencode | **86/86** | **2 runs，均 86/86** | 33:33 / 38:24 | 当前最强的单 GB10 重复 Coding Loop 外部信号之一 |
+| Qwen3.8-27B NVFP4+MTP external | jaja | **86/86** | 1 run | 54:03 | 补充本仓 Qwen3.8 性能链，但 harness / Variant 不完全相同 |
+| Qwen3.6-27B dense | opencode | **86/86** | 1 run | 3:07:36 | 能做对但等待成本极高：Capability != Production Fitness |
+| **KAT-Coder-V2.5-Dev** | opencode | 84/86 | 1 run | 25:59 | Coding Specialist 高价值候选 |
+| Qwen3.6-35B-A3B NVFP4 | opencode | **86/86** | 1 run | 21:01 | 极快的完美 run，但不能单独代表稳定性 |
+| Qwen3.6-35B-A3B NVFP4 | Java/jaja | 64 / 67 | **2 back-to-back runs** | 分开记录 | 同 server/config family 在另一 harness 下明显波动；一个 run 还暴露 harness STOP gap |
+| GLM-5.3-Flash UD-IQ1_S | opencode | 9/86 | 1 run | 35:28 | 9 分来自 untouched seed；只证明这个 exact config 失败，不是 GLM family verdict |
 
-机器记录：[`model-intelligence/agentic-coding-evidence.json`](../../model-intelligence/agentic-coding-evidence.json)。
+**关键修正：** `86 / 64 / 67` 不能伪装成“同一个 opencode 条件的三次重复”。机器 ledger 已拆成两个 evidence records：一个 opencode 86/86，另一个 Java/jaja 64/67 repeated pair。
+
+来源：
+
+- https://github.com/DG1001/local-agentic-coding-128gb
+- https://github.com/DG1001/local-agentic-coding-128gb/blob/main/docs/variance.md
 
 ---
 
-# 这组数据真正告诉我们什么
+# 1. Laguna S 2.1 是本轮真正的高价值遗漏
 
-## 1. Laguna S 2.1 应进入 1×GX10 P0 复现池
+Poolside Laguna S 2.1 是约 118B total / 8B active 的 MoE，官方明确面向 **agentic coding / long-horizon work**，并提供 NVFP4 / INT4 等本地路线。
 
-Poolside 官方 Laguna S 2.1 是约 118B total / 8B active 的 MoE，明确为 **agentic coding / long-horizon work** 设计，并提供 1M model-context 能力与 NVFP4 / INT4 等量化路线。
-
-单 GB10 的公开 serving 证据已经很成熟：
+单 GB10 的外部 serving 证据已经非常成熟：
 
 - `poolside/Laguna-S-2.1-NVFP4`；
-- 约 74GB NVFP4 + draft；
 - vLLM 0.25/0.26；
-- 128K sweet-spot，250K/256K non-spec / safer profiles；
-- DFlash code decode 可到约 40 tok/s 级，但具体数字强依赖 profile；
-- 公开文档明确记录旧 vLLM tool-call gibberish、deep-prefill hard hang、统一内存 OOM 等真实失败边界。
+- 128K sweet-spot；non-spec / safer profile 可推到约 250K/256K；
+- DFlash 对 code decode 有明显收益；
+- 同时公开保留旧 vLLM tool-call gibberish、deep-prefill hard hang、统一内存 OOM 等失败边界。
 
-更关键的是，独立 agentic-coding suite 中 Laguna 得到 **86/86 hidden tests**。
-
-所以它不是“因为厂商 benchmark 漂亮”进入 shortlist，而是：
+再叠加真实 coding suite 的 86/86，因此它应该进入：
 
 ```text
-官方 Agentic Coding 定位
-+
-单 GB10 成熟 Runtime
-+
-真实 Agent Loop hidden-test PASS
-=
-1×GX10 高价值 P0 first-party replication candidate
+1×GX10 P0 first-party replication pool
 ```
 
-仍然不能推出：384K/512K Coding PASS、24h autonomous PASS、Production Qualification。
+但不能推出：
 
-公开来源：
+```text
+external 86/86
+→ 本仓 Quality Qualified        ❌
+→ 384K/512K Coding PASS         ❌
+→ 24h autonomous PASS           ❌
+→ Production Recommended        ❌
+```
+
+来源：
 
 - https://huggingface.co/poolside/Laguna-S-2.1
 - https://huggingface.co/poolside/Laguna-S-2.1-NVFP4
 - https://github.com/Reederey87/laguna-s-2.1-dgx-spark
 - https://github.com/sudoingX/dgx-spark-laguna
-- https://github.com/DG1001/local-agentic-coding-128gb
 
 ---
 
-## 2. Qwen3.8-Flash-Next 还要再拆一个 Variant
-
-我们前面已经拆开：
+# 2. Qwen3.8-Flash-Next 必须至少拆三种 Variant
 
 ```text
 Official FP8
-!=
-RadixArk NVFP4
+!= RadixArk NVFP4
+!= Unsloth UD-Q3_K_XL GGUF
 ```
 
-现在还要加：
+UD-Q3_K_XL 在 `llama-server -c 65536` 下连续两次 86/86，是很有价值的 repeat signal；但它只覆盖约 65K coding-run context。
+
+所以：
 
 ```text
-Unsloth UD-Q3_K_XL GGUF
+65K repeated Coding PASS
+!= 256K/384K/512K Coding PASS
 ```
 
-因为 DG1001 的真实 Agent Coding 结果用的是 `llama-server -c 65536` 的 Q3_K_XL 路线，**连续两次 86/86**。这是比单次 benchmark 更有价值的重复信号。
-
-但是它只证明：
-
-- 65K context 下；
-- 这套 llama.cpp / GGUF Variant；
-- 这 4 个 Python tasks；
-- 这套 opencode harness；
-
-能稳定解决这一类任务。
-
-不能把它的结果转给 RadixArk NVFP4，也不能因为它两次 86/86 就写“512K Main Coding Agent 已经 qualified”。
+RadixArk NVFP4 则更值得测大 Context / PLE streaming / 2×TP2。两条路线解决的是不同问题，不能合并成“Qwen Flash Next 一个分数”。
 
 ---
 
-## 3. DeepSeek V4 的单机路线应该从“实验奇技淫巧”升一级
+# 3. DeepSeek 单节点路线应该被重新评价
 
-我们之前把单 GB10 DeepSeek 主要看成 2-bit / streaming 的 P1 实验路线。
+外部 88GB 左右压缩 setup 在单 GX10 上得到 86/86、25:49。这说明单机 DeepSeek 不只是“能启动的实验”，值得真正比较：
 
-但真实 agentic coding evidence 表明：一套约 88GB 的压缩 DeepSeek V4 local setup 在同一 GX10 上可以 86/86，25:49 完成四个任务。
+- aggressive quant 对 harder reasoning 的损失；
+- 实际 bugfix/edit loop 是否比传统 Quality benchmark 更耐量化；
+- Useful Engineering Work / Hour 是否胜过 Laguna/Qwen。
 
-这说明单机 DeepSeek 至少值得进入 **P0/P1 边界复现**，尤其可以回答：
-
-- aggressive compression 对 harder reasoning 到底损失多少；
-- 实际 bugfix / edit loop 能否比通用 quality benchmark 更耐量化；
-- 与 Laguna / Qwen Flash Next 的 Useful Engineering Work per Hour 谁更高。
-
-但必须保持 Variant 边界：它不是 2×GB10 的 official mixed checkpoint。
+但它与 2×GB10 的 official mixed checkpoint 是**不同 Variant**，不得串证据。
 
 ---
 
-## 4. “一次 86/86”不能当可靠性结论
+# 4. 一次满分不是可靠性
 
-这组外部数据里最有价值的并不是冠军，而是**方差**。
+外部 variance 研究显示，同一模型 / server family 的结果可以因 sample 和 harness 行为显著变化。
 
-同一个 Qwen3.6-35B-A3B NVFP4 在多轮中出现过约 64、67、86；Nemotron 甚至多轮跨度达到几十个 hidden-test points。来源作者明确指出：**one run is not a measurement**。
-
-因此本仓未来的 Coding Production Suite 不能只做：
+尤其要区分：
 
 ```text
-每模型 × 1次
+Model variance
+Harness failure
+Turn-budget censoring
+Context compaction failure
+Tool-parser / protocol failure
 ```
 
-至少应逐步形成：
+例如外部 Qwen3.6 repeated pair 中，一个任务出现 4-token STOP、0 tool call，harness 却把它当完成。这是 Harness Gate，不应该简单算成模型质量下降。
+
+因此本仓未来 Coding Production Suite 应逐步采用：
 
 ```text
 Formal Coding 5
-→ Formal Coding N
-→ multi-seed / repeated run
-→ mean / min / max / failure modes
+→ repeated / multi-seed
+→ mean / min / max
+→ named failure modes
 ```
 
-尤其要记录：
+至少记录：
 
-- hidden-test success；
-- task success；
+- hidden-test pass；
+- completed task；
 - wall-clock；
 - tool calls；
-- human intervention；
 - retry count；
+- human intervention；
 - context compaction；
 - regression；
 - self-stop；
@@ -167,113 +153,91 @@ Formal Coding 5
 
 ---
 
-## 5. Harness 本身就是 Production Configuration 的一部分
+# 5. Coding Tool / Harness 本身就是 L3 变量
 
-同一个模型换 opencode / Oh My Pi / Claude Code，结果可能改变，不只是速度改变。
+外部实验直接证明：同一个模型换 harness，结果可能不仅速度不同，**任务是否成功也会改变**。
 
-外部报告中一个非常重要的失败模式是：Claude Code 自身 baseline context footprint 在某些 65K 模型配置上会触发 compaction thrashing，导致任务直接失败。这说明第三层必须评价：
+因此第三层正确对象仍是：
 
 ```text
 Coding Tool
-× Model
-× Context
-× Harness Policy
+× Model Variant
 × Runtime
+× Context Strategy
+× Agent Harness Policy
+× Workspace / Build / Test Host
 × Hardware
 ```
 
-而不能只写：
+不能降维成：
 
 ```text
-Model X Coding Fitness = 90分
+Model X Coding Fitness = 90
 ```
-
-这正好支持我们 L3 的 `Coding Production Configuration` 定义。
 
 ---
 
-# 对当前模型 shortlist 的影响
-
-## 1×GX10 第一方复现顺序应调整为
+# 对当前 1×GX10 第一方复现顺序的影响
 
 ```text
 P0  Qwen3.8-27B
-    → 已有本仓性能链，补 Quality / 128K→512K / Coding Loop
+    已有本仓性能链；补 Quality / 128K→512K / repeated Coding Loop
 
 P0  Laguna-S-2.1 NVFP4
-    → 成熟单机 runtime + external 86/86 agentic loop
+    mature GB10 runtime + external 86/86 agentic loop
 
 P0  Qwen3.8-Flash-Next
-    → RadixArk NVFP4：大 Context / fast serving
-    → UD-Q3_K_XL：两次 86/86 coding-loop reference
+    RadixArk NVFP4：大 Context / fast serving
+    UD-Q3_K_XL：两次 86/86 coding repeat reference
 
 P0  Qwen3.5-122B-A10B Hybrid
-    → 256K mature Classic/Sweet Spot
+    mature 256K Classic/Sweet Spot
 
-P1  DeepSeek V4 single-node compressed lane
-    → external 86/86，但必须严查 aggressive quant quality
-
-P1  gpt-oss-120b
-    → Agent / Tool-use Classic；native 128K 限制主 Repo 角色
+P1  DeepSeek V4 compressed single-node
+    external 86/86；aggressive quant quality 必须严查
 
 P1  KAT-Coder-V2.5-Dev
-    → 84/86，Coding Specialist watch/replication
+    external 84/86；Coding Specialist
 
-P2  Nemotron 3 Super / other NVIDIA references
-    → 作为生态、Agent、Long-context 对照
+P1  gpt-oss-120b
+    Agent / Tool-use Classic；native 128K
+
+P2  Qwen3-Coder-30B-A3B / Nemotron 3 Super
+    Classic Coder / NVIDIA Agent reference
 ```
 
-这个顺序是“第一方验证价值”，不是全球模型排名。
+这个排序是**第一方验证价值**，不是全球模型排名。
 
 ---
 
-# 还应该保留一个 Classic Coding Specialist
+# 证据权限边界
 
-`Qwen3-Coder-30B-A3B-Instruct` 仍值得作为轻量 Classic Coding reference：
-
-- 30.5B total / 3.3B active；
-- native 262,144 context，可用 YaRN 扩到 1M；
-- Apache-2.0；
-- 官方明确面向 agentic coding / repo-scale understanding；
-- 单 GB10 社区研究显示它可以达到很高交互 decode，并且比 dense coder 更适合作为交互 coding worker。
-
-它不需要挤进当前 P0，因为 Laguna / Qwen Flash Next / DeepSeek 的“真实 Agent Loop + 大模型能力”证据更值得优先；但作为 Coding Specialist 的长期 reference 不应该消失。
-
-公开来源：
-
-- https://huggingface.co/Qwen/Qwen3-Coder-30B-A3B-Instruct
-- https://github.com/heitor-mocelin/dgx-spark-research
-
----
-
-# 最终边界
-
-外部 Agentic Coding Evidence 可以做：
+External Agentic Coding Evidence 可以：
 
 ```text
-提高 candidate test priority
-暴露 harness/runtime failure mode
-选择更值得花第一方测试时间的 Variant
-设计本仓 Coding Production Suite
+提高 Candidate Test Priority
+暴露 Harness / Runtime failure mode
+选择更值得复现的 exact Variant
+指导本仓 L3 Task Suite 设计
 ```
 
-它不能做：
+不能：
 
 ```text
-external 86/86
-→ quality_status = QUALIFIED       ❌
+external hidden tests PASS
+→ quality_status = QUALIFIED      ❌
 
-external agent loop PASS
-→ Production Qualified             ❌
+external Agent Loop PASS
+→ PRODUCTION_QUALIFIED            ❌
 
-65K coding PASS
-→ 512K coding PASS                 ❌
+65K Coding PASS
+→ 512K Coding PASS                ❌
 
-一个 harness PASS
-→ 所有 coding tools 都适配         ❌
+一个 Harness PASS
+→ 所有 Coding Tool 都适配         ❌
 ```
 
-真正 Production Recommendation 仍必须回到本仓自己的：
+真正 Production Recommendation 仍必须回到本仓：
 
 ```text
 Runtime
