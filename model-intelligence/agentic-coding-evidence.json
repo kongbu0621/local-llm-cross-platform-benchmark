@@ -4,6 +4,7 @@
   "records": [
     {
       "evidence_id": "dg1001-deepseek-v4-opencode-1x-gb10-v1",
+      "registry_record_id": "deepseek-v4-flash-0731-single-gb10-vllm-moet-v1",
       "model_family": "DeepSeek-V4-Flash",
       "model_variant": "DG1001 usable local setup; GGUF IQ2_XXS-based mixed quantization via ds4-server",
       "hardware_topology": "1x_gb10_128gb",
@@ -34,6 +35,7 @@
     },
     {
       "evidence_id": "dg1001-laguna-s21-opencode-1x-gb10-v1",
+      "registry_record_id": "laguna-s21-nvfp4-v1",
       "model_family": "Laguna-S-2.1",
       "model_variant": "poolside Laguna-S-2.1 NVFP4",
       "hardware_topology": "1x_gb10_128gb",
@@ -68,6 +70,7 @@
     },
     {
       "evidence_id": "dg1001-kat-coder-v25-opencode-1x-gb10-v1",
+      "registry_record_id": "kat-coder-v25-dev-v1",
       "model_family": "KAT-Coder-V2.5-Dev",
       "model_variant": "open-weight 35B/3B-active local setup",
       "hardware_topology": "1x_gb10_128gb",
@@ -100,6 +103,7 @@
     },
     {
       "evidence_id": "dg1001-qwen38-27b-jaja-1x-gb10-v1",
+      "registry_record_id": "qwen38-27b-nvfp4-mtp-external-v1",
       "model_family": "Qwen3.8-27B",
       "model_variant": "NVFP4 + MTP external setup",
       "hardware_topology": "1x_gb10_128gb",
@@ -129,6 +133,7 @@
     },
     {
       "evidence_id": "dg1001-qwen38-flash-next-q3xl-opencode-1x-gb10-v1",
+      "registry_record_id": "qwen38-flash-next-q3-k-xl-v1",
       "model_family": "Qwen3.8-Flash-Next",
       "model_variant": "Unsloth UD-Q3_K_XL GGUF via llama-server",
       "hardware_topology": "1x_gb10_128gb",
@@ -159,6 +164,7 @@
     },
     {
       "evidence_id": "dg1001-qwen36-35b-nvfp4-opencode-best-1x-gb10-v1",
+      "registry_record_id": "qwen36-35b-a3b-nvfp4-external-v1",
       "model_family": "Qwen3.6-35B-A3B",
       "model_variant": "NVFP4",
       "hardware_topology": "1x_gb10_128gb",
@@ -188,6 +194,7 @@
     },
     {
       "evidence_id": "dg1001-qwen36-35b-nvfp4-jaja-repeat-1x-gb10-v1",
+      "registry_record_id": "qwen36-35b-a3b-nvfp4-external-v1",
       "model_family": "Qwen3.6-35B-A3B",
       "model_variant": "NVFP4 same server/config family",
       "hardware_topology": "1x_gb10_128gb",
@@ -207,9 +214,7 @@
       "observed_repeat_max_hidden_tests": 67,
       "result_scope": "AGENTIC_CODING_TASKS",
       "evidence_confidence": "REPRODUCIBLE_EXTERNAL",
-      "source_refs": [
-        "https://github.com/DG1001/local-agentic-coding-128gb/blob/main/docs/variance.md"
-      ],
+      "source_refs": ["https://github.com/DG1001/local-agentic-coding-128gb/blob/main/docs/variance.md"],
       "caveats": [
         "These two back-to-back runs use the Java/jaja harness and therefore must not be merged numerically with the separate opencode 86/86 run.",
         "One run lost an entire task because the harness accepted a four-token STOP with zero tool calls; the source explicitly identifies this as a harness gap.",
@@ -219,6 +224,7 @@
     },
     {
       "evidence_id": "dg1001-glm53-iq1s-negative-1x-gb10-v1",
+      "registry_record_id": "glm53-iq1s-gguf-negative-v1",
       "model_family": "GLM-5.3-Flash",
       "model_variant": "Unsloth UD-IQ1_S GGUF external configuration",
       "hardware_topology": "1x_gb10_128gb",
