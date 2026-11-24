@@ -57,11 +57,46 @@
 
 Benchmark 事实之上新增三层决策体系，但不改变 L1 的证据边界：
 
-```text
-Model Intelligence → L1 FACT → L2 Agent Workload Fitness → L3 Coding Production Fitness
-                              ↘              ↗
-                               Recommendation → Next Test → L1
+图中区分三种事实：**已有**的合同、工具和记录；**待实现**的 Runner；以及已有方法但**待实测**的工作负载。L2 / L3 的记录与校验器已经存在，不等于目标工作负载已获生产资格。
+
+```mermaid
+%%{init: {"flowchart": {"wrappingWidth": 240}}}%%
+flowchart TD
+    M["已有 · Model Intelligence<br/>发现候选与安排测试优先级<br/>热度不等于推荐资格"]
+    C["已有 · 实验合同<br/>模型 / 硬件 / Runtime / Workload<br/>冻结 Suite、条件与数据来源"]
+    R["已有 · 实测与采集证据<br/>操作者按准确配置运行<br/>保留成功、失败与环境证据"]
+    X["待实现 · 仓内 Runner 家族<br/>vLLM / SGLang / llama.cpp / MLX 等<br/>现有实测不等于通用 Runner 已交付"]
+    F["已有 · L1 事实与证据<br/>Raw evidence、Canonical results<br/>Measured / Derived / Unmeasured 分开"]
+    A["已有 · L2 Agent 适配记录<br/>Model × Serving × Hardware × Workload<br/>缺证据的 Gate 保持 OPEN"]
+    P["已有 · L3 生产配置评估记录<br/>工具、模型组合、执行位置与真实编码循环<br/>性能数据不等于生产能力"]
+    G["已有 · Schema / CI 与决策约束<br/>Hard Gate → Qualification → Fitness<br/>OPEN / NOT_QUALIFIED 的 Fitness 为空"]
+    N["已有 · Recommendation 合同与页面<br/>先做无新增硬件的反事实检查<br/>给出改善选项、触发条件与补测计划"]
+    T["待实测 · 补齐能力矩阵<br/>长上下文 / 质量 / 内存 / 长稳<br/>真实编码循环、多平台与多节点"]
+    U["使用者据证据选择配置与下一项实验<br/>未知保持未知，不由 tok/s 外推生产效率"]
+    M -->|"候选输入"| C
+    C --> R
+    X -.->|"实现后遵守同一实验合同"| R
+    R --> F
+    F --> A
+    F --> P
+    A -->|"工作负载约束与结论"| P
+    A --> G
+    P --> G
+    G --> N
+    N --> U
+    N -->|"下一项所需证据"| T
+    T -.->|"实际运行后才新增结果"| C
+    class M,C,R,F,A,P,G,N built
+    class X,T pending
+    class U outcome
+    classDef built fill:#e8f1fc,stroke:#35689c,color:#102a43
+    classDef pending fill:#fff3d6,stroke:#9a6700,color:#493500,stroke-dasharray:5 3
+    classDef external fill:#f1f3f5,stroke:#6b7280,color:#202938
+    classDef outcome fill:#e6f4ea,stroke:#33734a,color:#173d26
 ```
+
+当前 L1 正式结果只覆盖上方说明的 GX10 Formal100 部分 Suite；图中的完整链路不把未测质量、多节点或生产任务当作通过。`T` 是补测工作，不能与 `X` 的代码待实现混为一谈。新增实验由操作者安排，当前没有自动派发或自动采购系统。设计依据：[Decision System v1](docs/decision-system/README.md) · [Runner 合同](runners/README.md) · [方法论](docs/methodology.md)。
+
 
 - **L1 — FACT**：只回答真实测到了什么；
 - **Model Intelligence**：维护经典/旗舰/生产甜点/编码/长上下文/热门候选，只负责候选发现，不直接产生生产推荐；
