@@ -85,7 +85,7 @@ flowchart TD
     G --> N
     N --> U
     N -->|"下一项所需证据"| T
-    T -.->|"实际运行后才新增结果"| C
+    T -.->|"安排并冻结下一项实验"| C
     class M,C,R,F,A,P,G,N built
     class X,T pending
     class U outcome
